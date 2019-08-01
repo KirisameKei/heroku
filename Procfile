@@ -1,1 +1,1 @@
-discordbot: python MyBot1_12多機能bot.py
+discordbot: python MyBot1_13多機能.py
