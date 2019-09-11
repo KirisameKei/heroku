@@ -1,1 +1,1 @@
-discordbot: python MyBot1_13多機能.py
+discordbot: python MyBot1_現在使用中.py
