@@ -1,1 +1,1 @@
-discordbot: python MyBot1_現在使用中.py
+discordbot: python MyBot1.14.0.py
