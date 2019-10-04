@@ -272,7 +272,7 @@ async def on_message(message):#メッセージを受け取る
                         else:
                             await m("なぜかeveryoneメンションが飛ぶので実行できません")
 
-                reg_res = re.compile(u"/wether (.+)").search(message.content)
+                reg_res = re.compile(u"/weather (.+)").search(message.content)
                 if reg_res:
 
                     if reg_res.group(1) in citycodes.keys():
