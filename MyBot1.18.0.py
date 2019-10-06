@@ -307,7 +307,7 @@ async def on_message(message):#メッセージを受け取る
                         if kazu >= 1:
                             await m(jikan+"時間後にメッセージを送信")
                             msg = swait.replace(kesu,"")
-                            await asyncio.sleep(kazu*6)
+                            await asyncio.sleep(kazu*3600)
                             mention = message.author.mention
                             await m(mention+"\n"+msg)
                         else:
