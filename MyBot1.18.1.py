@@ -5,6 +5,7 @@ import datetime
 import urllib.request
 import json
 import time
+import asyncio
 from discord.ext import tasks
 from datetime import date
 from datetime import datetime#ここまでインポート、このbotを動かすのに必要
