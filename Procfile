@@ -1,1 +1,1 @@
-discordbot: python MyBot1.19.0処罰部対応中.py
+discordbot: python MyBot1.19.1.py
