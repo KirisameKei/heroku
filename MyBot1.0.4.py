@@ -106,8 +106,8 @@ async def on_member_join(member):#新規の人が来たら反応
     if server == 587909823665012757:#無法地帯なら
         if member.id == 623229676860604422:#のりはまなら
             await member.guild.kick(member)
-    else:
-        await channel.send(come+"さんが無法地帯に参加しました")
+        else:
+            await channel.send(come+"さんが無法地帯に参加しました")
 
     if server == 624551872933527553:
         await channel.send(come+"しょに入った")
