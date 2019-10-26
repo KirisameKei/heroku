@@ -67,6 +67,9 @@ async def on_member_join(member):#新規の人が来たら反応
 
         if comeid == 361441344297631746:#もしソビエトの巫女なら
             await member.guild.kick(member)
+            
+        if comeid == 617620900325621760:#もしいぶきなら(12歳)
+            await member.guild.kick(member)
         
         if comeid == 607459082873602059:#もしネクストなら
             role = discord.utils.get(member.guild.roles, name = "発言禁止")
