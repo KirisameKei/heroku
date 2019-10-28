@@ -82,13 +82,7 @@ async def on_member_join(member):#新規の人が来たら反応
                     channel = client.get_channel(595072269483638785)
                     await channel.send(fuck+bougen)
         if comeid == 623229676860604422:#のりはまなら
-            role = discord.utils.get(member.guild.roles, name = "ドイツ")
-            await member.add_roles(role)
-            await channel.send(f"{member.mention}\n__**"+come+"**__さんそうこそ!:tada:\n\
-まず"+msg5+"をお願いします！\n\
-次に"+msg1+","+msg2+","+msg3+"を読んで同意していただけるなら、"+msg6+"に**/accept**と打ち込んでください！")#歓迎メッセージ
-            role = discord.utils.get(member.guild.roles,id=621641465105481738)#新規役職を指定
-            await member.add_roles(role)#役職を付与
+            await member.guild.kick(member)
 
         else:
             await channel.send(f"{member.mention}\n__**"+come+"**__さんそうこそ!:tada:\n\
