@@ -209,7 +209,7 @@ async def on_guild_channel_update(before,after):#チャンネルにアップデ�
             if before.id == 631792683538710549:#ryuuku07
                 channel = client.get_channel(633333757725769778)
                 await channel.edit(name = after.name)
-            if before.id == 633942827247599617#marine159357
+            if before.id == 633942827247599617:#marine159357
                 channel = client.get_channel(633943017283387392)
                 await channel.edit(name = after.name)
             if before.id == 635320398237663232:#harusame0520
@@ -371,7 +371,7 @@ async def on_message(message):#メッセージを受け取る
         if message.channel.id == 631792683538710549:#ryuuku07
             channel = client.get_channel(633333757725769778)
             await channel.send(embed = embed)
-        if message.channel.id == 633942827247599617#marine159357
+        if message.channel.id == 633942827247599617:#marine159357
             channel = client.get_channel(633943017283387392)
             await channel.send(embed = embed)
         if message.channel.id == 635320398237663232:#harusame0520
