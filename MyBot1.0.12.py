@@ -81,6 +81,8 @@ async def on_member_join(member):#新規の人が来たら反応
                     await channel.send(fuck+bougen)
         if comeid == 623229676860604422:#のりはまなら(うるさい)
             await member.guild.kick(member)
+        if comeid == 563526924412911631:
+            await member.guild.kick(member)#くーるーの新アカなら(13歳未満及び看板祭り荒らし)
 
         else:
             await channel.send(f"{member.mention}\n__**"+come+"**__さんそうこそ!:tada:\n\
