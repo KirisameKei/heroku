@@ -1310,8 +1310,9 @@ async def on_message(message):#メッセージを受け取る
 @tasks.loop(seconds = 60)#60秒に一回ループ
 async def loop():
     now = datetime.now().strftime("%H:%M")#現在の時刻
-    if now == "00:00":
-        await channel.send("日付変更をお知らせします")
+    if now == "00:05":
+        channel = client.get_channe(597130965927723048)
+        await channel.send("日付変更をお知らせしたかった")
     weekday = datetime.today().weekday()#現在の曜日
     if weekday == 6:
         now = datetime.now().strftime("%H:%M")#現在の時刻
