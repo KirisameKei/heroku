@@ -1469,8 +1469,8 @@ async def on_message(message):#メッセージを受け取る
                             await message.channel.send(message.author.name+"さんの参加を確認しました")
                             flag = True
                             break
-                        role = discord.utils.get(message.guild.roles,name = "応募中")
-                        await message.author.add_roles(role)
+                            role = discord.utils.get(message.guild.roles,name = "応募中")
+                            await message.author.add_roles(role)
                     if not flag:
                         mcidHoukokuChannel = client.get_channel(640833025822949387)
                         await message.channel.send(message.content+"というMCIDは登録されていません。"\
