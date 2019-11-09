@@ -1456,6 +1456,7 @@ async def on_message(message):#メッセージを受け取る
                         user_id = UserIdMcid.content[0:19]
                         Mcid = f"{UserIdMcid.content}".replace(user_id,"")
                         if message.content == Mcid:
+                            flag_2 = False
                             async for msg_2 in SankaLogChannel.history(limit = 1):
                                 SankasyaItiran = await SankaLogChannel.fetch_message(msg_2.id)
                                 OubosyaItiran = SankasyaItiran.content
