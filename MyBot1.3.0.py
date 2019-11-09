@@ -1440,7 +1440,7 @@ async def on_message(message):#メッセージを受け取る
                                             break
                                     role = discord.utils.get(message.guild.roles,name = "応募中")
                                     await message.author.remove_roles(role)
-                                    await message.channel.send(message.author.naem+"さんの参加をキャンセルしました。")
+                                    await message.channel.send(message.author.name+"さんの参加をキャンセルしました。")
                 else:
                     await message.channel.send(message.author.name+"さんはまだ参加していません")
             
