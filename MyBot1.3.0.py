@@ -1544,7 +1544,7 @@ async def loop():
             await channel.send("利子を付与します")
 
     Hiduke = datetime.datetime.now()
-    if now == "13:55":
+    if now == "00:00":
         channel = client.get_channel(597130965927723048)
         await channel.send("日付変更をお知らせします。今日の日付："+str(Hiduke.year)+"年"+str(Hiduke.month)+"月"+str(Hiduke.day)+"日")
 
