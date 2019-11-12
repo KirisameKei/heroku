@@ -7,6 +7,7 @@ import json
 import time
 import asyncio
 import math
+import heroku
 from discord.ext import tasks
 from datetime import date#ここまでインポート、このbotを動かすのに必要
 
