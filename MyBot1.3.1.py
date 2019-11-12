@@ -1519,10 +1519,8 @@ async def on_message(message):#メッセージを受け取る
                 Hatugensuu = await NikkanHatugensuuLogChannel.fetch_message(msg.id)
                 if Hatugensuu.content.startswith(str(today)):
                     TodayHatugensuu = Hatugensuu.content[11:]
-                    await message.channel.send(str(TodayHatugensuu))
                 if Hatugensuu.content.startswith(str(yesterday)):
                     YesterdayHatugensuu = Hatugensuu.content[11:]
-                    await message.channel.send(str(YesterdayHatugensuu))
             HatugensuuNoSa = int(TodayHatugensuu) - int(YesterdayHatugensuu)
             if HatugensuuNoSa > 0:
                 HatugensuuNoSa = "+"+str(HatugensuuNoSa)
