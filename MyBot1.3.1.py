@@ -1556,5 +1556,5 @@ async def loop():
 loop.start()#ループ処理実行
 
                 
-
-client.run(discord_bot_token)#botを動かすのに必要
+TOKEN = heroku.config.discord_bot_token
+client.run(TOKEN)#botを動かすのに必要
