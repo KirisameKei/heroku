@@ -1557,5 +1557,5 @@ async def loop():
 loop.start()#ループ処理実行
 
                 
-TOKEN = token = os.getenv('discord_bot_token')
+TOKEN = os.getenv('discord_bot_token')
 client.run(TOKEN)#botを動かすのに必要
