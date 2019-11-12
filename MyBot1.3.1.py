@@ -1556,4 +1556,5 @@ async def loop():
 loop.start()#ループ処理実行
 
                 
-client.run("NTk0MDUyMzQ5MTQwNDAyMTc5.XRW0fA.FpO2ru74maCDsqbBFMeT9K-v1fA")#botを動かすのに必要
+
+client.run(discord_bot_token)#botを動かすのに必要
