@@ -7,7 +7,7 @@ import json
 import time
 import asyncio
 import math
-import heroku
+import os
 from discord.ext import tasks
 from datetime import date#ここまでインポート、このbotを動かすのに必要
 
@@ -1557,5 +1557,5 @@ async def loop():
 loop.start()#ループ処理実行
 
                 
-TOKEN = heroku.config.discord_bot_token
+TOKEN = token = os.getenv('DISCORD_BOT_TOKEN')
 client.run(TOKEN)#botを動かすのに必要
