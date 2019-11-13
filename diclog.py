@@ -1,1 +1,1 @@
-user_hatugensuu = {}
+user_hatugensuu = {523303776120209408,15}
