@@ -29,7 +29,6 @@ async def on_message(message):
                 f.write("user_hatugensuu = "+str(user_hatugensuu_dic))
                 os.system("git add -u")
                 os.system("git commit")
-                os.system("git push")
 
 
 
