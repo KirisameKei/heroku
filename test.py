@@ -8,8 +8,8 @@ client = discord.Client()
 @client.event
 async def on_ready():#このbotがログインしたら
     print(client.user.name+"がログインしました")#ターミナルにログインしたことを表示
-    os.system("git config --global user.name "KirisameKei"")
-    os.system("git config --global user.email "hayabusa4013@gmail.com"")
+    os.system('git config --global user.name "KirisameKei"')
+    os.system('git config --global user.email "hayabusa4013@gmail.com"')
     os.system("git init")
 
 @client.event
