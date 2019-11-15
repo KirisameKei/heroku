@@ -1,1 +1,1 @@
-discordbot: python MyBot1.3.1.py
+discordbot: python MyBot1.3.2.py
