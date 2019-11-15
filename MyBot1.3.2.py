@@ -7,6 +7,7 @@ import json
 import time
 import asyncio
 import math
+import os
 from discord.ext import tasks
 from datetime import date#ここまでインポート、このbotを動かすのに必要
 
@@ -1556,5 +1557,6 @@ async def loop():
 
 loop.start()#ループ処理実行
 
-                
-client.run("NTk0MDUyMzQ5MTQwNDAyMTc5.XRW0fA.FpO2ru74maCDsqbBFMeT9K-v1fA")#botを動かすのに必要
+
+token = os.getenv('discord_bot_token_1')
+client.run(token)#botを動かすのに必要
