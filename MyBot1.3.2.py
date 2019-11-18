@@ -1447,49 +1447,6 @@ async def on_message(message):#メッセージを受け取る
                                             break
                 else:
                     await message.channel.send(message.author.name+"さんはまだ参加していません")
-            
-            else:#message.contentが/cancelでなければ
-                if discord.utils.get(message.author.roles,name="応募中"):
-                    await message.channel.send(message.author.name+"さんはすでに参加しています")
-                else:
-                    mcidlogchannel = client.get_channel(638912957421453322)
-                    SankaLogChannel = client.get_channel(641173561926746114)
-                    flag = False
-                    async for msg in mcidlogchannel.history():
-                        UserIdMcid = await mcidlogchannel.fetch_message(msg.id)
-                        user_id = UserIdMcid.content[0:19]
-                        Mcid = f"{UserIdMcid.content}".replace(user_id,"")
-                        if message.content == Mcid:
-                            flag_2 = False
-                            async for msg_2 in SankaLogChannel.history(limit = 1):
-                                SankasyaItiran = await SankaLogChannel.fetch_message(msg_2.id)
-                                OubosyaItiran = SankasyaItiran.content
-                                OubosyaItiran = OubosyaItiran +  " " + message.content
-                                await SankaLogChannel.send(OubosyaItiran)
-                                await SankasyaItiran.delete()
-                                flag_2 = True
-                                break
-                            if not flag_2:
-                                await SankaLogChannel.send(message.content)
-                            role = discord.utils.get(message.guild.roles,name = "応募中")
-                            await message.author.add_roles(role)
-                            await message.channel.send(message.author.name+"さんの参加を確認しました")
-                            flag = True
-                            break
-                    if not flag:
-                        mcidHoukokuChannel = client.get_channel(640833025822949387)
-                        await message.channel.send(message.content+"というMCIDは登録されていません。"\
-+mcidHoukokuChannel.mention+"で報告するか既に申請しているMCIDを使用してください。")
-
-    if message.content == "/choice":
-        SankaLogChannel = client.get_channel(641173561926746114)
-        flag_5 = False
-        async for msg_5 in SankaLogChannel.history(limit = 1):
-            SankasyaItiran = await SankaLogChannel.fetch_message(msg_5.id)
-            Sanakasya = SankasyaItiran.content.split(" ")
-            Ninzuu = len(Sanakasya)
-            bangou = random.randint(0,Ninzuu-1)
-            await message.channel.send(Sanakasya[bangou]+"さんが当選です")
 
     #利子付与機能
     if message.author == client.user:
