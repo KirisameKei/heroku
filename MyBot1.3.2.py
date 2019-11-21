@@ -1511,6 +1511,10 @@ async def loop():
     if now == "00:00":
         channel = client.get_channel(597130965927723048)
         await channel.send("日付変更をお知らせします。今日の日付："+str(Hiduke.year)+"年"+str(Hiduke.month)+"月"+str(Hiduke.day)+"日")
+    if now == "09:01":
+        channel = client.get_channel(597130965927723048)
+        kei = client.get_user(523303776120209408)
+        await channel.send(kei.mention+"\nhttps://minecraft.jp/servers/54d3529e4ddda180780041a7")
 
 
 loop.start()#ループ処理実行
