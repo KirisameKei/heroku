@@ -432,7 +432,7 @@ async def on_message(message):#メッセージを受け取る
                     except discord.errors.NotFound:
                         await message.channel.send("botの処理が追い付きませんでした。エラーが起きた可能性があります。")
             if not flag:
-                await NikkanHatugensuuLogChannel.send(str(today)+" 1")
+                pass
 
     #DM対処
     if message.author != client.user:
