@@ -195,13 +195,10 @@ async def on_guild_channel_update(before,after):#チャンネルにアップデ�
             if before.id == 639812753099587604:#kerotori
                 channel = client.get_channel(639812753388863498)
                 await channel.edit(name = after.name)
+            if before.id == 649524955834482698:#ると
+                channel = client.get_channel(649524955897397269)
+                await channel.edit(name = after.name)
             #個人
-            if before.id == 624869474214084609:#かめさま
-                channel = client.get_channel(633332603054718997)
-                await channel.edit(name = after.name)
-            if before.id == 624869667818962945:#ねこさま
-                channel = client.get_channel(633332636001107970)
-                await channel.edit(name = after.name)
             if before.id == 624905875223740417:#いぶき
                 channel = client.get_channel(633332681626746895)
                 await channel.edit(name = after.name)
@@ -217,11 +214,8 @@ async def on_guild_channel_update(before,after):#チャンネルにアップデ�
             if before.id == 631792683538710549:#ryuuku07
                 channel = client.get_channel(633333757725769778)
                 await channel.edit(name = after.name)
-            if before.id == 633942827247599617:#marine159357
-                channel = client.get_channel(633943017283387392)
-                await channel.edit(name = after.name)
-            if before.id == 635320398237663232:#harusame0520
-                channel = client.get_channel(636808842759372805)
+            if before.id == 649569640623767552:#natari123
+                channel = client.get_channel(649569640900591616)
                 await channel.edit(name = after.name)
             #処罰待機場所
             if before.id == 630005567598886912:#sonicucu
@@ -335,13 +329,10 @@ async def on_guild_channel_update(before,after):#チャンネルにアップデ�
             if before.id == 639812753099587604:#kerotori
                 channel = client.get_channel(639812753388863498)
                 await channel.edit(position = after.position)
+            if before.id == 649524955834482698:#ると
+                channel = client.get_channel(649524955897397269)
+                await channel.edit(position = after.position)
             #個人
-            if before.id == 624869474214084609:#かめさま
-                channel = client.get_channel(633332603054718997)
-                await channel.edit(position = after.position)
-            if before.id == 624869667818962945:#ねこさま
-                channel = client.get_channel(633332636001107970)
-                await channel.edit(position = after.position)
             if before.id == 624905875223740417:#いぶき
                 channel = client.get_channel(633332681626746895)
                 await channel.edit(position = after.position)
@@ -357,11 +348,8 @@ async def on_guild_channel_update(before,after):#チャンネルにアップデ�
             if before.id == 631792683538710549:#ryuuku07
                 channel = client.get_channel(633333757725769778)
                 await channel.edit(position = after.position)
-            if before.id == 633942827247599617:#marine159357
-                channel = client.get_channel(633943017283387392)
-                await channel.edit(position = after.position)
-            if before.id == 635320398237663232:#harusame0520
-                channel = client.get_channel(636808842759372805)
+            if before.id == 649569640623767552:#natari123
+                channel = client.get_channel(649569640900591616)
                 await channel.edit(position = after.position)
             #処罰待機場所
             if before.id == 630005567598886912:#sonicucu
@@ -517,13 +505,10 @@ async def on_message(message):#メッセージを受け取る
         if message.channel.id == 639812753099587604:#kerotori
             channel = client.get_channel(639812753388863498)
             await channel.send(embed = embed)
+        if message.channel.id == 649524955834482698:#ると
+            channel = client.get_channel(649524955897397269)
+            await channel.send(embed = embed)
         #個人
-        if message.channel.id == 624869474214084609:#かめさま
-            channel = client.get_channel(633332603054718997)
-            await channel.send(embed = embed)
-        if message.channel.id == 624869667818962945:#ねこさま
-            channel = client.get_channel(633332636001107970)
-            await channel.send(embed = embed)
         if message.channel.id == 624905875223740417:#いぶき
             channel = client.get_channel(633332681626746895)
             await channel.send(embed = embed)
@@ -542,8 +527,8 @@ async def on_message(message):#メッセージを受け取る
         if message.channel.id == 633942827247599617:#marine159357
             channel = client.get_channel(633943017283387392)
             await channel.send(embed = embed)
-        if message.channel.id == 635320398237663232:#harusame0520
-            channel = client.get_channel(636808842759372805)
+        if message.channel.id == 649569640623767552:#natari123
+            channel = client.get_channel(649569640900591616)
             await channel.send(embed = embed)
         #処罰待機場所
         if message.channel.id == 630005567598886912:#sonicucu
