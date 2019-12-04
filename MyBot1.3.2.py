@@ -1505,4 +1505,4 @@ async def loop():
 loop.start()#ループ処理実行
 
                 
-client.run("NTk0MDUyMzQ5MTQwNDAyMTc5.XRW0fA.FpO2ru74maCDsqbBFMeT9K-v1fA")#botを動かすのに必要
+client.run("NTk4MzQ4MjQxMDI0NTgxNjU1.XSVVjQ.YULYcsLW2b4wWyoxx2bRDjb7waY")#botを動かすのに必要
