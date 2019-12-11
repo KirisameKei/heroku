@@ -69,9 +69,9 @@ async def hatugensuu_kiroku(message,client1,m):
             async for msg in nikkan_hatugensuu_logchannel.history(limit=2):
                 kinou_ototoi_hatugensuu = await nikkan_hatugensuu_logchannel.fetch_message(msg.id)
                 if kinou_ototoi_hatugensuu.content.startswith(kinou):
-                    kinou_hatugensuu = int(kinou_ototoi_hatugensuu[11:])
+                    kinou_hatugensuu = int(kinou_ototoi_hatugensuu.content[11:])
                 if kinou_ototoi_hatugensuu.content.startswith(ototoi):
-                    ototoi_hatugensuu = int(kinou_ototoi_hatugensuu[11:])
+                    ototoi_hatugensuu = int(kinou_ototoi_hatugensuu.content[11:])
             hatugensuu_zougen = kinou_hatugensuu - ototoi_hatugensuu
             if hatugensuu_zougen > 0:
                 send = "+"+str(hatugensuu_zougen)
