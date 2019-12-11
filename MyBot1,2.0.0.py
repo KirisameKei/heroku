@@ -281,7 +281,7 @@ async def loop():
 str(hiduke.year)+"年の"+syuuryouritu+"%が終了しました。")
         seichisaba_birthday = datetime.date(2020,6,29)
         atonannniti = str(seichisaba_birthday - datetime.date.today())
-        await channel.send("整地鯖4執念まであと"+atonannniti+"日です")
+        await channel.send("整地鯖4周年まであと"+atonannniti+"日です")
 
 loop.start()
 
