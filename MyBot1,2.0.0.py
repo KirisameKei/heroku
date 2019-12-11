@@ -290,8 +290,6 @@ loop.start()
 
 TOKEN1 = os.getenv("discord_bot_token_1")
 TOKEN2 = os.getenv("discord_bot_token_2")
-TOKEN1 = "NTk0MDUyMzQ5MTQwNDAyMTc5.XRW0fA.FpO2ru74maCDsqbBFMeT9K-v1fA"
-TOKEN2 = "NTk0Mzk2ODMwMDcxMjU5MTU0.XRb1mg.hWK_vQgiQW0t3guUCJclVDYp_Z4"
 
 Entry = namedtuple("Entry", "client event token")
 entries = [
