@@ -12,6 +12,9 @@ import channel_dic,my_guild_role_dic,message_list,ban_list#このbotを動かす
 
 async def kei_ex_server(message,client1):
     m = message.channel.send
+    await kyoutuu.itibu_kyoutuu_greeting(message)
+    await kyoutuu.itibu_kyoutuu_thank(message)
+    await kyoutuu.itibu_kyoutuu_mention(message,client1)
     await hatugensuu_kiroku(message,client1,m)
     await role_add_remove(message,client1,m)
     await login_bonus(message,client1,m)
