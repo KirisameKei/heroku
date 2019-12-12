@@ -15,3 +15,7 @@ async def iroha(message,client1):
     await kyoutuu.itibu_kyoutuu_greeting(message)
 
     await kyoutuu.itibu_kyoutuu_thank(message)
+
+    if message.channel.id == 605401823561383937:
+        if message.content.endswith("joined the server**"):
+            await m("おはよー")
