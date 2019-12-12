@@ -17,5 +17,11 @@ async def iroha(message,client1):
     await kyoutuu.itibu_kyoutuu_thank(message)
 
     if message.channel.id == 605401823561383937:
+        if not message.author.id == 606668660853178399:
+            return
         if message.content.endswith("joined the server**"):
             await m("おはよー")
+        if message.content.startswith(":skull:"):
+            message_list = ["悲しい","ドンマイ","気をしっかり","えぇ"]
+            send = random.choice(message_list)
+            await m(send)
