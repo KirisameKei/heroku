@@ -541,7 +541,7 @@ async def point_commands(message,client1,m):
     if message.content == "/mypt":
         flag = False
         async for msg in point_log_channel.history():
-            str_userid_pt = await point_log_channel.content.fetch_message(msg.id)
+            str_userid_pt = await point_log_channel.fetch_message(msg.id)
             if str_userid_pt.content.startswith(str(message.author.id)):
                 str_pt = str_userid_pt.content[19:]
                 await m(message.author.name+"さんの所有pt:"+str_pt)
