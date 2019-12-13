@@ -743,7 +743,7 @@ async def point_commands(message,client1,m):
         if message.author != client1.user:
             await m("いいえ、しません。")
             return
-        tousen_bangou = random.randint(311,314)
+        tousen_bangou = random.randint(0,999)
         str_tousen_bangou = str(tousen_bangou)
         if len(str_tousen_bangou) == 1:
             send = "00" + str_tousen_bangou
