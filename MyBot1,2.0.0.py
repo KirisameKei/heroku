@@ -63,7 +63,7 @@ async def on_member_join(member):#新規の人が来たら反応
             await sanka_dattai_channel.send(member.name+"が無法地帯に参加しました")
 
     if member.guild.id == 624551872933527553:#処罰部なら
-        await sanka_dattai_channel.send(member.name+"が別鯖に参加しました")
+        await sanka_dattai_channel.send(member.name+"がHJKに参加しました")
 
 
 @client1.event
@@ -84,7 +84,7 @@ async def on_member_remove(member):#脱退者が出たら反応
         await sanka_dattai_channel.send(member.name+"さんが無法地帯のカオスさに耐えられなくなりました")
 
     if member.guild.id == 624551872933527553:#処罰部なら
-        await sanka_dattai_channel.send(member.name+"が別鯖から抜けました")
+        await sanka_dattai_channel.send(member.name+"がHJKから抜けました")
 
 
 @client1.event
