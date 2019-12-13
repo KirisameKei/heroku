@@ -834,6 +834,7 @@ async def point_commands(message,client1,m):
                         break
             else:
                 pass
+        await loto_kiroku_channel.purge()
         await m("以上です")
 
 
