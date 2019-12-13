@@ -271,6 +271,9 @@ async def loop():
             start = message_list.siritori_start
             hajime = random.choice(start)
             await channel.send(hajime)
+        if now == "04:00":
+            channel = client1.get_channel(585999375952642067)
+            await channel.send("今週の当選発表を行います")
 
     if now == "00:00":
         hiduke = datetime.datetime.today()
