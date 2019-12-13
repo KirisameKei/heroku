@@ -25,3 +25,5 @@ async def iroha(message,client1):
             message_list = ["悲しい","ドンマイ","気をしっかり","えぇ"]
             send = random.choice(message_list)
             await m(send)
+        if message.content.startswith(":medal:"):
+            await m("おめ")
