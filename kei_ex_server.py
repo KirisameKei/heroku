@@ -740,7 +740,7 @@ async def point_commands(message,client1,m):
             await m("抽選番号は半角数字です")
 
     if message.content == "今週の当選発表を行います":
-        if message.author == client1.user:
+        if message.author != client1.user:
             await m("いいえ、しません。")
             return
         tousen_bangou = random.randint(311,314)
