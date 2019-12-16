@@ -207,6 +207,35 @@ async def on_message(message):
                 except AttributeError:
                     await m("そのユーザーは見つかりませんでした。")
 
+    if not message.author.bot:
+        kojin_hatugensuu_logchannel = client1.get_channel(641264504696602656)
+        level_up_channel = client1.get_channel(641274239110086666)
+        flag = False
+        async for msg in kojin_hatugensuu_logchannel.history():
+            str_userid_hatugensuu = await kojin_hatugensuu_logchannel.fetch_message(msg.id)
+            if str_userid_hatugensuu.content[0:18] == str(message.author.id):
+                int_hatugensuu = int(str_userid_hatugensuu.content[19:])
+                int_after_hatugensuu = int_hatugensuu + 1
+                str_after_hatugensuu = str(int_after_hatugensuu)
+                await kojin_hatugensuu_logchannel.send(str(message.author.id)+" "+str_after_hatugensuu)
+                try:
+                    await str_userid_hatugensuu.delete()
+                    level = math.sqrt(int_after_hatugensuu)
+                    if level % 1 == 0:
+                        level = math.floor(level)
+                        level_up_message = await level_up_channel.send(message.author.mention+"\nﾑﾑｯwwwwwwwﾚﾍﾞﾙｱｯﾌ゜wwwwwww【Lv"+str(level - 1)+"→Lv"+str(level)+"】")
+                        await level_up_message.add_reaction("\U0001F595")
+                    flag = True
+                    break
+                except discord.errors.NotFound:
+                    await message.channel.send(message.author.mention+"連投のしすぎです！気をつけてください！")
+                    flag = True
+                    break
+        if not flag:
+            await kojin_hatugensuu_logchannel.send(str(message.author.id)+" 1")
+            level_up_message = await level_up_channel.send(message.author.mention+"\nﾑﾑｯwwwwwwwﾚﾍﾞﾙｱｯﾌ゜wwwwwww【Lv1】")
+            await level_up_message.add_reaction("\U0001F595")
+
     try:
         if message.guild.id == 585998962050203672:#けいの実験サーバ
             await server_log.kei_ex_server_log(message,client1)#ログ
