@@ -313,7 +313,7 @@ async def on_message_delete(message):
 @client4.event
 async def on_message(message):
     m = message.channel.send
-    """
+
     if not message.author.bot:
         #日間発言数記録
         if not message.guild.id == 626739606674735134:
@@ -334,10 +334,10 @@ async def on_message(message):
                 except discord.errors.NotFound:
                     await m("<@!523303776120209408>\nbotの処理が追い付きませんでした。<#643078487359619082>を確認して下さい。")
         if not flag:
-            await nikkan_hatugensuu_logchannel.send(str(today)+" 1")"""
+            await nikkan_hatugensuu_logchannel.send(str(today)+" 1")
 
     #日間発言数発表
-    if message.author != client4.user:
+    if message.author == client4.user:
         if message.content.startswith("日付変更をお知らせします。"):
             today = datetime.date.today()
             kinou = str(today - datetime.timedelta(days=1))
