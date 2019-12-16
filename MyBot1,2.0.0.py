@@ -316,6 +316,8 @@ async def on_message(message):
 
     if not message.author.bot:
         #日間発言数記録
+        if not message.guild.id == 626739606674735134:
+            return
         nikkan_hatugensuu_logchannel = client4.get_channel(643078487359619082)
         today = datetime.date.today()
         flag = False
