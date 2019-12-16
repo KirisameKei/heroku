@@ -32,7 +32,7 @@ async def on_ready():
     await login_channel.send(client2.user.name+"がログインしました")
     await client2.change_presence(activity = discord.Game(name = "まだ無機能"))
 
-@client2.event
+@client4.event
 async def on_ready():
     print(client4.user.name+"がログインしました")
 
@@ -316,6 +316,8 @@ async def on_message(message):
 
     if not message.author.bot:
         #日間発言数記録
+        if not message.guild.id == 626739606674735134:
+            return
         nikkan_hatugensuu_logchannel = client4.get_channel(643078487359619082)
         today = datetime.date.today()
         flag = False
