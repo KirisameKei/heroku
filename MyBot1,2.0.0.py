@@ -385,7 +385,7 @@ async def loop():
         await channel.send("日付変更をお知らせします。今日の日付："+str(hiduke.year)+"年"+str(hiduke.month)+"月"+str(hiduke.day)+"日\n"+\
 str(hiduke.year)+"年の"+syuuryouritu+"%が終了しました。")
 
-        zero_channel = client4.get_channel(633121130827481088)
+        zero_channel = client4.get_channel(626740118639738880)
         await zero_channel.send("日付変更をお知らせします。今日の日付："+str(hiduke.year)+"年"+str(hiduke.month)+"月"+str(hiduke.day)+"日")
 
         seichisaba_birthday = datetime.date(2020,6,29)
