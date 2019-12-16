@@ -316,7 +316,7 @@ async def on_message(message):
 
     if not message.author.bot:
         #日間発言数記録
-        nikkan_hatugensuu_logchannel = client1.get_channel(643078487359619082)
+        nikkan_hatugensuu_logchannel = client4.get_channel(643078487359619082)
         today = datetime.date.today()
         flag = False
         async for msg in nikkan_hatugensuu_logchannel.history(limit=1):
