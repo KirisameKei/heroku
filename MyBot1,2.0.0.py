@@ -335,7 +335,7 @@ async def on_message(message):
             await nikkan_hatugensuu_logchannel.send(str(today)+" 1")
 
     #日間発言数発表
-    if message.author == client4.user:
+    if message.author != client4.user:
         if message.content.startswith("日付変更をお知らせします。"):
             today = datetime.date.today()
             kinou = str(today - datetime.timedelta(days=1))
