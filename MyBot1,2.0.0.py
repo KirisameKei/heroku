@@ -32,7 +32,7 @@ async def on_ready():
     await login_channel.send(client2.user.name+"がログインしました")
     await client2.change_presence(activity = discord.Game(name = "まだ無機能"))
 
-@client2.event
+@client4.event
 async def on_ready():
     print(client4.user.name+"がログインしました")
 
