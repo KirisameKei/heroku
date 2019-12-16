@@ -176,7 +176,7 @@ async def login_bonus(message,client1,m):
     if message.channel.id == 634602609017225225:
         if message.author.bot:
             return
-        kouho = ["おめでとう！","はずれ"]
+        kouho = ["おめでとう！","はずれ","はずれ"]
         touraku = random.choice(kouho)
         if touraku == "おめでとう！":
             get_pt = random.randint(1,30)
