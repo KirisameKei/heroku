@@ -391,6 +391,10 @@ str(hiduke.year)+"年の"+syuuryouritu+"%が終了しました。")
         seichisaba_birthday = datetime.date(2020,6,29)
         atonannniti = str(seichisaba_birthday - datetime.date.today())
         await channel.send("整地鯖4周年まであと"+atonannniti+"日です")
+        
+    if now == "09:03":
+        channel = client1.get.channel(597130965927723048)
+        await channel.send("<@!523303776120209408>\nhttps://minecraft.jp/servers/54d3529e4ddda180780041a7")
 
 loop.start()
 
