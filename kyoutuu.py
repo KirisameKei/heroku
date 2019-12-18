@@ -13,7 +13,7 @@ import channel_dic,my_guild_role_dic,message_list,ban_list#このbotを動かす
 now = datetime.datetime.now()
 client1 = discord.Client()
 
-async def kanzen_kyoutuu_message_link(message,client1):
+async def kanzen_kyoutuu_message_link(message,client1,client4):
     m = message.channel.send
     #メッセージURL先を表示する
     if message.content.startswith("https://discordapp.com/channels/"):
