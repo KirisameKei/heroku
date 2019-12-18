@@ -264,8 +264,6 @@ async def on_message_edit(before,after):
     embed = discord.Embed(description="編集前\n"+before.content+"\n\n編集後\n"+after.content,color=0x0000ff)
     embed.set_author(name=before.author.name,icon_url=before.author.avatar_url)
     embed.set_footer(text=now)
-    if "http" in before.content:
-        return
     if before.guild.id == 585998962050203672:#けいの実験サーバ
         try:
             write_channel = channel_dic.my_guild_log_dic[before.channel.id]
