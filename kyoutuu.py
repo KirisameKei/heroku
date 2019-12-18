@@ -17,7 +17,7 @@ async def kanzen_kyoutuu_message_link(message,client1):
     m = message.channel.send
     #メッセージURL先を表示する
     if message.content.startswith("https://discordapp.com/channels/"):
-        await expand(message,client1)
+        await expand(message,client1,client4)
 
 
 async def itibu_kyoutuu_greeting(message):#あいさつ
