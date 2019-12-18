@@ -168,7 +168,7 @@ async def on_guild_channel_delete(channel):
 async def on_message(message):
     m = message.channel.send
 
-    await kyoutuu.kanzen_kyoutuu_message_link(message,client1)#リンク展開
+    await kyoutuu.kanzen_kyoutuu_message_link(message,client1,client4)#リンク展開
 
     if message.author != client1.user:#DM対処
         if message.channel == message.author.dm_channel:
