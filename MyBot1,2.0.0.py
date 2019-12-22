@@ -390,7 +390,7 @@ async def loop():
             channel = client1.get_channel(585999375952642067)
             await channel.send("今週の当選発表を行います")
 
-    if now == "10:00":
+    if now == "12:39":
         hiduke = datetime.datetime.today()
         keikaniti = datetime.date.today().timetuple()[7] - 1
         syuuryouritu = str(keikaniti / 365 * 100)
