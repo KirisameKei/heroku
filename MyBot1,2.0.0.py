@@ -293,7 +293,7 @@ async def on_message_edit(before,after):
             await write_channel.send(embed=embed)
         except KeyError:
             sagyousiji_channel = client1.get_channel(636359382359080961)#やることリスト
-            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+before.channel.name+"の辞書登録あく！")
+            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+before.channel.mention+"の辞書登録あく！")
 
     if before.guild.id == 624551872933527553:#処罰部
         try:
@@ -302,7 +302,16 @@ async def on_message_edit(before,after):
             await write_channel.send(embed=embed)
         except KeyError:
             sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
-            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+before.channel.name+"の辞書登録あく！")
+            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+before.channel.mention+"の辞書登録あく！")
+
+    if before.guild.id == 604945424922574848:#いろは鯖
+        try:
+            write_channel = channel_dic.iroha_server_log_dic[before.channel.id]
+            write_channel = client1.get_channel(write_channel)
+            await write_channel.send(embed=embed)
+        except KeyError:
+            sagyousiji_channel = client1.get_channel(636359382359080961)#やることリスト
+            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+before.channel.mention+"の辞書登録あく！")
 
 
 @client1.event
@@ -318,7 +327,7 @@ async def on_message_delete(message):
             await write_channel.send(embed=embed)
         except KeyError:
             sagyousiji_channel = client1.get_channel(636359382359080961)#やることリスト
-            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+message.channel.name+"の辞書登録あく！")
+            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+message.channel.mention+"の辞書登録あく！")
 
     if message.guild.id == 624551872933527553:#処罰部
         try:
@@ -327,7 +336,16 @@ async def on_message_delete(message):
             await write_channel.send(embed=embed)
         except KeyError:
             sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
-            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+message.channel.name+"の辞書登録あく！")
+            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+message.channel.mention+"の辞書登録あく！")
+
+    if message.guild.id == 604945424922574848:#いろは鯖
+        try:
+            write_channel = channel_dic.iroha_server_log_dic[before.channel.id]
+            write_channel = client1.get_channel(write_channel)
+            await write_channel.send(embed=embed)
+        except KeyError:
+            sagyousiji_channel = client1.get_channel(636359382359080961)#やることリスト
+            await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+before.channel.mention+"の辞書登録あく！")
 
 
 @client4.event
