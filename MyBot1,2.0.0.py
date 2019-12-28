@@ -273,7 +273,7 @@ async def on_message(message):
             await muhou.muhou(message)
 
         if message.guild.id == 604945424922574848:#いろは鯖
-            await server_log.
+            await server_log.iroha_server_log(message,client1)
             await iroha.iroha(message,client1)
 
     except AttributeError:
