@@ -3,7 +3,7 @@ import urllib.request
 from collections import namedtuple
 from datetime import date
 from discord.ext import tasks
-from discord import Embed#ここまでモジュールのインポート
+from discord import Embed#ここまでモジュールのインポート/name
 
 from quote import expand#メッセージリンク展開用
 
@@ -297,6 +297,9 @@ async def my_server_commands(message,client1,m):
                 int_loop_suu = int(message.content[6:])
                 if int_loop_suu > 10:
                     await m("長すぎます！10文字以下にしてください。")
+                    return
+                if int_loop_suu < 1:
+                    await m("短すぎます！1文字以上にしてください。")
                     return
                 kouho = random.choice(message_list.name_kouho)
                 send = kouho
