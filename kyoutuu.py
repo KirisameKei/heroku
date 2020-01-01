@@ -46,15 +46,7 @@ async def itibu_kyoutuu_thank(message):#お礼
     if message.author.bot:
         return    
     if "ありがとう" in message.content:
-        kouho = [
-            "ありナス！",
-            "いえいえ～",
-            "どういたしまして！",
-            "気にしないで～",
-            ":eggplant:"
-        ]
-        send = random.choice(kouho)
-        await m(send)
+        await m(":eggplant:")
 
 async def itibu_kyoutuu_mention(message,client1):#メンション対応
     m = message.channel.send
