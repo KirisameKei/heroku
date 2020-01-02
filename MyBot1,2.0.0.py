@@ -191,6 +191,9 @@ async def on_message(message):
 
     await kyoutuu.kanzen_kyoutuu_message_link(message,client1,client4)#リンク展開
 
+    if message.author.id == 159985870458322944:
+        await message.add_reaction("\U0001F595")
+
     if message.author != client1.user:#DM対処
         if message.channel == message.author.dm_channel:
             channel = client1.get_channel(639830406270681099)
