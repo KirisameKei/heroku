@@ -351,6 +351,12 @@ async def on_message_delete(message):
             await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+message.channel.mention+"の辞書登録あく！")
 
 
+@client2.event
+async def on_message(message):
+    if message.author.id == 159985870458322944:
+        await message.add_reaction("\U0001F595")
+
+
 @client4.event
 async def on_message(message):
     m = message.channel.send
