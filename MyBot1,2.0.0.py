@@ -15,6 +15,7 @@ import channel_dic,my_guild_role_dic,message_list,ban_list#このbotを動かす
 client1 = discord.Client()#魔理沙bot(メインで使用)
 client2 = discord.Client()#小傘bot(VC関連用)
 client4 = discord.Client()#零bot
+client5 = discord.Client()#ログ取りbot
 
 
 @client1.event
@@ -430,6 +431,77 @@ async def on_message(message):
                 await m("前日比："+send)
 
 
+@client5.event
+async def on_guild_channel_create(channel):
+    if channel.guild.id == 663221155188178945:#論争
+        log_guild = client5.get_guild(663228016792698904)
+        new_ch = await log_guild.create_text_channel(name=channel.name,position=channel.position)
+        await client5.get_channel(663234786373926954).send(f"<@!523303776120209408>{channel.mention}\n{channel.id}\n{new_ch.id}")
+
+
+@client5.event
+async def on_guild_channel_update(before,after):
+    if before.guild.id == 663221155188178945:#論争
+        log_guild = client5.get_guild(663228016792698904)
+        log_ch = ronsou_channel_dic[before.id]
+        log_ch = client5.get_channel(log_ch)
+        await log_ch.edit(name=after.name,position=after.position)
+
+
+@client5.event
+async def on_message(message):
+    if message.channel.guild.id == 663221155188178945:#論争
+        log_guild = client5.get_guild(663228016792698904)
+        if message.content == "/copy":
+            for channels in message.guild.text_channels:
+                await log_guild.create_text_channel(name=channels.name,position=channels.position)
+
+        now = datetime.datetime.now().strftime("%H:%M")
+        embed = discord.Embed(description=message.content,color=0xfffffe)
+        embed.set_author(name=message.author.name,icon_url=message.author.avatar_url)
+        embed.set_footer(text=now)
+
+        try:
+            log_ch = ronsou_channel_dic[message.channel.id]
+            log_ch = client5.get_channel(log_ch)
+            await log_ch.send(embed=embed)
+        except KeyError:
+            await client5.get_channel(663234786373926954).send(f"<@!523303776120209408>おいゴラァ{message.channel.mention}")
+
+
+@client5.event
+async def on_message_edit(before,after):
+    if before.channel.guild.id == 663221155188178945:#論争
+        log_guild = client5.get_guild(663228016792698904)
+        now = datetime.datetime.now().strftime("%H:%M")
+        embed = discord.Embed(description="編集前\n"+before.content+"\n\n編集後\n"+after.content,color=0x0000ff)
+        embed.set_author(name=before.author.name,icon_url=before.author.avatar_url)
+        embed.set_footer(text=now)
+
+        try:
+            log_ch = ronsou_channel_dic[before.channel.id]
+            log_ch = client5.get_channel(log_ch)
+            await log_ch.send(embed=embed)
+        except KeyError:
+            await client5.get_channel(663234786373926954).send(f"<@!523303776120209408>おいゴラァ{before.channel.mention}")
+
+@client5.event
+async def on_message_delete(message):
+    if message.channel.guild.id == 663221155188178945:#論争
+        log_guild = client5.get_guild(663228016792698904)
+        now = datetime.datetime.now().strftime("%H:%M")
+        embed = discord.Embed(description="削除されたメッセージ\n"+message.content,color=0xff0000)
+        embed.set_author(name=message.author.name,icon_url=message.author.avatar_url)
+        embed.set_footer(text=now)
+
+        try:
+            log_ch = ronsou_channel_dic[message.channel.id]
+            log_ch = client5.get_channel(log_ch)
+            await log_ch.send(embed=embed)
+        except KeyError:
+            await client5.get_channel(663234786373926954).send(f"<@!523303776120209408>おいゴラァ{message.channel.mention}")
+
+
 @tasks.loop(seconds=60)
 async def loop():
     now = datetime.datetime.now().strftime("%H:%M")
@@ -477,13 +549,14 @@ loop.start()
 TOKEN1 = os.getenv("discord_bot_token_1")
 TOKEN2 = os.getenv("discord_bot_token_2")
 TOKEN4 = os.getenv("zero_bot_token")
+TOKEN5 = os.getenv("get_log_bot")
 
 Entry = namedtuple("Entry", "client event token")
 entries = [
     Entry(client=client1,event=asyncio.Event(),token=TOKEN1),
     Entry(client=client2,event=asyncio.Event(),token=TOKEN2),
-    Entry(client=client4,event=asyncio.Event(),token=TOKEN4)
-]  
+    Entry(client=client4,event=asyncio.Event(),token=TOKEN4),
+    Entry(client=client5,event=asyncio.Event(),token=TOKEN5)
 
 async def login():
     for e in entries:
