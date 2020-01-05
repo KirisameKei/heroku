@@ -8,7 +8,10 @@ from discord import Embed#ここまでモジュールのインポート
 from quote import expand#メッセージリンク展開用
 import quote
 
-import tokens
+try:
+    import tokens
+except ModuleNotFoundError:
+    pass
 
 import server_log,kyoutuu,kei_ex_server,muhou,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
 import channel_dic,my_guild_role_dic,message_list,ban_list#このbotを動かすのに必要な辞書とリスト
@@ -579,7 +582,7 @@ try:
     TOKEN2 = tokens.discord_bot_2
     TOKEN4 = tokens.zero_bot
 
-except ModuleNotFoundError:
+except ImportError:
     TOKEN1 = os.getenv("discord_bot_token_1")
     TOKEN2 = os.getenv("discord_bot_token_2")
     TOKEN4 = os.getenv("zero_bot_token")
