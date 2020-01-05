@@ -17,6 +17,10 @@ client2 = discord.Client()#小傘bot(VC関連用)
 client4 = discord.Client()#零bot
 client5 = discord.Client()#ログ取りbot
 
+ronsou_channel_dic = {
+            663221155611541506:663228016792698907,
+            663234786373926954:663239642384171059,
+        }
 
 @client1.event
 async def on_ready():
