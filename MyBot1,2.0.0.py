@@ -557,6 +557,7 @@ entries = [
     Entry(client=client2,event=asyncio.Event(),token=TOKEN2),
     Entry(client=client4,event=asyncio.Event(),token=TOKEN4),
     Entry(client=client5,event=asyncio.Event(),token=TOKEN5)
+]
 
 async def login():
     for e in entries:
