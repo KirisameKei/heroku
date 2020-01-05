@@ -579,7 +579,7 @@ try:
     TOKEN2 = tokens.discord_bot_2
     TOKEN4 = tokens.zero_bot
 
-except ImportError:
+except ModuleNotFoundError:
     TOKEN1 = os.getenv("discord_bot_token_1")
     TOKEN2 = os.getenv("discord_bot_token_2")
     TOKEN4 = os.getenv("zero_bot_token")
