@@ -414,7 +414,7 @@ async def my_server_commands(message,client1,m):
 
                 poll_description = ""
                 for i in range(len(poll_list)):
-                poll_description += str(i+1)+":"+poll_list[i]+"\n"
+                    poll_description += str(i+1)+":"+poll_list[i]+"\n"
 
                 poll_embed = discord.Embed(title=poll_header,description=poll_description)
         
