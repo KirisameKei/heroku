@@ -278,7 +278,7 @@ async def my_server_commands(message,client1,m):
         message.content.startswith("/osusume_") or message.content.startswith("/name ") or message.content.startswith("/weather ") or \
         message.content.startswith("/stimer ") or message.content.startswith("/mtimer ") or message.content.startswith("/htimer ") or \
         message.content.startswith("/role_count ") or message.content.startswith("/mcid ") or message.content.startswith("/vote ") or \
-        message.content == "/help":
+        message.content.startswith("/mcavatar ") or message.content == "/help":
         if not message.channel.id in channel_dic.my_guild_allow_command_channel:
             await m("ここで実行しないでください！")
             return
@@ -434,6 +434,10 @@ async def my_server_commands(message,client1,m):
             ]
             for i in range(len(poll_list)):
                 await msg.add_reaction(reaction_list[i])
+
+        if message.content.startswith("/mcavatar "):
+            mcid = message.content.replace("/mcavatar ","")
+            await m(f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png")
 
         if message.content == "/help":
             help_command = "\
