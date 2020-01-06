@@ -277,7 +277,7 @@ async def my_server_commands(message,client1,m):
     if message.content == "/omikuji" or message.content == "/speca" or message.content == "/meigen" or \
         message.content.startswith("/osusume_") or message.content.startswith("/name ") or message.content.startswith("/weather ") or \
         message.content.startswith("/stimer ") or message.content.startswith("/mtimer ") or message.content.startswith("/htimer ") or \
-        message.content.startswith("/role_count ") or message.content.startswith("/mcid ") or \
+        message.content.startswith("/role_count ") or message.content.startswith("/mcid ") or message.content.startswith("/vote ") or \
         message.content == "/help":
         if not message.channel.id in channel_dic.my_guild_allow_command_channel:
             await m("ここで実行しないでください！")
@@ -402,6 +402,37 @@ async def my_server_commands(message,client1,m):
 
             except ValueError:
                 await m("IDは18桁の半角数字です。")
+
+            if message.content.startswith("/vote "):
+                poll_list = message.content.split(" ")
+                del poll_list[0]#/pollを消す
+                poll_header = poll_list[0]
+                del poll_list[0]#投票の題名を消す
+                if len(poll_list) > 9:
+                    await m("候補が多すぎます！9個以下にしてください。")
+                    return
+
+                poll_description = ""
+                for i in range(len(poll_list)):
+                poll_description += str(i+1)+":"+poll_list[i]+"\n"
+
+                poll_embed = discord.Embed(title=poll_header,description=poll_description)
+        
+                msg = await m(embed=poll_embed)
+
+                reaction_list = [
+                    "\N{DIGIT ONE}\N{COMBINING ENCLOSING KEYCAP}",
+                    "\N{DIGIT TWO}\N{COMBINING ENCLOSING KEYCAP}",
+                    "\N{DIGIT THREE}\N{COMBINING ENCLOSING KEYCAP}",
+                    "\N{DIGIT FOUR}\N{COMBINING ENCLOSING KEYCAP}",
+                    "\N{DIGIT FIVE}\N{COMBINING ENCLOSING KEYCAP}",
+                    "\N{DIGIT SIX}\N{COMBINING ENCLOSING KEYCAP}",
+                    "\N{DIGIT SEVEN}\N{COMBINING ENCLOSING KEYCAP}",
+                    "\N{DIGIT EIGHT}\N{COMBINING ENCLOSING KEYCAP}",
+                    "\N{DIGIT NINE}\N{COMBINING ENCLOSING KEYCAP}"
+                ]
+                for i in range(len(poll_list)):
+                    await msg.add_reaction(reaction_list[i])
 
         if message.content == "/help":
             help_command = "\
