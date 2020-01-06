@@ -37,6 +37,20 @@ async def kei_ex_server(message,client1):
         else:
             await m("ごめんな、私はけいさんのことが好きなんだぜ・・・")
 
+    if message.content == "/marichan_invite":
+        if not message.channel.id in channel_dic.my_guild_allow_command_channel:
+            await m("ここで実行しないでください！\nコマンド漏洩防止のためメッセージを削除します。")
+            await message.delete()
+            return
+
+        dm = await message.author.create_dm()
+        marichan_inviter_role = discord.utils.get(message.guild.roles,id=663542711290429446)
+        await message.author.add_roles(marichan_inviter_role)
+        await message.delete()
+        await m("コマンド漏洩防止のためメッセージを削除しました。")
+        await dm.send("https://discordapp.com/api/oauth2/authorize?client_id=594052349140402179&permissions=338783443&scope=bot")
+        await m("DMに招待リンクを送信しました。(管理者権限を持っているサーバに導入できます)")
+
 async def hatugensuu_kiroku(message,client1,m):
     #日間発言数発表
     if message.author == client1.user:
@@ -263,7 +277,8 @@ async def my_server_commands(message,client1,m):
     if message.content == "/omikuji" or message.content == "/speca" or message.content == "/meigen" or \
         message.content.startswith("/osusume_") or message.content.startswith("/name ") or message.content.startswith("/weather ") or \
         message.content.startswith("/stimer ") or message.content.startswith("/mtimer ") or message.content.startswith("/htimer ") or \
-        message.content.startswith("/role_count ") or message.content.startswith("/mcid ") or message.content == "/help":
+        message.content.startswith("/role_count ") or message.content.startswith("/mcid ") or \
+        message.content == "/help":
         if not message.channel.id in channel_dic.my_guild_allow_command_channel:
             await m("ここで実行しないでください！")
             return
@@ -387,7 +402,6 @@ async def my_server_commands(message,client1,m):
 
             except ValueError:
                 await m("IDは18桁の半角数字です。")
-
 
         if message.content == "/help":
             help_command = "\
