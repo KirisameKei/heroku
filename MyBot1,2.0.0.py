@@ -37,6 +37,7 @@ async def on_ready():
     await login_channel.send(client2.user.name+"がログインしました")
     await client2.change_presence(activity = discord.Game(name = "まだ無機能"))
 
+
 @client4.event
 async def on_ready():
     print(client4.user.name+"がログインしました")
@@ -71,6 +72,7 @@ async def on_guild_join(guild):
     kei = client1.get_user(523303776120209408)
     dm = await kei.create_dm()
     await dm.send(invite)
+
 
 @client1.event
 async def on_guild_remove(guild):
@@ -150,7 +152,7 @@ async def on_guild_channel_create(channel):
         new_channel = await make_guild.create_text_channel(name=channel.name)
         sagyousiji_channel = client1.get_channel(636359382359080961)
         await sagyousiji_channel.send("<@!523303776120209408>\n\
-新しいチャンネル、「"+channel.name+"」がけいの実験サーバに作成されました。\n辞書に追加してください。\n"+\
+    新しいチャンネル、「"+channel.name+"」がけいの実験サーバに作成されました。\n辞書に追加してください。\n"+\
     str(channel.id)+"\n"+str(new_channel.id))
 
     if channel.guild.id == 624551872933527553:#処罰部
@@ -158,32 +160,33 @@ async def on_guild_channel_create(channel):
         new_channel = await make_guild.create_text_channel(name=channel.name)
         sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
         await sagyousiji_channel.send("<@!523303776120209408>\n\
-新しいチャンネル、「"+channel.name+"」が作成されました。辞書に追加してください。\n"+str(channel.id)+"\n"+str(new_channel.id))
+    新しいチャンネル、「"+channel.name+"」が作成されました。辞書に追加してください。\n"+str(channel.id)+"\n"+str(new_channel.id))
 
     if channel.guild.id == 604945424922574848:#いろは鯖
         make_guild = client1.get_guild(660445544296218650)
         new_channel = await guild.create_text_channel(name=channel.name)
         sagyousiji_channel = client1.get_channel(636359382359080961)
         await sagyousiji_channel.send("<@!523303776120209408>\n\
-新しいチャンネル、「"+channel.name+"」がいろは鯖に作成されました。\n辞書に追加してください。\n"+\
+    新しいチャンネル、「"+channel.name+"」がいろは鯖に作成されました。\n辞書に追加してください。\n"+\
     str(channel.id)+"\n"+str(new_channel.id))
 
-    itijihinan_channel1 = client1.get_channel(663037579406606337)
-    itijihinan_channel2 = client1.get_channel(663037675141595147)
-    flag1 = False
-    async for msg in itijihinan_channel1.history(limit=1):
-        mitouroku_channel1 = await itijihinan_channel1.fetch_message(msg.id)
-        await itijihinan_channel1.send(mitouroku_channel1.content+" "+str(channel.id))
-        flag1 = True
-    if not flag1:
-        await itijihinan_channel1.send(str(channel.id))
-    flag2 = False
-    async for msg in itijihinan_channel2.history(limit=1):
-        mitouroku_channel2 = await itijihinan_channel2.fetch_message(msg.id)
-        await itijihinan_channel2.send(mitouroku_channel2.content+" "+str(new_channel.id))
-        flag2 = True
-    if not flag2:
-        await itijihinan_channel2.send(str(new_channel.id))
+    if channel.guild.id == 585998962050203672 or channel.guild.id == 624551872933527553 or channel.guild.id == 604945424922574848:
+        itijihinan_channel1 = client1.get_channel(663037579406606337)
+        itijihinan_channel2 = client1.get_channel(663037675141595147)
+        flag1 = False
+        async for msg in itijihinan_channel1.history(limit=1):
+            mitouroku_channel1 = await itijihinan_channel1.fetch_message(msg.id)
+            await itijihinan_channel1.send(mitouroku_channel1.connect+" "+str(channel.id))
+            flag1 = True
+        if not flag1:
+            await itijihinan_channel1.send(str(channel.id))
+        flag2 = False
+        async for msg in itijihinan_channel2.history(limit=1):
+            mitouroku_channel2 = await itijihinan_channel2.fetch_message(msg.id)
+            await itijihinan_channel2.send(mitouroku_channel2.content+" "+str(new_channel.id))
+            flag2 = True
+        if not flag2:
+            await itijihinan_channel2.send(str(new_channel.id))
 
 
 @client1.event
@@ -532,7 +535,7 @@ async def loop():
         syuuryouritu = str(keikaniti / 365 * 100)
         channel = client1.get_channel(597130965927723048)
         await channel.send("日付変更をお知らせします。今日の日付："+str(hiduke.year)+"年"+str(hiduke.month)+"月"+str(hiduke.day)+"日\n"+\
-str(hiduke.year)+"年の"+syuuryouritu+"%が終了しました。")
+    str(hiduke.year)+"年の"+syuuryouritu+"%が終了しました。")
 
         zero_channel = client4.get_channel(656484919882547200)
         await zero_channel.send("日付変更をお知らせします。今日の日付："+str(hiduke.year)+"年"+str(hiduke.month)+"月"+str(hiduke.day)+"日")
