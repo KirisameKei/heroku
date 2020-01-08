@@ -173,7 +173,7 @@ async def on_guild_channel_create(channel):
     flag1 = False
     async for msg in itijihinan_channel1.history(limit=1):
         mitouroku_channel1 = await itijihinan_channel1.fetch_message(msg.id)
-        await itijihinan_channel1.send(mitouroku_channel1.connect+" "+str(channel.id))
+        await itijihinan_channel1.send(mitouroku_channel1.content+" "+str(channel.id))
         flag1 = True
     if not flag1:
         await itijihinan_channel1.send(str(channel.id))
