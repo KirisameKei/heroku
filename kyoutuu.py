@@ -19,6 +19,19 @@ async def kanzen_kyoutuu_message_link(message,client1,client4):
     if message.content.startswith("https://discordapp.com/channels/"):
         await expand(message,client1,client4)
 
+    if message.content == "/report":
+        await m("https://docs.google.com/forms/d/e/1FAIpQLSfK9DQkUCD2qs8zATUuYIC3JuV3MyXRVCYjMb5g4g_hBUusSA/viewform")
+    if message.content == "/failure":
+        await m("https://docs.google.com/forms/d/e/1FAIpQLSdn9fTTs55c-oGLT3c68KVTGvfUjTK-W_cdataU7_XyzqcBRg/viewform")
+    if message.content == "/idea":
+        await m("http://w4.minecraftserver.jp/ideaForm")
+    if message.content == "opinion":
+        await m("https://docs.google.com/forms/d/e/1FAIpQLSctLrByNvAiQop2lha9Mxn-D5p1OUaOf8JKQJCyAdggGBbzpg/viewform?c=0&w=1")
+    if message.content == "donation":
+        await m("https://docs.google.com/forms/d/e/1FAIpQLSezwur20tx0JCQ0KMY0JiThYy7oEQDykFRiic96KxK17WOBwA/viewform?c=0&w=1")
+    if message.content == "inquiry":
+        await m("https://w4.minecraftserver.jp/inquiryForm")
+
     if message.content == "/new_func":
         await m("機能追加の申請をします。\n各項目は全て1回の送信で書いてください。\n\
 各項目は10分でタイムアウトします。\n備考などがない場合はなしと入力してください。\n\
