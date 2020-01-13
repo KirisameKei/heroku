@@ -32,6 +32,16 @@ async def kanzen_kyoutuu_message_link(message,client1,client4):
     if message.content == "inquiry":
         await m("https://w4.minecraftserver.jp/inquiryForm")
 
+    if message.content == "/form":
+        embed = discord.Embed(title="各フォームへのリンク一覧",color=0xff0000)
+        embed.add_field(name="通報フォーム",value="https://docs.google.com/forms/d/e/1FAIpQLSfK9DQkUCD2qs8zATUuYIC3JuV3MyXRVCYjMb5g4g_hBUusSA/viewform",inline=False)
+        embed.add_field(name="不具合フォーム",value="https://docs.google.com/forms/d/e/1FAIpQLSdn9fTTs55c-oGLT3c68KVTGvfUjTK-W_cdataU7_XyzqcBRg/viewform",inline=False)
+        embed.add_field(name="アイデアフォーム",value="http://w4.minecraftserver.jp/ideaForm",inline=False)
+        embed.add_field(name="意見・感想フォーム",value="https://docs.google.com/forms/d/e/1FAIpQLSctLrByNvAiQop2lha9Mxn-D5p1OUaOf8JKQJCyAdggGBbzpg/viewform?c=0&w=1",inline=False)
+        embed.add_field(name="寄付フォーム",value="https://docs.google.com/forms/d/e/1FAIpQLSezwur20tx0JCQ0KMY0JiThYy7oEQDykFRiic96KxK17WOBwA/viewform?c=0&w=1",inline=False)
+        embed.add_field(name="お問い合わせフォーム",value="https://w4.minecraftserver.jp/inquiryForm",inline=False)
+        await m(embed=embed)
+
     if message.content == "/new_func":
         await m("機能追加の申請をします。\n各項目は全て1回の送信で書いてください。\n\
 各項目は10分でタイムアウトします。\n備考などがない場合はなしと入力してください。\n\
