@@ -25,11 +25,11 @@ async def kanzen_kyoutuu_message_link(message,client1,client4):
         await m("https://docs.google.com/forms/d/e/1FAIpQLSdn9fTTs55c-oGLT3c68KVTGvfUjTK-W_cdataU7_XyzqcBRg/viewform")
     if message.content == "/idea":
         await m("http://w4.minecraftserver.jp/ideaForm")
-    if message.content == "opinion":
+    if message.content == "/opinion":
         await m("https://docs.google.com/forms/d/e/1FAIpQLSctLrByNvAiQop2lha9Mxn-D5p1OUaOf8JKQJCyAdggGBbzpg/viewform?c=0&w=1")
-    if message.content == "donation":
+    if message.content == "/donation":
         await m("https://docs.google.com/forms/d/e/1FAIpQLSezwur20tx0JCQ0KMY0JiThYy7oEQDykFRiic96KxK17WOBwA/viewform?c=0&w=1")
-    if message.content == "inquiry":
+    if message.content == "/inquiry":
         await m("https://w4.minecraftserver.jp/inquiryForm")
 
     if message.content == "/form":
