@@ -404,7 +404,6 @@ async def my_server_commands(message,client1,m):
                 await m("IDは18桁の半角数字です。")
 
         if message.content.startswith("/vote "):
-            print("a")
             poll_list = message.content.split(" ")
             del poll_list[0]#/pollを消す
             poll_header = poll_list[0]
@@ -523,8 +522,9 @@ async def mcid_check(message,client1,m):
                 async for msg in mcid_log_channel.history():
                     userid_mcid = await mcid_log_channel.fetch_message(msg.id)
                     mcid = userid_mcid.content[19:]
-                    if mcid[i] == mcid:
-                        await m("**"+mcid+"**は既に登録されています。これが本当に現在の自分のMCIDならけいにお知らせください。")
+                    ch = client1.get_channel(595072339545292804)
+                    if mcid_list[i] == mcid:
+                        await m(f"**{mcid}**は既に登録されています。これが本当に現在の自分のMCIDならけいにお知らせください。")
                         del mcid_list[i]
                         flag = True
                         break
@@ -584,13 +584,18 @@ async def mcid_check(message,client1,m):
                     await m("他人のMCIDの変更報告はできません")
                     flag = True
                     break
-                if new_mcid == old_mcid_touroku:
-                    await m("そのMCIDはすでに登録されています。これが本当に現在の自分のMCIDならけいにお知らせください。")
-                    break
-                
-                await change_mcid(message,client1,m,new_mcid)
-                flag = True
-                break
+                flag1 = False
+                async for msg in mcid_log_channel.history():
+                    touroku_mcid = await mcid_log_channel.fetch_message(msg.id)
+                    if touroku_mcid.content[19:] == new_mcid:
+                        await m("そのMCIDはすでに登録されています。これが本当に現在の自分のMCIDならけいにお知らせください。")
+                        flag1 = True
+                        flag = True
+                        break
+                    if not flag1:
+                        await change_mcid(message,client1,m,new_mcid,userid_mcid)
+                        flag = True
+                        break
 
         if not flag:
             await m("まだ登録されていないMCIDを変更しようとしています")
@@ -846,7 +851,7 @@ async def point_commands(message,client1,m):
         await m("以上です")
 
 
-async def change_mcid(message,client1,m,new_mcid):
+async def change_mcid(message,client1,m,new_mcid,userid_mcid):
     mcid_log_channel = client1.get_channel(638912957421453322)
     mcid = str.lower(new_mcid)
     url = f"https://w4.minecraftserver.jp/player/{mcid}"
@@ -857,6 +862,7 @@ async def change_mcid(message,client1,m,new_mcid):
         td = soup.td
         if f'{mcid}' in f'{td}':
             await mcid_log_channel.send(str(message.author.id)+" "+mcid)
+            await userid_mcid.delete()
             await m("MCIDの変更登録が完了しました。")
         else:
             await m("**"+mcid+"**は\n・実在しない\n・整地鯖にログインしたことがない\n\
