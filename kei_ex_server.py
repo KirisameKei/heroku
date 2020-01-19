@@ -43,6 +43,32 @@ async def kei_ex_server(message,client1):
             await message.delete()
             return
 
+    if message.content.startswith("/last_login "):
+        mcid = message.content.replace("/last_login ","")
+        p = re.compile(r"^[a-zA-Z0-9_]+$")
+        if not p.fullmatch(mcid):
+            await m("MCIDに使えない文字が含まれています。")
+            return
+        if len(mcid) < 3:
+            await m("短すぎます！")
+            return
+        if len(mcid) > 16:
+            await m("長すぎます！")
+            return
+        url = f"https://w4.minecraftserver.jp/player/{mcid}"
+        try:
+            res = requests.get(url)
+            res.raise_for_status()
+            soup = bs4.BeautifulSoup(res.text, "html.parser")
+            td = soup.td
+            if not f'{mcid}' in f'{td}':
+                await m("整地鯖にログインしたことのないMCIDです。")
+                return
+            last_login = soup.select('td')[1]
+            await m(str(last_login))
+        except requests.exceptions.HTTPError:
+            await m(f'requests.exceptions.HTTPError')
+
         dm = await message.author.create_dm()
         marichan_inviter_role = discord.utils.get(message.guild.roles,id=663542711290429446)
         await message.author.add_roles(marichan_inviter_role)

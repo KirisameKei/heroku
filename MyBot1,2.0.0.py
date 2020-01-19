@@ -335,6 +335,32 @@ async def on_message(message):
             if message.guild.id == 624551872933527553:#処罰部
                 await server_log.syobatubu_server_log(message,client1)#ログ
 
+                if message.content.startswith("/last_login "):
+                    mcid = message.content.replace("/last_login ","")
+                    p = re.compile(r"^[a-zA-Z0-9_]+$")
+                    if not p.fullmatch(mcid):
+                        await m("MCIDに使えない文字が含まれています。")
+                        return
+                    if len(mcid) < 3:
+                        await m("短すぎます！")
+                        return
+                    if len(mcid) > 16:
+                        await m("長すぎます！")
+                        return
+                    url = f"https://w4.minecraftserver.jp/player/{mcid}"
+                    try:
+                        res = requests.get(url)
+                        res.raise_for_status()
+                        soup = bs4.BeautifulSoup(res.text, "html.parser")
+                        td = soup.td
+                        if not f'{mcid}' in f'{td}':
+                            await m("整地鯖にログインしたことのないMCIDです。")
+                            return
+                        last_login = soup.select('td')[1]
+                        await m(str(last_login))
+                    except requests.exceptions.HTTPError:
+                        await m(f'requests.exceptions.HTTPError')
+
             if message.guild.id == 587909823665012757:#無法地帯
                 await muhou.muhou(message)
 
