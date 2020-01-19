@@ -42,6 +42,13 @@ async def kei_ex_server(message,client1):
             await m("ここで実行しないでください！\nコマンド漏洩防止のためメッセージを削除します。")
             await message.delete()
             return
+        dm = await message.author.create_dm()
+        marichan_inviter_role = discord.utils.get(message.guild.roles,id=663542711290429446)
+        await message.author.add_roles(marichan_inviter_role)
+        await message.delete()
+        await m("コマンド漏洩防止のためメッセージを削除しました。")
+        await dm.send("https://discordapp.com/api/oauth2/authorize?client_id=594052349140402179&permissions=338783443&scope=bot")
+        await m("DMに招待リンクを送信しました。(管理者権限を持っているサーバに導入できます)")
 
     if message.content.startswith("/last_login "):
         mcid = message.content.replace("/last_login ","")
@@ -69,13 +76,6 @@ async def kei_ex_server(message,client1):
         except requests.exceptions.HTTPError:
             await m(f'requests.exceptions.HTTPError')
 
-        dm = await message.author.create_dm()
-        marichan_inviter_role = discord.utils.get(message.guild.roles,id=663542711290429446)
-        await message.author.add_roles(marichan_inviter_role)
-        await message.delete()
-        await m("コマンド漏洩防止のためメッセージを削除しました。")
-        await dm.send("https://discordapp.com/api/oauth2/authorize?client_id=594052349140402179&permissions=338783443&scope=bot")
-        await m("DMに招待リンクを送信しました。(管理者権限を持っているサーバに導入できます)")
 
 async def hatugensuu_kiroku(message,client1,m):
     #日間発言数発表
