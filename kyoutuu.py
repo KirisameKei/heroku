@@ -43,9 +43,9 @@ async def kanzen_kyoutuu_message_link(message,client1,client4):
         await m(embed=embed)
 
     if message.content == "/new_func":
-        await m("機能追加の申請をします。\n各項目は全て1回の送信で書いてください。\n\
+        await m("```\n機能追加の申請をします。\n各項目は全て1回の送信で書いてください。\n\
 各項目は10分でタイムアウトします。\n備考などがない場合はなしと入力してください。\n\
-複雑な場合は直接言っていただいても構いません。")
+複雑な場合は直接言っていただいても構いません。```")
         await m("この依頼内容を公開してよろしいですか？\n良い場合はyes、悪い場合はnoと入力してください\n\
 __**特殊な理由がない限りyesにしてください。**__")
         def koukai_settei(m):
