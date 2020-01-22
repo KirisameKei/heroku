@@ -20,6 +20,7 @@ async def kei_ex_server(message,client1):
     await login_bonus(message,client1,m)
     await my_server_commands(message,client1,m)
     await mcid_check(message,client1,m)
+    await kikaku(message,client1,m)
 
     if "https://discord.gg/" in message.content or "http://discord.gg/" in message.content:
         if not message.channel.id in channel_dic.my_guild_allow_senden_channel:#宣伝許可チャンネルに入っていなければ
@@ -39,7 +40,7 @@ async def kei_ex_server(message,client1):
 
     if message.content == "/marichan_invite":
         if not message.channel.id in channel_dic.my_guild_allow_command_channel:
-            await m("ここで実行しないでください！\nコマンド漏洩防止のためメッセージを削除します。")
+            await m(f"{message.author.mention}\nここで実行しないでください！\nコマンド漏洩防止のためメッセージを削除します。")
             await message.delete()
             return
         dm = await message.author.create_dm()
@@ -48,7 +49,7 @@ async def kei_ex_server(message,client1):
         await message.delete()
         await m("コマンド漏洩防止のためメッセージを削除しました。")
         await dm.send("https://discordapp.com/api/oauth2/authorize?client_id=594052349140402179&permissions=338783443&scope=bot")
-        await m("DMに招待リンクを送信しました。(管理者権限を持っているサーバに導入できます)")
+        await m(f"{message.author.mention}\nDMに招待リンクを送信しました。(管理者権限を持っているサーバに導入できます)")
 
     if message.content.startswith("/last_login "):
         mcid = message.content.replace("/last_login ","")
@@ -896,3 +897,28 @@ async def change_mcid(message,client1,m,new_mcid,userid_mcid):
 この機能は整地鯖ウェブページへの負荷となります。__**意図的に間違った入力を繰り返していると判断した場合処罰の対象になります。**__もしこれがバグならけいにお知らせください。")
     except requests.exceptions.HTTPError:
         await m(f'requests.exceptions.HTTPError')
+
+
+async def kikaku(message,client1,m):
+    five_sauzando_role = discord.utils.get(message.guild.roles,id=668021019700756490)
+    if message.channel.id == 665487669953953804:
+        if message.content == "/cancel":
+            if discord.utils.get(message.author.roles,id=668021019700756490):
+                await message.author.remove_roles(five_sauzando_role)
+            else:
+                await m("もう付いてないよ^^")
+            return
+        if discord.utils.get(message.author.roles,id=668021019700756490):
+            await m(f"{message.author.name}さんは既に参加しています。")
+            return
+        p = re.compile(r"^[0-9a-zA-Z_]+$")
+        if not p.fullmatch(message.content):
+            await m("MCIDに使用できない文字が含まれています。")
+            return
+        if len(message.content) < 3:
+            await m("短すぎます！")
+            return
+        if len(message.content) > 16:
+            await m("長すぎます！")
+            return
+        await m("まだだよ")
