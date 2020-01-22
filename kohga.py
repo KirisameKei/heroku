@@ -10,7 +10,6 @@ async def kohga(message,client1,m):
         if message.author.bot:
             return
         choice = random.randint(1,30)
-        msg = ""
-        for i in range(choice):
-            msg += "あ"
+        msg = "あ"
+        msg = msg * choice
         await m(msg)
