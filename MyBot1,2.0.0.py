@@ -370,7 +370,7 @@ async def on_message(message):
                 await iroha.iroha(message,client1)
 
             if message.guild.id == 668743334109642752:
-                await kohga(message,client1,m)
+                await kohga.kohga(message,client1,m)
 
         except AttributeError:
             pass
