@@ -250,143 +250,129 @@ async def on_guild_channel_delete(channel):
 
 @client1.event
 async def on_message(message):
-    try:
-        m = message.channel.send
+    m = message.channel.send
 
-        await kyoutuu.kanzen_kyoutuu_message_link(message,client1,client4)#リンク展開
+    await kyoutuu.kanzen_kyoutuu_message_link(message,client1,client4)#リンク展開
 
-        if message.author.name == "MEE6":
-            await message.add_reaction("\U0001F595")
+    if message.author.name == "MEE6":
+        await message.add_reaction("\U0001F595")
 
-        if message.author != client1.user:#DM対処
-            if message.channel == message.author.dm_channel:
-                channel = client1.get_channel(639830406270681099)
-                dm_embed = discord.Embed(description=message.content)
-                dm_embed.set_author(name=message.author.name+"\n"+str(message.author.id),icon_url=message.author.avatar_url)
-                await channel.send(embed=dm_embed)
-                return
+    if message.author != client1.user:#DM対処
+        if message.channel == message.author.dm_channel:
+            channel = client1.get_channel(639830406270681099)
+            dm_embed = discord.Embed(description=message.content)
+            dm_embed.set_author(name=message.author.name+"\n"+str(message.author.id),icon_url=message.author.avatar_url)
+            await channel.send(embed=dm_embed)
+            return
 
-            if message.channel.id == 639830406270681099:
-                str_user_id = message.content[0:18]
-                content = message.content[18:]
-                p = re.compile(r"^[0-9]+$")
-                if p.fullmatch(str_user_id):
-                    user_id = int(message.content[0:18])
-                    try:
-                        member = client1.get_user(user_id)
-                        dm = await member.create_dm()
-                        await dm.send(content)
-                    except AttributeError:
-                        await m("そのユーザーは見つかりませんでした。")
+        if message.channel.id == 639830406270681099:
+            str_user_id = message.content[0:18]
+            content = message.content[18:]
+            p = re.compile(r"^[0-9]+$")
+            if p.fullmatch(str_user_id):
+                user_id = int(message.content[0:18])
+                try:
+                    member = client1.get_user(user_id)
+                    dm = await member.create_dm()
+                    await dm.send(content)
+                except AttributeError:
+                    await m("そのユーザーは見つかりませんでした。")
 
-        try:
-            if message.guild.id == 585998962050203672:#けいの実験サーバ
-                if not message.author.bot:
-                    #日間発言数記録
-                    nikkan_hatugensuu_logchannel = client1.get_channel(641511982805024768)
-                    today = datetime.date.today()
-                    flag = False
-                    async for msg in nikkan_hatugensuu_logchannel.history(limit=1):
-                        today_hatugensuu = await nikkan_hatugensuu_logchannel.fetch_message(msg.id)
-                        if today_hatugensuu.content.startswith(str(today)):
-                            hatugensuu = int(today_hatugensuu.content[11:])
-                            hatugensuu = str(hatugensuu + 1)
-                            await nikkan_hatugensuu_logchannel.send(str(today)+" "+hatugensuu)
-                            try:
-                                await today_hatugensuu.delete()
-                                flag = True
-                                break
-                            except discord.errors.NotFound:
-                                await m("<@!523303776120209408>\nbotの処理が追い付きませんでした。<#641511982805024768>を確認して下さい。")
-                    if not flag:
-                        await nikkan_hatugensuu_logchannel.send(str(today)+" 1")
+    #try:
+        if message.guild.id == 585998962050203672:#けいの実験サーバ
+            if not message.author.bot:
+                #日間発言数記録
+                nikkan_hatugensuu_logchannel = client1.get_channel(641511982805024768)
+                today = datetime.date.today()
+                flag = False
+                async for msg in nikkan_hatugensuu_logchannel.history(limit=1):
+                    today_hatugensuu = await nikkan_hatugensuu_logchannel.fetch_message(msg.id)
+                    if today_hatugensuu.content.startswith(str(today)):
+                        hatugensuu = int(today_hatugensuu.content[11:])
+                        hatugensuu = str(hatugensuu + 1)
+                        await nikkan_hatugensuu_logchannel.send(str(today)+" "+hatugensuu)
+                        try:
+                            await today_hatugensuu.delete()
+                            flag = True
+                            break
+                        except discord.errors.NotFound:
+                            await m("<@!523303776120209408>\nbotの処理が追い付きませんでした。<#641511982805024768>を確認して下さい。")
+                if not flag:
+                    await nikkan_hatugensuu_logchannel.send(str(today)+" 1")
 
-                if not message.author.bot:
-                    kojin_hatugensuu_logchannel = client1.get_channel(641264504696602656)
-                    level_up_channel = client1.get_channel(641274239110086666)
-                    flag = False
-                    async for msg in kojin_hatugensuu_logchannel.history():
-                        str_userid_hatugensuu = await kojin_hatugensuu_logchannel.fetch_message(msg.id)
-                        if str_userid_hatugensuu.content[0:18] == str(message.author.id):
-                            int_hatugensuu = int(str_userid_hatugensuu.content[19:])
-                            int_after_hatugensuu = int_hatugensuu + 1
-                            str_after_hatugensuu = str(int_after_hatugensuu)
-                            await kojin_hatugensuu_logchannel.send(str(message.author.id)+" "+str_after_hatugensuu)
-                            try:
-                                await str_userid_hatugensuu.delete()
-                                level = math.sqrt(int_after_hatugensuu)
-                                if level % 1 == 0:
-                                    level = math.floor(level)
-                                    level_up_message = await level_up_channel.send(message.author.mention+"\nﾑﾑｯwwwwwwwﾚﾍﾞﾙｱｯﾌ゜wwwwwww【Lv"+str(level - 1)+"→Lv"+str(level)+"】")
-                                    await level_up_message.add_reaction("\U0001F595")
-                                flag = True
-                                break
-                            except discord.errors.NotFound:
-                                await message.channel.send(message.author.mention+"連投のしすぎです！気をつけてください！")
-                                flag = True
-                                break
-                    if not flag:
-                        await kojin_hatugensuu_logchannel.send(str(message.author.id)+" 1")
-                        level_up_message = await level_up_channel.send(message.author.mention+"\nﾑﾑｯwwwwwwwﾚﾍﾞﾙｱｯﾌ゜wwwwwww【Lv1】")
-                        await level_up_message.add_reaction("\U0001F595")
+            if not message.author.bot:
+                kojin_hatugensuu_logchannel = client1.get_channel(641264504696602656)
+                level_up_channel = client1.get_channel(641274239110086666)
+                flag = False
+                async for msg in kojin_hatugensuu_logchannel.history():
+                    str_userid_hatugensuu = await kojin_hatugensuu_logchannel.fetch_message(msg.id)
+                    if str_userid_hatugensuu.content[0:18] == str(message.author.id):
+                        int_hatugensuu = int(str_userid_hatugensuu.content[19:])
+                        int_after_hatugensuu = int_hatugensuu + 1
+                        str_after_hatugensuu = str(int_after_hatugensuu)
+                        await kojin_hatugensuu_logchannel.send(str(message.author.id)+" "+str_after_hatugensuu)
+                        try:
+                            await str_userid_hatugensuu.delete()
+                            level = math.sqrt(int_after_hatugensuu)
+                            if level % 1 == 0:
+                                level = math.floor(level)
+                                level_up_message = await level_up_channel.send(message.author.mention+"\nﾑﾑｯwwwwwwwﾚﾍﾞﾙｱｯﾌ゜wwwwwww【Lv"+str(level - 1)+"→Lv"+str(level)+"】")
+                                await level_up_message.add_reaction("\U0001F595")
+                            flag = True
+                            break
+                        except discord.errors.NotFound:
+                            await message.channel.send(message.author.mention+"連投のしすぎです！気をつけてください！")
+                            flag = True
+                            break
+                if not flag:
+                    await kojin_hatugensuu_logchannel.send(str(message.author.id)+" 1")
+                    level_up_message = await level_up_channel.send(message.author.mention+"\nﾑﾑｯwwwwwwwﾚﾍﾞﾙｱｯﾌ゜wwwwwww【Lv1】")
+                    await level_up_message.add_reaction("\U0001F595")
 
-                await server_log.kei_ex_server_log(message,client1)#ログ
-                await kei_ex_server.kei_ex_server(message,client1)#本体
+            await server_log.kei_ex_server_log(message,client1)#ログ
+            await kei_ex_server.kei_ex_server(message,client1)#本体
 
-            if message.guild.id == 624551872933527553:#処罰部
-                await server_log.syobatubu_server_log(message,client1)#ログ
+        if message.guild.id == 624551872933527553:#処罰部
+            await server_log.syobatubu_server_log(message,client1)#ログ
 
-                if message.content.startswith("/last_login "):
-                    mcid = message.content.replace("/last_login ","")
-                    p = re.compile(r"^[a-zA-Z0-9_]+$")
-                    if not p.fullmatch(mcid):
-                        await m("MCIDに使えない文字が含まれています。")
+            if message.content.startswith("/last_login "):
+                mcid = message.content.replace("/last_login ","")
+                p = re.compile(r"^[a-zA-Z0-9_]+$")
+                if not p.fullmatch(mcid):
+                    await m("MCIDに使えない文字が含まれています。")
+                    return
+                if len(mcid) < 3:
+                    await m("短すぎます！")
+                    return
+                if len(mcid) > 16:
+                    await m("長すぎます！")
+                    return
+                url = f"https://w4.minecraftserver.jp/player/{mcid}"
+                try:
+                    res = requests.get(url)
+                    res.raise_for_status()
+                    soup = bs4.BeautifulSoup(res.text, "html.parser")
+                    td = soup.td
+                    if not f'{mcid}' in f'{td}':
+                        await m("整地鯖にログインしたことのないMCIDです。")
                         return
-                    if len(mcid) < 3:
-                        await m("短すぎます！")
-                        return
-                    if len(mcid) > 16:
-                        await m("長すぎます！")
-                        return
-                    url = f"https://w4.minecraftserver.jp/player/{mcid}"
-                    try:
-                        res = requests.get(url)
-                        res.raise_for_status()
-                        soup = bs4.BeautifulSoup(res.text, "html.parser")
-                        td = soup.td
-                        if not f'{mcid}' in f'{td}':
-                            await m("整地鯖にログインしたことのないMCIDです。")
-                            return
-                        last_login = soup.select('td')[1]
-                        await m(str(last_login))
-                    except requests.exceptions.HTTPError:
-                        await m(f'requests.exceptions.HTTPError')
+                    last_login = soup.select('td')[1]
+                    await m(str(last_login))
+                except requests.exceptions.HTTPError:
+                    await m(f'requests.exceptions.HTTPError')
 
-            if message.guild.id == 587909823665012757:#無法地帯
-                await muhou.muhou(message)
+        if message.guild.id == 587909823665012757:#無法地帯
+            await muhou.muhou(message)
 
-            if message.guild.id == 604945424922574848:#いろは鯖
-                await server_log.iroha_server_log(message,client1)
-                await iroha.iroha(message,client1)
+        if message.guild.id == 604945424922574848:#いろは鯖
+            await server_log.iroha_server_log(message,client1)
+            await iroha.iroha(message,client1)
 
-            if message.guild.id == 668743334109642752:
-                await kohga.kohga(message,client1,m)
+        if message.guild.id == 668743334109642752:
+            await kohga.kohga(message,client1,m)
 
-        except AttributeError:
-            pass
-    
-    except:#エラーを表示！！------------
-        error_msg = "```\n" + traceback.format_exc() + "\n```" +"(" + str(time) + ")"
-        error_ch = client1.get_channel(597978849476870153)#エラー用のチャンネル
-
-        if isinstance(message.channel, discord.DMChannel):
-            await error_ch.send(ni_men + "dmでエラーが発生しました")
-            await message.channel.send("エラーが発生しました")
-        else:
-            await m("<@!523303776120209408>\nエラーが発生しました<#597978849476870153>")
-        embed = discord.Embed(title='Error_log', description=error_msg, color=0xf04747)
-        embed.set_footer(text=f'channel:{message.channel}\ntime:{time}')
-        await error_ch.send(embed=embed)
+    #except AttributeError:
+    #    await message.channel.send("エラー")
 
 
 @client1.event

@@ -902,8 +902,11 @@ async def change_mcid(message,client1,m,new_mcid,userid_mcid):
 async def kikaku(message,client1,m):
     five_sauzando_role = discord.utils.get(message.guild.roles,id=668021019700756490)
     if message.channel.id == 665487669953953804:
+        if message.author == client1.user:
+            return
         if message.content == "/cancel":
             if discord.utils.get(message.author.roles,id=668021019700756490):
+                await m(f"{message.author.name}さんの参加をキャンセルしました。")
                 await message.author.remove_roles(five_sauzando_role)
             else:
                 await m("もう付いてないよ^^")
@@ -921,4 +924,26 @@ async def kikaku(message,client1,m):
         if len(message.content) > 16:
             await m("長すぎます！")
             return
-        await m("まだだよ")
+        mcid_log_channel = client1.get_channel(638912957421453322)
+        flag = False
+        async for msg in mcid_log_channel.history():
+            userid_mcid = await mcid_log_channel.fetch_message(msg.id)
+            if int(userid_mcid.content[0:18]) == message.author.id and userid_mcid.content[19:] == message.content:
+                await m(f"{message.author.name}さんが抽選に参加しました。")
+                await message.author.add_roles(five_sauzando_role)
+                flag = True
+                break
+        if not flag:
+            await m("そのMCIDは登録されていないか、あなたのMCIDではありません。")
+
+    if message.content == "/choice":
+        kikaku_sanka_user = five_sauzando_role.members
+        tousen_user_raretu = ""
+        try:
+            tousen_user = random.sample(kikaku_sanka_user,5)
+            for i in range(5):
+                tousen_user_raretu += tousen_user[i].name + "\n"
+        except ValueError:
+            for i in range(len(kikaku_sanka_user)):
+                tousen_user_raretu += kikaku_sanka_user[i].name + "\n"
+        await m(tousen_user_raretu+"\nさんが当たりです(これは疑似抽選です)")
