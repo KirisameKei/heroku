@@ -522,6 +522,44 @@ async def on_message(message):
                 await m("前日比："+send)
 
 
+@client1.event
+async def on_raw_reaction_add(payload):
+    channel = client1.get_channel(payload.channel_id)
+    user = client1.get_user(payload.user_id)
+    kanryo_emoji = client1.get_emoji(636370115444867133)
+    reactioned_emoji = client1.get_emoji(payload.emoji.id)
+    if channel.id == 636359382359080961:
+        if user.id == 523303776120209408 or user.id == 582377618309906491:
+            if reactioned_emoji == kanryo_emoji:
+                msg = await channel.fetch_message(payload.message_id)
+                if msg.embeds:
+                    embed = discord.Embed(title="以下のメッセージを削除してよろしいですか？",description=msg.embeds[0].title,color=0x000000,timestamp=msg.created_at)
+                    for field in range(len(msg.embeds[0].fields)):
+                        embed.add_field(name=msg.embeds[0].fields[field].name,value=msg.embeds[0].fields[field].value)
+                    embed.set_footer(text=f"{msg.embeds[0].author.name}-{msg.embeds[0].footer.text}",icon_url=msg.embeds[0].footer.icon_url)
+                    kakunin_msg = await channel.send(embed=embed)
+                else:
+                    embed = discord.Embed(title="以下のメッセージを削除してよろしいですか？",description=msg.content,color=0x000000,timestamp=msg.created_at)
+                    embed.set_footer(text=f"{msg.author.name}-{msg.guild.name}",icon_url=msg.author.avatar_url)
+                    kakunin_msg = await channel.send(embed=embed)
+
+                def check(mes):
+                    return mes.author == user and mes.channel == channel and mes.content == "yes" or mes.content == "no"
+                
+                try:    
+                    wait = await client1.wait_for("message",check=check,timeout=60)
+                except asyncio.TimeoutError:
+                    await channel.send("タイムアウトしました。")
+                else:
+                    if wait.content == "yes":
+                        await msg.delete()
+                    else:
+                        pass
+                    await wait.delete()
+
+                await kakunin_msg.delete()
+
+
 @tasks.loop(seconds=60)
 async def loop():
     now = datetime.datetime.now().strftime("%H:%M")
