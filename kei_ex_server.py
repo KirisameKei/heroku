@@ -936,6 +936,47 @@ async def kikaku(message,client1,m):
         if not flag:
             await m("そのMCIDは登録されていないか、あなたのMCIDではありません。")
 
+    movie_watched_role = discord.utils.get(message.guild.roles,id=668021150952980491)
+    sikatanakutukutta_role = discord.utils.get(message.guild.roles,id=671239038321164319)
+    if message.channel.id == 665487568854319124:
+        if message.author == client1.user:
+            return
+        if message.content == "/cancel":
+            if discord.utils.get(message.author.roles,id=668021150952980491):
+                await m(f"{message.author.name}さんの参加をキャンセルしました。")
+                await message.author.remove_roles(movie_watched_role)
+            else:
+                await m("もう付いてないよ^^")
+            return
+        if discord.utils.get(message.author.roles,id=671239038321164319):
+            return
+        if discord.utils.get(message.author.roles,id=668021150952980491):
+            await m(f"{message.author.name}さんは既に参加しています。")
+            return
+        p = re.compile(r"^[0-9a-zA-Z_]+$")
+        if not p.fullmatch(message.content):
+            await m("MCIDに使用できない文字が含まれています。")
+            return
+        if len(message.content) < 3:
+            await m("短すぎます！")
+            return
+        if len(message.content) > 16:
+            await m("長すぎます！")
+            return
+        mcid_log_channel = client1.get_channel(638912957421453322)
+        await message.author.add_roles(sikatanakutukutta_role)
+        flag = False
+        async for msg in mcid_log_channel.history():
+            userid_mcid = await mcid_log_channel.fetch_message(msg.id)
+            if int(userid_mcid.content[0:18]) == message.author.id and userid_mcid.content[19:] == message.content:
+                await m(f"{message.author.name}さんが抽選に参加しました。")
+                await message.author.add_roles(movie_watched_role)
+                flag = True
+                break
+        if not flag:
+            await m("そのMCIDは登録されていないか、あなたのMCIDではありません。")
+        await message.author.remove_roles(sikatanakutukutta_role)
+
     if message.content == "/choice":
         kikaku_sanka_user = five_sauzando_role.members
         tousen_user_raretu = ""
