@@ -156,20 +156,23 @@ async def on_guild_channel_create(channel):
     新しいチャンネル、「"+channel.name+"」がけいの実験サーバに作成されました。\n辞書に追加してください。\n"+\
     str(channel.id)+"\n"+str(new_channel.id))
 
-    if channel.guild.id == 624551872933527553:#処罰部
+    elif channel.guild.id == 624551872933527553:#処罰部
         make_guild = client1.get_guild(633328124968435712)#やることリスト
         new_channel = await make_guild.create_text_channel(name=channel.name)
         sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
         await sagyousiji_channel.send("<@!523303776120209408>\n\
     新しいチャンネル、「"+channel.name+"」が作成されました。辞書に追加してください。\n"+str(channel.id)+"\n"+str(new_channel.id))
 
-    if channel.guild.id == 604945424922574848:#いろは鯖
+    elif channel.guild.id == 604945424922574848:#いろは鯖
         make_guild = client1.get_guild(660445544296218650)
         new_channel = await guild.create_text_channel(name=channel.name)
         sagyousiji_channel = client1.get_channel(636359382359080961)
         await sagyousiji_channel.send("<@!523303776120209408>\n\
     新しいチャンネル、「"+channel.name+"」がいろは鯖に作成されました。\n辞書に追加してください。\n"+\
     str(channel.id)+"\n"+str(new_channel.id))
+
+    else:
+        await sagyousiji_channel.send(f"{channel.guild.name}で<#{channel.id}>が作成されました。")
 
     if channel.guild.id == 585998962050203672 or channel.guild.id == 624551872933527553 or channel.guild.id == 604945424922574848:
         itijihinan_channel1 = client1.get_channel(663037579406606337)
@@ -236,14 +239,11 @@ async def on_guild_channel_update(before,after):
 
 @client1.event
 async def on_guild_channel_delete(channel):
-    msg = channel.name+"が削除されました"
-    if channel.guild.id == 585998962050203672:#けいの実験サーバ
-        sagyousiji_channel = client1.get_channel(636359382359080961)#やることリスト
-        await sagyousiji_channel.send(msg)
+    msg = f"{channel.guild.name}で{channel.name}が削除されました"
     if channel.guild.id == 624551872933527553:#処罰部
         sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
         await sagyousiji_channel.send(msg)
-    if channel.guild.id == 604945424922574848:#いろは鯖
+    else:
         sagyousiji_channel = client1.get_channel(636359382359080961)#やることリスト
         await sagyousiji_channel.send(msg)
 
