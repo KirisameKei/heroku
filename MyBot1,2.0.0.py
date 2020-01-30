@@ -507,8 +507,8 @@ async def on_message(message):
             user_count_channel = client4.get_channel(656486784330629140)
             async for msg in user_count_channel.history(limit=2):
                 today = datetime.date.today()
-                kyou = str(today - datetime.timedelta(days=1))
-                kinou = str(today - datetime.timedelta(days=2))
+                kyou = str(today)
+                kinou = str(today - datetime.timedelta(days=1))
                 kyou_kinou_user = await user_count_channel.fetch_message(msg.id)
                 if kyou_kinou_user.content.startswith(kyou):
                     kyou_user = int(kyou_kinou_user.content[11:])
