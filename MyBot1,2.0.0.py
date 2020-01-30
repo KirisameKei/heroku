@@ -172,6 +172,7 @@ async def on_guild_channel_create(channel):
     str(channel.id)+"\n"+str(new_channel.id))
 
     else:
+        sagyousiji_channel = client1.get_channel(636359382359080961)
         await sagyousiji_channel.send(f"{channel.guild.name}で<#{channel.id}>が作成されました。")
 
     if channel.guild.id == 585998962050203672 or channel.guild.id == 624551872933527553 or channel.guild.id == 604945424922574848:
