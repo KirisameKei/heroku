@@ -454,8 +454,7 @@ async def on_message(message):
             kinou = str(today - datetime.timedelta(days=1))
             ototoi = str(today - datetime.timedelta(days=2))
             nikkan_hatugensuu_logchannel = client4.get_channel(643078487359619082)
-            flag = False
-            async for msg in nikkan_hatugensuu_logchannel.history(limit=2):
+            async for msg in nikkan_hatugensuu_logchannel.history(limit=3):
                 kinou_ototoi_hatugensuu = await nikkan_hatugensuu_logchannel.fetch_message(msg.id)
                 if kinou_ototoi_hatugensuu.content.startswith(kinou):
                     kinou_hatugensuu = int(kinou_ototoi_hatugensuu.content[11:])
