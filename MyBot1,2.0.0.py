@@ -585,7 +585,7 @@ async def loop():
     if now.day == 8 and now.hour == 18 and now.minute == 0:
         guild = client1.get_guild(585998962050203672)
         five_sauzando_role = discord.utils.get(guild.roles,id=668021019700756490)
-        ch = client1.get_channel(597122356606926870)
+        ch = client1.get_channel(586420858512343050)
         kikaku_sanka_user = five_sauzando_role.members
         tousen_user_raretu = ""
         try:
