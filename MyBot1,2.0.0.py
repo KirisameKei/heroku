@@ -581,6 +581,25 @@ async def loop():
             await mem.remove_roles(payed_member)
             await mem.add_roles(no_payed_member)
 
+    now = datetime.datetime.now()
+    if now.day == 8 and now.hour == 18 and now.minute == 0:
+        guild = client1.get_guild(585998962050203672)
+        five_sauzando_role = discord.utils.get(guild.roles,id=668021019700756490)
+        ch = client1.get_channel(597122356606926870)
+        kikaku_sanka_user = five_sauzando_role.members
+        tousen_user_raretu = ""
+        try:
+            tousen_role = discord.utils.get(guild.roles,id=669720120314167307)
+            tousen_user = random.sample(kikaku_sanka_user,5)
+            for i in range(5):
+                tousen_user_raretu += f"<@!{tousen_user[i].id}>\n"
+                await tousen_user[i].add_roles(tousen_role)
+        except ValueError:
+            for i in range(len(kikaku_sanka_user)):
+                tousen_user_raretu += f"<@!{kikaku_sanka_user[i].id}>\n"
+                await kikaku_sanka_user[i].add_roles(tousen_role)
+        await ch.send(tousen_user_raretu+"\nさんが当たりです")
+
 loop.start()
 
 
