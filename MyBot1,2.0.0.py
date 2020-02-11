@@ -420,6 +420,10 @@ async def on_message(message):
     if message.author.id == 159985870458322944:
         await message.add_reaction("\U0001F595")
 
+    if message.content == "/connect":
+        vc_ch = client2.get_channel(630606975901892609)
+        await vc_ch.connect()
+
 
 @client4.event
 async def on_message(message):
@@ -544,6 +548,7 @@ async def loop():
         if now == "02:00":
             channel = client1.get_channel(585999375952642067)
             await channel.send("利子を付与します")
+        #しりとりリセット
         if now == "03:00":
             channel = client1.get_channel(603832801036468244)
             await channel.purge()
@@ -580,25 +585,6 @@ async def loop():
         for mem in house_member.members:
             await mem.remove_roles(payed_member)
             await mem.add_roles(no_payed_member)
-
-    now = datetime.datetime.now()
-    if now.day == 8 and now.hour == 18 and now.minute == 0:
-        guild = client1.get_guild(585998962050203672)
-        five_sauzando_role = discord.utils.get(guild.roles,id=668021019700756490)
-        ch = client1.get_channel(586420858512343050)
-        kikaku_sanka_user = five_sauzando_role.members
-        tousen_user_raretu = ""
-        try:
-            tousen_role = discord.utils.get(guild.roles,id=669720120314167307)
-            tousen_user = random.sample(kikaku_sanka_user,5)
-            for i in range(5):
-                tousen_user_raretu += f"<@!{tousen_user[i].id}>\n"
-                await tousen_user[i].add_roles(tousen_role)
-        except ValueError:
-            for i in range(len(kikaku_sanka_user)):
-                tousen_user_raretu += f"<@!{kikaku_sanka_user[i].id}>\n"
-                await kikaku_sanka_user[i].add_roles(tousen_role)
-        await ch.send(tousen_user_raretu+"\nさんが当たりです")
 
 loop.start()
 

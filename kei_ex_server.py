@@ -20,7 +20,6 @@ async def kei_ex_server(message,client1):
     await login_bonus(message,client1,m)
     await my_server_commands(message,client1,m)
     await mcid_check(message,client1,m)
-    await kikaku(message,client1,m)
 
     if "https://discord.gg/" in message.content or "http://discord.gg/" in message.content:
         if not message.channel.id in channel_dic.my_guild_allow_senden_channel:#宣伝許可チャンネルに入っていなければ
@@ -76,6 +75,124 @@ async def kei_ex_server(message,client1):
             await m(str(last_login))
         except requests.exceptions.HTTPError:
             await m(f'requests.exceptions.HTTPError')
+
+
+    if message.content == "利子を付与します":
+        if message.author != client1.user:
+            await m("いいえ、しません。")
+            return
+        point_log_channel = client1.get_channel(634602916233216020)
+        async for msg in point_log_channel.history():
+            str_userid_pt = await point_log_channel.fetch_message(msg.id)
+            str_userid = str_userid_pt.content[0:18]
+            str_pt = str_userid_pt.content[19:]
+            int_userid = int(str_userid)
+            int_pt = int(str_pt)
+            int_after_pt = math.floor(int_pt*1.1)
+            str_after_pt = str(int_after_pt)
+            await point_log_channel.send(str_userid+" "+str_after_pt)
+            await str_userid_pt.delete()
+        osirase_channel = client1.get_channel(585999375952642067)
+        await osirase_channel.send("利子を付与しました")
+
+    if message.content == "今週の当選発表を行います":
+        if message.author != client1.user:
+            await m("いいえ、しません。")
+            return
+        tousen_bangou = random.randint(0,999)
+        str_tousen_bangou = str(tousen_bangou)
+        if len(str_tousen_bangou) == 1:
+            send = "00" + str_tousen_bangou
+        if len(str_tousen_bangou) == 2:
+            send = "0" + str_tousen_bangou
+        if len(str_tousen_bangou) == 3:
+            send = str_tousen_bangou
+        await m("今週の当選番号は**"+send+"**です")
+
+        atari_mae = tousen_bangou - 1
+        atari_usiro = tousen_bangou + 1
+
+        if atari_mae == -1:
+            atari_mae = 999
+        if atari_usiro == 1000:
+            atari_usiro = 0
+
+        atari_mae = str(atari_mae)
+        atari_usiro = str(atari_usiro)
+        
+        if len(atari_mae) == 1:
+            atari_mae = "00" + atari_mae
+        if len(atari_mae) == 2:
+            atari_mae = "0" + atari_mae
+        if len(atari_mae) == 3:
+            atari_mae = atari_mae
+        if len(atari_usiro) == 1:
+            atari_usiro = "00" + atari_usiro
+        if len(atari_usiro) == 2:
+            atari_usiro = "0" + atari_usiro
+        if len(atari_usiro) == 3:
+            atari_usiro = atari_usiro
+
+        simoniketa_issyo = send[1:3]
+        
+        loto_kiroku_channel = client1.get_channel(654897878140977154)
+        point_log_channel = client1.get_channel(634602916233216020)
+        async for msg in loto_kiroku_channel.history():
+            str_userid_tyuusen_bangou = await loto_kiroku_channel.fetch_message(msg.id)
+            int_userid_loto_channel = int(str_userid_tyuusen_bangou.content[0:18])
+            str_tyuusen_bangou = str_userid_tyuusen_bangou.content[19:22]
+            if str_tyuusen_bangou == send:#ピタリ賞なら
+                async for msg2 in point_log_channel.history():
+                    str_userid_pt = await point_log_channel.fetch_message(msg2.id)
+                    int_userid_point_channel = int(str_userid_pt.content[0:18])
+                    int_before_pt = int(str_userid_pt.content[19:])
+                    if int_userid_point_channel == int_userid_loto_channel:
+                        int_after_pt = int_before_pt + 3456
+                        str_after_pt = str(int_after_pt)
+                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
+                        user_name = client1.get_user(int_userid_loto_channel).name
+                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
+                        break
+            elif str_tyuusen_bangou == atari_mae:
+                async for msg3 in point_log_channel.history():
+                    str_userid_pt = await point_log_channel.fetch_message(msg3.id)
+                    int_userid_point_channel = int(str_userid_pt.content[0:18])
+                    int_before_pt = int(str_userid_pt.content[19:])
+                    if int_userid_point_channel == int_userid_loto_channel:
+                        int_after_pt = int_before_pt + 1728
+                        str_after_pt = str(int_after_pt)
+                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
+                        user_name = client1.get_user(int_userid_loto_channel).name
+                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
+                        break
+            elif str_tyuusen_bangou == atari_usiro:
+                async for msg4 in point_log_channel.history():
+                    str_userid_pt = await point_log_channel.fetch_message(msg4.id)
+                    int_userid_point_channel = int(str_userid_pt.content[0:18])
+                    int_before_pt = int(str_userid_pt.content[19:])
+                    if int_userid_point_channel == int_userid_loto_channel:
+                        int_after_pt = int_before_pt + 1728
+                        str_after_pt = str(int_after_pt)
+                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
+                        user_name = client1.get_user(int_userid_loto_channel).name
+                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
+                        break
+            elif str_tyuusen_bangou.endswith(simoniketa_issyo):
+                async for msg5 in point_log_channel.history():
+                    str_userid_pt = await point_log_channel.fetch_message(msg5.id)
+                    int_userid_point_channel = int(str_userid_pt.content[0:18])
+                    int_before_pt = int(str_userid_pt.content[19:])
+                    if int_userid_point_channel == int_userid_loto_channel:
+                        int_after_pt = int_before_pt + 64
+                        str_after_pt = str(int_after_pt)
+                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
+                        user_name = client1.get_user(int_userid_loto_channel).name
+                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
+                        break
+            else:
+                pass
+        await loto_kiroku_channel.purge()
+        await m("以上です")
 
 
 async def hatugensuu_kiroku(message,client1,m):
@@ -244,9 +361,8 @@ async def login_bonus(message,client1,m):
         else:
             await m(touraku)
 
-    if message.content == "利子を付与します" or message.content == "/mypt" or message.content.startswith("/otherpt ") or \
-        message.content.startswith("/addpt ") or message.content.startswith("/usept ") or message.content.startswith("/lottery ") or \
-        message.content == "今週の当選発表を行います":
+    if message.content == "/mypt" or message.content.startswith("/otherpt ") or \
+        message.content.startswith("/addpt ") or message.content.startswith("/usept ") or message.content.startswith("/lottery "):
         await point_commands(message,client1,m)
 
 
@@ -703,23 +819,6 @@ async def point_commands(message,client1,m):
         except NameError:#要検証
             await m("ユーザーIDは18桁の半角数字です。")
 
-    if message.content == "利子を付与します":
-        if message.author != client1.user:
-            await m("いいえ、しません。")
-            return
-        async for msg in point_log_channel.history():
-            str_userid_pt = await point_log_channel.fetch_message(msg.id)
-            str_userid = str_userid_pt.content[0:18]
-            str_pt = str_userid_pt.content[19:]
-            int_userid = int(str_userid)
-            int_pt = int(str_pt)
-            int_after_pt = math.floor(int_pt*1.1)
-            str_after_pt = str(int_after_pt)
-            await point_log_channel.send(str_userid+" "+str_after_pt)
-            await str_userid_pt.delete()
-        osirase_channel = client1.get_channel(585999375952642067)
-        await osirase_channel.send("利子を付与しました")
-
     if message.content.startswith("/lottery "):
         tyuusen_bangou = message.content[9:12]
         if not len(tyuusen_bangou) == 3:
@@ -750,104 +849,6 @@ async def point_commands(message,client1,m):
         except ValueError:
             await m("抽選番号は半角数字です")
 
-    if message.content == "今週の当選発表を行います":
-        if message.author != client1.user:
-            await m("いいえ、しません。")
-            return
-        tousen_bangou = random.randint(0,999)
-        str_tousen_bangou = str(tousen_bangou)
-        if len(str_tousen_bangou) == 1:
-            send = "00" + str_tousen_bangou
-        if len(str_tousen_bangou) == 2:
-            send = "0" + str_tousen_bangou
-        if len(str_tousen_bangou) == 3:
-            send = str_tousen_bangou
-        await m("今週の当選番号は**"+send+"**です")
-
-        atari_mae = tousen_bangou - 1
-        atari_usiro = tousen_bangou + 1
-
-        if atari_mae == -1:
-            atari_mae = 999
-        if atari_usiro == 1000:
-            atari_usiro = 0
-
-        atari_mae = str(atari_mae)
-        atari_usiro = str(atari_usiro)
-        
-        if len(atari_mae) == 1:
-            atari_mae = "00" + atari_mae
-        if len(atari_mae) == 2:
-            atari_mae = "0" + atari_mae
-        if len(atari_mae) == 3:
-            atari_mae = atari_mae
-        if len(atari_usiro) == 1:
-            atari_usiro = "00" + atari_usiro
-        if len(atari_usiro) == 2:
-            atari_usiro = "0" + atari_usiro
-        if len(atari_usiro) == 3:
-            atari_usiro = atari_usiro
-
-        simoniketa_issyo = send[1:3]
-        
-        loto_kiroku_channel = client1.get_channel(654897878140977154)
-        async for msg in loto_kiroku_channel.history():
-            str_userid_tyuusen_bangou = await loto_kiroku_channel.fetch_message(msg.id)
-            int_userid_loto_channel = int(str_userid_tyuusen_bangou.content[0:18])
-            str_tyuusen_bangou = str_userid_tyuusen_bangou.content[19:22]
-            if str_tyuusen_bangou == send:#ピタリ賞なら
-                async for msg2 in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg2.id)
-                    int_userid_point_channel = int(str_userid_pt.content[0:18])
-                    int_before_pt = int(str_userid_pt.content[19:])
-                    if int_userid_point_channel == int_userid_loto_channel:
-                        int_after_pt = int_before_pt + 3456
-                        str_after_pt = str(int_after_pt)
-                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                        break
-            elif str_tyuusen_bangou == atari_mae:
-                async for msg3 in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg3.id)
-                    int_userid_point_channel = int(str_userid_pt.content[0:18])
-                    int_before_pt = int(str_userid_pt.content[19:])
-                    if int_userid_point_channel == int_userid_loto_channel:
-                        int_after_pt = int_before_pt + 1728
-                        str_after_pt = str(int_after_pt)
-                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                        break
-            elif str_tyuusen_bangou == atari_usiro:
-                async for msg4 in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg4.id)
-                    int_userid_point_channel = int(str_userid_pt.content[0:18])
-                    int_before_pt = int(str_userid_pt.content[19:])
-                    if int_userid_point_channel == int_userid_loto_channel:
-                        int_after_pt = int_before_pt + 1728
-                        str_after_pt = str(int_after_pt)
-                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                        break
-            elif str_tyuusen_bangou.endswith(simoniketa_issyo):
-                async for msg5 in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg5.id)
-                    int_userid_point_channel = int(str_userid_pt.content[0:18])
-                    int_before_pt = int(str_userid_pt.content[19:])
-                    if int_userid_point_channel == int_userid_loto_channel:
-                        int_after_pt = int_before_pt + 64
-                        str_after_pt = str(int_after_pt)
-                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                        break
-            else:
-                pass
-        await loto_kiroku_channel.purge()
-        await m("以上です")
-
 
 async def change_mcid(message,client1,m,new_mcid,userid_mcid):
     mcid_log_channel = client1.get_channel(638912957421453322)
@@ -870,6 +871,7 @@ async def change_mcid(message,client1,m,new_mcid,userid_mcid):
         await m(f'requests.exceptions.HTTPError')
 
 
+"""
 async def kikaku(message,client1,m):
     five_sauzando_role = discord.utils.get(message.guild.roles,id=668021019700756490)
     if message.channel.id == 665487669953953804:
@@ -958,4 +960,4 @@ async def kikaku(message,client1,m):
         except ValueError:
             for i in range(len(kikaku_sanka_user)):
                 tousen_user_raretu += kikaku_sanka_user[i].name + "\n"
-        await m(tousen_user_raretu+"\nさんが当たりです(これは疑似抽選です)")
+        await m(tousen_user_raretu+"\nさんが当たりです(これは疑似抽選です)")"""
