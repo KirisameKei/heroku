@@ -204,7 +204,7 @@ async def hatugensuu_kiroku(message,client1,m):
             ototoi = str(today - datetime.timedelta(days=2))
             nikkan_hatugensuu_logchannel = client1.get_channel(641511982805024768)
             flag = False
-            async for msg in nikkan_hatugensuu_logchannel.history(limit=2):
+            async for msg in nikkan_hatugensuu_logchannel.history(limit=3):
                 kinou_ototoi_hatugensuu = await nikkan_hatugensuu_logchannel.fetch_message(msg.id)
                 if kinou_ototoi_hatugensuu.content.startswith(kinou):
                     kinou_hatugensuu = int(kinou_ototoi_hatugensuu.content[11:])

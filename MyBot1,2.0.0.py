@@ -3,6 +3,7 @@ import urllib.request
 from collections import namedtuple
 from datetime import date
 from discord.ext import tasks
+#from discord import FFmpegPCMAudio
 from discord import Embed#ここまでモジュールのインポート
 
 from quote import expand#メッセージリンク展開用
@@ -419,10 +420,6 @@ async def on_message_delete(message):
 async def on_message(message):
     if message.author.id == 159985870458322944:
         await message.add_reaction("\U0001F595")
-
-    if message.content == "/connect":
-        vc_ch = client2.get_channel(630606975901892609)
-        await vc_ch.connect()
 
 
 @client4.event
