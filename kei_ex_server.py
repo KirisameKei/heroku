@@ -860,11 +860,11 @@ async def change_mcid(message,client1,m,new_mcid,userid_mcid):
         soup = bs4.BeautifulSoup(res.text, "html.parser")
         td = soup.td
         if f'{mcid2}' in f'{td}':
-            await mcid_log_channel.send(str(message.author.id)+" "+mcid)
+            await mcid_log_channel.send(str(message.author.id)+" "+new_mcid)
             await userid_mcid.delete()
             await m("MCIDの変更登録が完了しました。")
         else:
-            await m("**"+mcid+"**は\n・実在しない\n・整地鯖にログインしたことがない\n\
+            await m("**"+new_mcid+"**は\n・実在しない\n・整地鯖にログインしたことがない\n\
 ・MCIDを変更した\n・整地鯖ログイン後1分以上たっていない\n・MCID変更後整地鯖にログインして1分以上たっていない\n可能性があります。\n\
 この機能は整地鯖ウェブページへの負荷となります。__**意図的に間違った入力を繰り返していると判断した場合処罰の対象になります。**__もしこれがバグならけいにお知らせください。")
     except requests.exceptions.HTTPError:
