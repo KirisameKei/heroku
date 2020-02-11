@@ -88,7 +88,17 @@ async def kei_ex_server(message,client1):
             str_pt = str_userid_pt.content[19:]
             int_userid = int(str_userid)
             int_pt = int(str_pt)
-            int_after_pt = math.floor(int_pt*1.1)
+            if int_pt <= 128:
+                rishi = 1.2
+            elif int_pt <= 576:
+                rishi = 1.1
+            elif int_pt <= 1728:
+                rishi = 1.05
+            elif int_pt <= 3456:
+                rishi = 1.01
+            else:
+                rishi = 1
+            int_after_pt = math.floor(int_pt*rishi)
             str_after_pt = str(int_after_pt)
             await point_log_channel.send(str_userid+" "+str_after_pt)
             await str_userid_pt.delete()
