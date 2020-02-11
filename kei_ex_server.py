@@ -852,14 +852,14 @@ async def point_commands(message,client1,m):
 
 async def change_mcid(message,client1,m,new_mcid,userid_mcid):
     mcid_log_channel = client1.get_channel(638912957421453322)
-    mcid = str.lower(new_mcid)
-    url = f"https://w4.minecraftserver.jp/player/{mcid}"
+    mcid2 = str.lower(new_mcid)
+    url = f"https://w4.minecraftserver.jp/player/{mcid2}"
     try:
         res = requests.get(url)
         res.raise_for_status()
         soup = bs4.BeautifulSoup(res.text, "html.parser")
         td = soup.td
-        if f'{mcid}' in f'{td}':
+        if f'{mcid2}' in f'{td}':
             await mcid_log_channel.send(str(message.author.id)+" "+mcid)
             await userid_mcid.delete()
             await m("MCIDの変更登録が完了しました。")
