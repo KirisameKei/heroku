@@ -648,14 +648,14 @@ async def mcid_check(message,client1,m):
         right_mcid_list = []
         for i in range(len(mcid_list)):
             mcid = mcid_list[i]
-            mcid = str.lower(mcid)
-            url = f"https://w4.minecraftserver.jp/player/{mcid}"
+            mcid2 = str.lower(mcid)
+            url = f"https://w4.minecraftserver.jp/player/{mcid2}"
             try:
                 res = requests.get(url)
                 res.raise_for_status()
                 soup = bs4.BeautifulSoup(res.text, "html.parser")
                 td = soup.td
-                if f'{mcid}' in f'{td}':
+                if f'{mcid2}' in f'{td}':
                     right_mcid_list.append(mcid)
                     await mcid_log_channel.send(str(message.author.id)+" "+mcid)
                 else:
