@@ -543,6 +543,12 @@ async def on_raw_reaction_add(payload):
                     await wait.delete()
 
                 await kakunin_msg.delete()
+    if channel.id == 659774769746673676:
+        if payload.message_id == 678223516436529154:
+            kei_3104 = client1.get_emoji(653433434185662485)
+            if reactioned_emoji == kei_3104:
+                ch = client1.get_channel(605029247962185738)
+                await ch.send(f"{user.mention}がDJ役職を申請しています。")
 
 
 @tasks.loop(seconds=60)
@@ -552,7 +558,7 @@ async def loop():
 
     if now == "09:10":
         channel = client1.get_channel(597130965927723048)
-        await channel.send("<@!523303776120209408>\nhttps://minecraft.jp/servers/54d3529e4ddda180780041a7")
+        await channel.send("<@&673349311228280862>\nhttps://minecraft.jp/servers/54d3529e4ddda180780041a7")
 
     if weekday == 6:
         if now == "02:00":
