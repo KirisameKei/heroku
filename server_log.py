@@ -15,6 +15,8 @@ async def kei_ex_server_log(message,client1):
     embed = discord.Embed(description=message.content,color=0xfffffe)
     embed.set_author(name=message.author.name,icon_url=message.author.avatar_url)
     embed.set_footer(text=now)
+    if message.attachments:
+        embed.set_image(url=message.attachments[0].url)
     try:
         write_channel = channel_dic.my_guild_log_dic[message.channel.id]
         write_channel = client1.get_channel(write_channel)
@@ -28,6 +30,8 @@ async def syobatubu_server_log(message,client1):
     embed = discord.Embed(description=message.content,color=0xfffffe)
     embed.set_author(name=message.author.name,icon_url=message.author.avatar_url)
     embed.set_footer(text=now)
+    if message.attachments:
+        embed.set_image(url=message.attachments[0].url)
     try:
         write_channel = channel_dic.syobatubu_log_dic[message.channel.id]
         write_channel = client1.get_channel(write_channel)
@@ -41,6 +45,8 @@ async def iroha_server_log(message,client1):
     embed = discord.Embed(description=message.content,color=0xfffffe)
     embed.set_author(name=message.author.name,icon_url=message.author.avatar_url)
     embed.set_footer(text=now)
+    if message.attachments:
+        embed.set_image(url=message.attachments[0].url)
     try:
         write_channel = channel_dic.iroha_server_log_dic[message.channel.id]
         write_channel = client1.get_channel(write_channel)
