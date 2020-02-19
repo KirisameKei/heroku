@@ -371,6 +371,34 @@ async def login_bonus(message,client1,m):
         else:
             await m(touraku)
 
+        kouho = ["当たったと仮定する","外れたと仮定する"]
+        touraku = random.choice(kouho)
+        if touraku == "当たったと仮定する":
+            await m(touraku)
+            get_pt = random.randint(1,30)
+            await m(f"{get_pt}ptゲットしたと仮定する")
+            point_log_channel = client1.get_channel(663037579406606337)
+            pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
+            pt_log = pt_dic_in_embed.embeds[0].description
+            pt_dic = ast.literal_eval(pt_log)
+            try:
+                user_hoyuu_pt = int(pt_dic[int(message.author.id)])
+                after_pt = user_hoyuu_pt + get_pt
+                pt_dic[message.author.id] = after_pt
+                await m(f"{message.author.name}の所有pt：{user_hoyuu_pt}→{after_pt}になったと家庭")
+
+            except KeyError:
+                pt_dic[message.author.id] = get_pt
+                await m(f"{message.author.name}が初めてptをゲットしたと仮定。\n{message.author.name}の所有pt:{get_pt}になったと仮定")
+
+            pt_dic = str(pt_dic)
+            pt_record_embed = discord.Embed(description=pt_dic)
+            await pt_dic_in_embed.edit(embed=pt_record_embed)
+                
+        else:
+            await m(touraku)
+
+
     if message.content == "/mypt" or message.content.startswith("/otherpt ") or \
         message.content.startswith("/addpt ") or message.content.startswith("/usept ") or message.content.startswith("/lottery "):
         await point_commands(message,client1,m)
