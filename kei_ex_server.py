@@ -20,6 +20,7 @@ async def kei_ex_server(message,client1):
     await login_bonus(message,client1,m)
     await my_server_commands(message,client1,m)
     await mcid_check(message,client1,m)
+            
 
     if "https://discord.gg/" in message.content or "http://discord.gg/" in message.content:
         if not message.channel.id in channel_dic.my_guild_allow_senden_channel:#宣伝許可チャンネルに入っていなければ
@@ -81,27 +82,29 @@ async def kei_ex_server(message,client1):
         if message.author != client1.user:
             await m("いいえ、しません。")
             return
-        point_log_channel = client1.get_channel(634602916233216020)
-        async for msg in point_log_channel.history():
-            str_userid_pt = await point_log_channel.fetch_message(msg.id)
-            str_userid = str_userid_pt.content[0:18]
-            str_pt = str_userid_pt.content[19:]
-            int_userid = int(str_userid)
-            int_pt = int(str_pt)
-            if int_pt <= 128:
+        point_log_channel = client1.get_channel(663037579406606337)
+        pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
+        pt_log = pt_dic_in_embed.embeds[0].description
+        pt_dic = ast.literal_eval(pt_log)
+
+        for user_id in pt_dic:
+            hoyuu_pt = pt_dic[user_id]
+            if hoyuu_pt <= 128:
                 rishi = 1.2
-            elif int_pt <= 576:
+            elif hoyuu_pt <= 576:
                 rishi = 1.1
-            elif int_pt <= 1728:
+            elif hoyuu_pt <= 1728:
                 rishi = 1.05
-            elif int_pt <= 3456:
+            elif hoyuu_pt <= 3456:
                 rishi = 1.01
             else:
                 rishi = 1
-            int_after_pt = math.floor(int_pt*rishi)
-            str_after_pt = str(int_after_pt)
-            await point_log_channel.send(str_userid+" "+str_after_pt)
-            await str_userid_pt.delete()
+            after_pt = math.floor(hoyuu_pt*rishi)
+            pt_dic[user_id] = after_pt
+        pt_dic = str(pt_dic)
+        pt_record_embed = discord.Embed(description=pt_dic)
+        await pt_dic_in_embed.edit(embed=pt_record_embed)
+
         osirase_channel = client1.get_channel(585999375952642067)
         await osirase_channel.send("利子を付与しました")
 
@@ -146,59 +149,49 @@ async def kei_ex_server(message,client1):
         simoniketa_issyo = send[1:3]
         
         loto_kiroku_channel = client1.get_channel(654897878140977154)
-        point_log_channel = client1.get_channel(634602916233216020)
+        point_log_channel = client1.get_channel(663037579406606337)
+        pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
+        pt_log = pt_dic_in_embed.embeds[0].description
+        pt_dic = ast.literal_eval(pt_log)
         async for msg in loto_kiroku_channel.history():
             str_userid_tyuusen_bangou = await loto_kiroku_channel.fetch_message(msg.id)
             int_userid_loto_channel = int(str_userid_tyuusen_bangou.content[0:18])
             str_tyuusen_bangou = str_userid_tyuusen_bangou.content[19:22]
             if str_tyuusen_bangou == send:#ピタリ賞なら
-                async for msg2 in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg2.id)
-                    int_userid_point_channel = int(str_userid_pt.content[0:18])
-                    int_before_pt = int(str_userid_pt.content[19:])
-                    if int_userid_point_channel == int_userid_loto_channel:
-                        int_after_pt = int_before_pt + 3456
-                        str_after_pt = str(int_after_pt)
-                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                        break
-            elif str_tyuusen_bangou == atari_mae:
-                async for msg3 in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg3.id)
-                    int_userid_point_channel = int(str_userid_pt.content[0:18])
-                    int_before_pt = int(str_userid_pt.content[19:])
-                    if int_userid_point_channel == int_userid_loto_channel:
-                        int_after_pt = int_before_pt + 1728
-                        str_after_pt = str(int_after_pt)
-                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                        break
-            elif str_tyuusen_bangou == atari_usiro:
-                async for msg4 in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg4.id)
-                    int_userid_point_channel = int(str_userid_pt.content[0:18])
-                    int_before_pt = int(str_userid_pt.content[19:])
-                    if int_userid_point_channel == int_userid_loto_channel:
-                        int_after_pt = int_before_pt + 1728
-                        str_after_pt = str(int_after_pt)
-                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                        break
+                hoyuu_pt = pt_dic[int_userid_loto_channel]
+                after_pt = hoyuu_pt + 3456
+                pt_dic = str(pt_dic)
+                pt_record_embed = discord.Embed(description=pt_dic)
+                await pt_dic_in_embed.edit(embed=pt_record_embed)
+                try:
+                    user_name = client1.get_user(int_userid_loto_channel).name
+                    await m(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
+                except AttributeError:
+                    await m(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")                
+
+            elif str_tyuusen_bangou == atari_mae or str_tousen_bangou == atari_usiro:
+                hoyuu_pt = pt_dic[int_userid_loto_channel]
+                after_pt = hoyuu_pt + 1728
+                pt_dic = str(pt_dic)
+                pt_record_embed = discord.Embed(description=pt_dic)
+                await pt_dic_in_embed.edit(embed=pt_record_embed)
+                try:
+                    user_name = client1.get_user(int_userid_loto_channel).name
+                    await m(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
+                except AttributeError:
+                    await m(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")     
+
             elif str_tyuusen_bangou.endswith(simoniketa_issyo):
-                async for msg5 in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg5.id)
-                    int_userid_point_channel = int(str_userid_pt.content[0:18])
-                    int_before_pt = int(str_userid_pt.content[19:])
-                    if int_userid_point_channel == int_userid_loto_channel:
-                        int_after_pt = int_before_pt + 64
-                        str_after_pt = str(int_after_pt)
-                        await point_log_channel.send(str_userid_pt.content[0:18]+" "+str_after_pt)
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await m(user_name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                        break
+                hoyuu_pt = pt_dic[int_userid_loto_channel]
+                after_pt = hoyuu_pt + 64
+                pt_dic = str(pt_dic)
+                pt_record_embed = discord.Embed(description=pt_dic)
+                await pt_dic_in_embed.edit(embed=pt_record_embed)
+                try:
+                    user_name = client1.get_user(int_userid_loto_channel).name
+                    await m(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
+                except AttributeError:
+                    await m(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")     
             else:
                 pass
         await loto_kiroku_channel.purge()
@@ -344,59 +337,30 @@ async def login_bonus(message,client1,m):
     if message.channel.id == 634602609017225225:
         if message.author.bot:
             return
+
         kouho = ["おめでとう！","はずれ","はずれ"]
         touraku = random.choice(kouho)
+        await m(touraku)
         if touraku == "おめでとう！":
             get_pt = random.randint(1,30)
-            flag = False
-            point_log_channel = client1.get_channel(634602916233216020)
-            async for msg in point_log_channel.history():
-                str_userid_pt = await point_log_channel.fetch_message(msg.id)
-                int_userid = int(str_userid_pt.content[0:18])
-                if int_userid == message.author.id:
-                    str_before_pt = str_userid_pt.content[19:]
-                    int_before_pt = int(str_before_pt)
-                    int_after_pt = int_before_pt+get_pt
-                    str_after_pt = str(int_after_pt)
-                    await point_log_channel.send(str(message.author.id)+" "+str_after_pt)
-                    await str_userid_pt.delete()
-                    await m(touraku+str(get_pt)+"ptゲット！\n"+message.author.name+"の所有pt:"+str_before_pt+"→"+str_after_pt)
-                    flag = True
-                    break
-            if not flag:
-                str_get_pt = str(get_pt)
-                await point_log_channel.send(str(message.author.id)+" "+str_get_pt)
-                await m(touraku+message.author.name+"が初めてptを獲得しました。\n"+message.author.name+"の所有pt:"+str_get_pt)
-
-        else:
-            await m(touraku)
-
-        kouho = ["当たったと仮定する","外れたと仮定する"]
-        touraku = random.choice(kouho)
-        if touraku == "当たったと仮定する":
-            await m(touraku)
-            get_pt = random.randint(1,30)
-            await m(f"{get_pt}ptゲットしたと仮定する")
+            await m(f"{get_pt}ptゲット")
             point_log_channel = client1.get_channel(663037579406606337)
             pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
             pt_log = pt_dic_in_embed.embeds[0].description
             pt_dic = ast.literal_eval(pt_log)
             try:
-                user_hoyuu_pt = int(pt_dic[int(message.author.id)])
+                user_hoyuu_pt = pt_dic[message.author.id]
                 after_pt = user_hoyuu_pt + get_pt
                 pt_dic[message.author.id] = after_pt
-                await m(f"{message.author.name}の所有pt：{user_hoyuu_pt}→{after_pt}になったと家庭")
+                await m(f"{message.author.name}の所有pt：{user_hoyuu_pt}→{after_pt}")
 
             except KeyError:
                 pt_dic[message.author.id] = get_pt
-                await m(f"{message.author.name}が初めてptをゲットしたと仮定。\n{message.author.name}の所有pt:{get_pt}になったと仮定")
+                await m(f"{message.author.name}が初めてptをゲットしました。。\n{message.author.name}の所有pt:{get_pt}")
 
             pt_dic = str(pt_dic)
             pt_record_embed = discord.Embed(description=pt_dic)
             await pt_dic_in_embed.edit(embed=pt_record_embed)
-                
-        else:
-            await m(touraku)
 
 
     if message.content == "/mypt" or message.content.startswith("/otherpt ") or \
@@ -758,104 +722,86 @@ async def point_commands(message,client1,m):
         await m("ここで実行しないでください！")
         return
 
-    point_log_channel = client1.get_channel(634602916233216020)
+    point_log_channel = client1.get_channel(663037579406606337)
+    pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
+    pt_log = pt_dic_in_embed.embeds[0].description
+    pt_dic = ast.literal_eval(pt_log)
+
     if message.content == "/mypt":
-        flag = False
-        async for msg in point_log_channel.history():
-            str_userid_pt = await point_log_channel.fetch_message(msg.id)
-            if str_userid_pt.content.startswith(str(message.author.id)):
-                str_pt = str_userid_pt.content[19:]
-                await m(message.author.name+"さんの所有pt:"+str_pt)
-                flag = True
-                break
-        if not flag:
-            await m(message.author.name+"さんはまだptを保有していません。")
+        try:
+            hoyuu_pt = pt_dic[message.author.id]
+            await m(f"{message.author.name}さんの所有pt:{hoyuu_pt}")
+        except KeyError:
+            await m(f"{message.author.name}さんはまだptを所有していません。")
 
     if message.content.startswith("/otherpt "):
         try:
-            nyuuryoku_user_id = int(message.content[9:27])
+            user_id = int(message.content[9:27])
+            user = client1.get_user(user_id)
             try:
-                ptwo_nusumimirareru_user = client1.get_user(nyuuryoku_user_id)
-                flag = False
-                async for msg in point_log_channel.history():
-                    str_userid_pt = await point_log_channel.fetch_message(msg.id)
-                    if str_userid_pt.content.startswith(message.content[9:27]):
-                        str_pt = str_userid_pt.content[19:]
-                        await m(ptwo_nusumimirareru_user.name+"の所有pt:"+str_pt)
-                        flag = True
-                        break
-                if not flag:
-                    await m(ptwo_nusumimirareru_user.name+"さんはまだptを保有していません。")
-            except AttributeError:#要検証
-                await m("そのユーザーはこのサーバにいません。")
+                hoyuu_pt = pt_dic[user_id]
+                await m(f"{user.name}さんは{hoyuu_pt}pt所有しています。")
+            except KeyError:
+                try:
+                    await m(f"{user.name}さんはptを所有していません。")
+                except AttributeError:
+                    await m(f"そのユーザーは{client1.user.name}の監視下にありません。")
         except ValueError:
-            await m("ユーザーIDは18桁の半角数字です、")
+            await m("IDは18桁の半角数字です。")
+
 
     if message.content.startswith("/addpt "):
         if not discord.utils.get(message.author.roles,name="けい"):
             await m("何様のつもり？")
             return
         try:
-            nyuuryoku_user_id = int(message.content[7:25])
+            user_id = int(message.content[7:25])
+            give_pt = int(message.content[26:])
+            user = client1.get_user(user_id)
             try:
-                nyuuryoku_pt = int(message.content[26:])
+                before_pt = pt_dic[user_id]
+                after_pt = before_pt + give_pt
+                pt_dic[user_id] = after_pt
+                await m(f"{user.name}に{give_pt}pt付与しました。{user.name}の保有pt:{before_pt}→{after_pt}")
+            except KeyError:
                 try:
-                    ptwo_huyosareru_user = client1.get_user(nyuuryoku_user_id)
-                    flag = False
-                    async for msg in point_log_channel.history():
-                        str_userid_pt = await point_log_channel.fetch_message(msg.id)
-                        if str_userid_pt.content.startswith(message.content[7:25]):
-                            int_before_pt = int(str_userid_pt.content[19:])
-                            int_after_pt = int_before_pt + nyuuryoku_pt
-                            str_after_pt = str(int_after_pt)
-                            await point_log_channel.send(message.content[7:25]+" "+str_after_pt)
-                            await m(ptwo_huyosareru_user.name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                            flag = True
-                            break
-                    if not flag:
-                        await point_log_channel.send(message.content[7:])
-                        await m(ptwo_huyosareru_user.name+"が初めてptを獲得しました。\n"+\
-                            ptwo_huyosareru_user.name+"の保有pt:"+message.content[26:])
-                except AttributeError:#要検証
-                    await m("そのユーザーはこのサーバにいません。")
-            except NameError:#要検証
-                await m("付与するptは半角数字を使用してください。")
-        except NameError:#要検証
-            await m("ユーザーIDは18桁の半角数字です。")
+                    await m(f"{user.name}がはじめてptをゲットしました。{user.name}のpt:{get_pt}")
+                    pt_dic[user_id] = give_pt
+                except AttributeError:
+                    await m(f"そのユーザーは{client1.user.name}の監視下にありません。")
+            pt_dic = str(pt_dic)
+            pt_record_embed = discord.Embed(description=pt_dic)
+            await pt_dic_in_embed.edit(embed=pt_record_embed)
+        except ValueError:
+            await m("ID、付与ptは18桁の半角数字です。")
+
 
     if message.content.startswith("/usept "):
         if not discord.utils.get(message.author.roles,name="けい"):
             await m("何様のつもり？")
             return
         try:
-            nyuuryoku_user_id = int(message.content[7:25])
+            user_id = int(message.content[7:25])
+            use_pt = int(message.content[26:])
+            user = client1.get_user(user_id)
             try:
-                nyuuryoku_pt = int(message.content[26:])
+                before_pt = pt_dic[user_id]
+                after_pt = before_pt - use_pt
+                if after_pt < 0:
+                    await m("ptが足りません。")
+                    return
+                pt_dic[user_id] = after_pt
+                await m(f"{user.name}が{use_pt}pt使用しました。{user.name}の保有pt:{before_pt}→{after_pt}")
+            except KeyError:
                 try:
-                    ptwo_hakudatusareru_user = client1.get_user(nyuuryoku_user_id)
-                    flag = False
-                    async for msg in point_log_channel.history():
-                        str_userid_pt = await point_log_channel.fetch_message(msg.id)
-                        if str_userid_pt.content.startswith(message.content[7:25]):
-                            int_before_pt = int(str_userid_pt.content[19:])
-                            int_after_pt = int_before_pt - nyuuryoku_pt
-                            str_after_pt = str(int_after_pt)
-                            if int_after_pt < 0:
-                                await m("ptが足りません。")
-                                flag = True
-                                return
-                            await point_log_channel.send(message.content[7:25]+" "+str_after_pt)
-                            await m(ptwo_hakudatusareru_user.name+"の所有pt:"+str_userid_pt.content[19:]+"→"+str_after_pt)
-                            flag = True
-                            break
-                    if not flag:
-                        await m(ptwo_hakudatusareru_user.name+"さんはまだptを保有していません。")
-                except AttributeError:#要検証
-                    await m("そのユーザーはこのサーバにいません。")
-            except NameError:#要検証
-                await m("付与するptは半角数字を使用してください。")
-        except NameError:#要検証
-            await m("ユーザーIDは18桁の半角数字です。")
+                    await m(f"{user.name}さんはまだptを所有していません。")
+                except AttributeError:
+                    await m(f"そのユーザーは{client1.user.name}の監視下にありません。")
+            pt_dic = str(pt_dic)
+            pt_record_embed = discord.Embed(description=pt_dic)
+            await pt_dic_in_embed.edit(embed=pt_record_embed)
+        except ValueError:
+            await m("ID、付与ptは18桁の半角数字です。")
 
     if message.content.startswith("/lottery "):
         tyuusen_bangou = message.content[9:12]
@@ -864,26 +810,20 @@ async def point_commands(message,client1,m):
             return
         try:
             int_tyuusen_bangou = int(tyuusen_bangou)
-            flag = False
-            async for msg in point_log_channel.history():
-                str_userid_pt = await point_log_channel.fetch_message(msg.id)
-                str_userid = str_userid_pt.content[0:18]
-                str_before_pt = str_userid_pt.content[19:]
-                int_before_pt = int(str_before_pt)
-                if str(message.author.id) == str_userid:
-                    int_after_pt = int_before_pt - 64
-                    if int_after_pt < 0:
-                        await m("ptが足りません")
-                        flag = True
-                        break
-                    await point_log_channel.send(str(message.author.id)+" "+str(int_after_pt))
-                    await str_userid_pt.delete()
-                    loto_kiroku_channel = client1.get_channel(654897878140977154)
-                    await loto_kiroku_channel.send(str(message.author.id)+" "+tyuusen_bangou)
-                    flag = True
-                    break
-            if not flag:
-                await m("まだptを保有していません")
+            try:
+                hoyuu_pt = pt_dic[message.author.id]
+                after_pt = hoyuu_pt - 64
+                if after_pt < 0:
+                    await m("ptが足りません。")
+                    return
+                pt_dic[message.author.id] = after_pt
+                loto_kiroku_channel = client1.get_channel(654897878140977154)
+                await loto_kiroku_channel.send(str(message.author.id)+" "+tyuusen_bangou)
+                pt_dic = str(pt_dic)
+                pt_record_embed = discord.Embed(description=pt_dic)
+                await pt_dic_in_embed.edit(embed=pt_record_embed)
+            except KeyError:
+                await m(f"{message.author.name}さんはまだptを保有していません。")
         except ValueError:
             await m("抽選番号は半角数字です")
 
