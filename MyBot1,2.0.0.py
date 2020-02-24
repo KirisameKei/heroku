@@ -295,6 +295,7 @@ async def on_message(message):
 
     #try:
         if message.guild.id == 585998962050203672:#けいの実験サーバ
+            await kei_ex_server.kei_ex_server(message,client1)#本体
             if not message.author.bot:
                 #日間発言数記録
                 nikkan_hatugensuu_logchannel = client1.get_channel(641511982805024768)
@@ -316,7 +317,7 @@ async def on_message(message):
                     await nikkan_hatugensuu_logchannel.send(str(today)+" 1")
 
             await server_log.kei_ex_server_log(message,client1)#ログ
-            await kei_ex_server.kei_ex_server(message,client1)#本体
+            #await kei_ex_server.kei_ex_server(message,client1)#本体
 
         if message.guild.id == 624551872933527553:#処罰部
             await server_log.syobatubu_server_log(message,client1)#ログ
@@ -506,6 +507,32 @@ async def on_message(message):
                 await m("今のユーザー数："+str(kyou_user))
                 await m("前日比："+send)
 
+    if message.content.startswith("/mcid "):
+        str_userid = message.content[6:]
+        try:
+            int_userid = int(str_userid)
+            member = message.guild.get_member(int_userid)
+            mcid_log_channel = client4.get_channel(671608764415213569)
+            flag = False
+            how_many_accounts = 0
+            send_msg = member.name+"のMCID:\n"
+            async for msg in mcid_log_channel.history():
+                userid_mcid = await mcid_log_channel.fetch_message(msg.id)
+                if userid_mcid.content[0:18] == str_userid:
+                    mcid = userid_mcid.content[19:]
+                    send_msg += mcid+"\n"
+                    how_many_accounts = how_many_accounts + 1
+                    flag = True
+                    
+            if not flag:
+                await m("まだMCIDを報告していないユーザーです。")
+
+            if flag:
+                send_msg += "以上"+str(how_many_accounts)+"アカ"
+                await m(send_msg)
+
+        except ValueError:
+            await m("IDは18桁の半角数字です。")
 
 @client1.event
 async def on_raw_reaction_add(payload):
