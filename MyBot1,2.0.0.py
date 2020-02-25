@@ -539,7 +539,7 @@ async def on_raw_reaction_add(payload):
     channel = client1.get_channel(payload.channel_id)
     user = client1.get_user(payload.user_id)
     kanryo_emoji = client1.get_emoji(636370115444867133)
-    reactioned_emoji = client1.get_emoji(payload.emoji.id)
+    reactioned_emoji = client1.get_emoji(payload.emoji.id)#カスタム絵文字オンリー
     if channel.id == 636359382359080961:
         if user.id == 523303776120209408 or user.id == 582377618309906491:
             if reactioned_emoji == kanryo_emoji:
@@ -576,6 +576,34 @@ async def on_raw_reaction_add(payload):
             if reactioned_emoji == kei_3104:
                 ch = client1.get_channel(605029247962185738)
                 await ch.send(f"{user.mention}がDJ役職を申請しています。")
+
+    if channel.id == 664286990677573680:
+        if payload.message_id == 681797627330691141:
+            if user == client1.user:
+                return
+            msg = await channel.fetch_message(payload.message_id)
+            abcdefg = ["\U0001f1e6","\U0001f1e7","\U0001f1e8","\U0001f1e9","\U0001f1ea","\U0001f1eb","\U0001f1ec"]
+            free_roles = [586123363513008139,586123567146729475,678445373324263454,678445640027734032,678445821603217448,606481478078955530,673349311228280862]
+            if payload.emoji.name in abcdefg:
+                abcdefg_index = abcdefg.index(payload.emoji.name)
+                guild = client1.get_guild(585998962050203672)
+                member = guild.get_member(payload.user_id)
+                role = discord.utils.get(guild.roles,id=free_roles[abcdefg_index])
+                if discord.utils.get(member.roles,id=free_roles[abcdefg_index]):
+                    await member.remove_roles(role)
+                    system_message = await channel.send(f"{user.mention}から{role.name}を剥奪しました。")
+                else:
+                    await member.add_roles(role)
+                    system_message = await channel.send(f"{user.mention}に{role.name}を付与しました。")
+            else:
+                await msg.clear_reactions()
+                system_message = await channel.send(f"{user.mention}その絵文字は使用できません。")
+
+            await msg.clear_reactions()
+            for i in range(7):
+                await msg.add_reaction(abcdefg[i])
+            await asyncio.sleep(3)
+            await system_message.delete()
 
 
 @tasks.loop(seconds=60)
