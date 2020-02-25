@@ -589,8 +589,120 @@ async def loop():
 
     if weekday == 6:
         if now == "02:00":
-            channel = client1.get_channel(585999375952642067)
-            await channel.send("利子を付与します")
+            osirase_channel = client1.get_channel(585999375952642067)
+            await osirase_channel.send("利子を付与します。")
+            point_log_channel = client1.get_channel(663037579406606337)
+            pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
+            pt_log = pt_dic_in_embed.embeds[0].description
+            pt_dic = ast.literal_eval(pt_log)
+
+            for user_id in pt_dic:
+                hoyuu_pt = pt_dic[user_id]
+                if hoyuu_pt <= 128:
+                    rishi = 1.2
+                elif hoyuu_pt <= 576:
+                    rishi = 1.1
+                elif hoyuu_pt <= 1728:
+                    rishi = 1.05
+                elif hoyuu_pt <= 3456:
+                    rishi = 1.01
+                else:
+                    rishi = 1
+                after_pt = math.floor(hoyuu_pt*rishi)
+                pt_dic[user_id] = after_pt
+            pt_dic = str(pt_dic)
+            pt_record_embed = discord.Embed(description=pt_dic)
+            await pt_dic_in_embed.edit(embed=pt_record_embed)
+            await osirase_channel.send("利子を付与しました")
+
+        if now == "04:00":
+            osirase_channel = client1.get_channel(585999375952642067)
+            await osirase_channel.send("今週の当選発表を行います。")
+            tousen_bangou = random.randint(0,999)
+            str_tousen_bangou = str(tousen_bangou)
+            if len(str_tousen_bangou) == 1:
+                send = "00" + str_tousen_bangou
+            if len(str_tousen_bangou) == 2:
+                send = "0" + str_tousen_bangou
+            if len(str_tousen_bangou) == 3:
+                send = str_tousen_bangou
+            await osirase_channel.send("今週の当選番号は**"+send+"**です")
+
+            atari_mae = tousen_bangou - 1
+            atari_usiro = tousen_bangou + 1
+
+            if atari_mae == -1:
+                atari_mae = 999
+            if atari_usiro == 1000:
+                atari_usiro = 0
+
+            atari_mae = str(atari_mae)
+            atari_usiro = str(atari_usiro)
+        
+            if len(atari_mae) == 1:
+                atari_mae = "00" + atari_mae
+            if len(atari_mae) == 2:
+                atari_mae = "0" + atari_mae
+            if len(atari_mae) == 3:
+                atari_mae = atari_mae
+            if len(atari_usiro) == 1:
+                atari_usiro = "00" + atari_usiro
+            if len(atari_usiro) == 2:
+                atari_usiro = "0" + atari_usiro
+            if len(atari_usiro) == 3:
+                atari_usiro = atari_usiro
+
+            simoniketa_issyo = send[1:3]
+        
+            loto_kiroku_channel = client1.get_channel(654897878140977154)
+            point_log_channel = client1.get_channel(663037579406606337)
+            pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
+            pt_log = pt_dic_in_embed.embeds[0].description
+            pt_dic = ast.literal_eval(pt_log)
+            async for msg in loto_kiroku_channel.history():
+                str_userid_tyuusen_bangou = await loto_kiroku_channel.fetch_message(msg.id)
+                int_userid_loto_channel = int(str_userid_tyuusen_bangou.content[0:18])
+                str_tyuusen_bangou = str_userid_tyuusen_bangou.content[19:22]
+                if str_tyuusen_bangou == send:#ピタリ賞なら
+                    hoyuu_pt = pt_dic[int_userid_loto_channel]
+                    after_pt = hoyuu_pt + 3456
+                    pt_dic = str(pt_dic)
+                    pt_record_embed = discord.Embed(description=pt_dic)
+                    await pt_dic_in_embed.edit(embed=pt_record_embed)
+                    try:
+                        user_name = client1.get_user(int_userid_loto_channel).name
+                        await osirase_channel(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
+                    except AttributeError:
+                        await osirase_channel(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")                
+
+                elif str_tyuusen_bangou == atari_mae or str_tousen_bangou == atari_usiro:
+                    hoyuu_pt = pt_dic[int_userid_loto_channel]
+                    after_pt = hoyuu_pt + 1728
+                    pt_dic = str(pt_dic)
+                    pt_record_embed = discord.Embed(description=pt_dic)
+                    await pt_dic_in_embed.edit(embed=pt_record_embed)
+                    try:
+                        user_name = client1.get_user(int_userid_loto_channel).name
+                        await osirase_channel(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
+                    except AttributeError:
+                        await osirase_channel(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")     
+
+                elif str_tyuusen_bangou.endswith(simoniketa_issyo):
+                    hoyuu_pt = pt_dic[int_userid_loto_channel]
+                    after_pt = hoyuu_pt + 64
+                    pt_dic = str(pt_dic)
+                    pt_record_embed = discord.Embed(description=pt_dic)
+                    await pt_dic_in_embed.edit(embed=pt_record_embed)
+                    try:
+                        user_name = client1.get_user(int_userid_loto_channel).name
+                        await osirase_channel(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
+                    except AttributeError:
+                        await osirase_channel(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")     
+                else:
+                    pass
+            await loto_kiroku_channel.purge()
+            await osirase_channel.send("以上です")
+
         #しりとりリセット
         if now == "03:00":
             channel = client1.get_channel(603832801036468244)
@@ -598,9 +710,6 @@ async def loop():
             start = message_list.siritori_start
             hajime = random.choice(start)
             await channel.send(hajime)
-        if now == "04:00":
-            channel = client1.get_channel(585999375952642067)
-            await channel.send("今週の当選発表を行います")
 
     if now == "00:00":
         hiduke = datetime.datetime.today()
