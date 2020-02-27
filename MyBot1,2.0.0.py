@@ -757,7 +757,7 @@ async def loop():
 
     #kohgaの依頼
     now_time = datetime.datetime.now()
-    if now_time == 1 and now_time.hour == 0 and now_time.minute == 0:
+    if now_time.day == 1 and now_time.hour == 0 and now_time.minute == 0:
         kohga_server = client1.get_guild(668743334109642752)
         house_member = discord.utils.get(kohga_server.roles,id=668743691040718858)#家の人
         payed_member = discord.utils.get(kohga_server.roles,id=668745683398033418)#支払い済み
@@ -765,6 +765,16 @@ async def loop():
         for mem in house_member.members:
             await mem.remove_roles(payed_member)
             await mem.add_roles(no_payed_member)
+
+    if now_time.hour == 12 and now_time.minute == 23:
+        today_login_channel = client1.get_channel(682410834705907780)
+        today_login_mcid_in_embed = await today_login_channel.fetch_message(682423757951991908)
+        mcids = today_login_mcid_in_embed.embeds[0].description
+        today_login_mcid_list = ast.literal_eval(mcids)
+        today_login_mcid_list.clear()
+        today_login_mcid_list = str(today_login_mcid_list)
+        logined_mcid_embed = discord.Embed(description=today_login_mcid_list)
+        await today_login_mcid_in_embed.edit(embed=logined_mcid_embed)
 
 loop.start()
 
