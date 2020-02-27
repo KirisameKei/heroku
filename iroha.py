@@ -1,4 +1,4 @@
-import discord,random,re,datetime,json,time,math,os,asyncio
+import discord,random,re,datetime,json,time,math,os,asyncio,ast
 import urllib.request
 from collections import namedtuple
 from datetime import date
@@ -20,7 +20,20 @@ async def iroha(message,client1):
         if not message.author.id == 606668660853178399:
             return
         if message.content.endswith("joined the server**"):
-            await m("おはよー")
+            mcid = message.content.split()[1].replace("**","").replace("\\","")
+            today_login_channel = client1.get_channel(682410834705907780)
+            today_login_mcid_in_embed = await today_login_channel.fetch_message(682423757951991908)
+            mcids = today_login_mcid_in_embed.embeds[0].description
+            today_login_mcid_list = ast.literal_eval(mcids)
+            if mcid in today_login_mcid_list:
+                pass
+            else:
+                today_login_mcid_list.append(mcid)
+                today_login_mcid_list = str(today_login_mcid_list)
+                logined_mcid_embed = discord.Embed(description=today_login_mcid_list)
+                await today_login_mcid_in_embed.edit(embed=logined_mcid_embed)
+                await m("おはよー")
+
         if message.content.startswith(":skull:"):
             message_list = ["悲しい","ドンマイ","気をしっかり","えぇ"]
             send = random.choice(message_list)
