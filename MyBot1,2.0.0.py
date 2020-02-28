@@ -163,49 +163,29 @@ async def on_member_remove(member):#脱退者が出たら反応
 @client1.event
 async def on_guild_channel_create(channel):
     if channel.guild.id == 585998962050203672:#けいの実験サーバ
-        make_guild = client1.get_guild(647311568454811649)
-        new_channel = await make_guild.create_text_channel(name=channel.name)
+        kei_ex_server_log_guild = client1.get_guild(647311568454811649)
+        new_channel = await kei_ex_server_log_guild.create_text_channel(name=channel.name)
         sagyousiji_channel = client1.get_channel(636359382359080961)
-        await sagyousiji_channel.send("<@!523303776120209408>\n\
-    新しいチャンネル、「"+channel.name+"」がけいの実験サーバに作成されました。\n辞書に追加してください。\n"+\
-    str(channel.id)+"\n"+str(new_channel.id))
+        await sagyousiji_channel.send(f"<@!523303776120209408>\n新しいチャンネル「{channel.name}」が{channel.guild.name}で作成されました。\n\
+            辞書に追加してください。\n{channel.id}:{new_channel.id},#{channel.name}")
 
     elif channel.guild.id == 624551872933527553:#処罰部
-        make_guild = client1.get_guild(633328124968435712)#やることリスト
-        new_channel = await make_guild.create_text_channel(name=channel.name)
+        syobatubu_log_guild = client1.get_guild(633328124968435712)#やることリスト
+        new_channel = await syobatubu_log_guild.create_text_channel(name=channel.name)
         sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
-        await sagyousiji_channel.send("<@!523303776120209408>\n\
-    新しいチャンネル、「"+channel.name+"」が作成されました。辞書に追加してください。\n"+str(channel.id)+"\n"+str(new_channel.id))
+        await sagyousiji_channel.send(f"<@!523303776120209408>\n新しいチャンネル「{channel.name}」が作成されました。\n\
+            辞書に追加してください。\n{channel.id}:{new_channel.id},#{channel.name}")
 
     elif channel.guild.id == 604945424922574848:#いろは鯖
-        make_guild = client1.get_guild(660445544296218650)
-        new_channel = await guild.create_text_channel(name=channel.name)
+        iroha_server_log_guild = client1.get_guild(660445544296218650)
+        new_channel = await iroha_server_log_guild.create_text_channel(name=channel.name)
         sagyousiji_channel = client1.get_channel(636359382359080961)
-        await sagyousiji_channel.send("<@!523303776120209408>\n\
-    新しいチャンネル、「"+channel.name+"」がいろは鯖に作成されました。\n辞書に追加してください。\n"+\
-    str(channel.id)+"\n"+str(new_channel.id))
+        await sagyousiji_channel.send(f"<@!523303776120209408>\n新しいチャンネル「{channel.name}」が{channel.guild.name}で作成されました。\n\
+            辞書に追加してください。\n{channel.id}:{new_channel.id},#{channel.name}")
 
     else:
-        sagyousiji_channel = client1.get_channel(636359382359080961)
-        await sagyousiji_channel.send(f"{channel.guild.name}で<#{channel.id}>が作成されました。")
-
-    if channel.guild.id == 585998962050203672 or channel.guild.id == 624551872933527553 or channel.guild.id == 604945424922574848:
-        itijihinan_channel1 = client1.get_channel(663037579406606337)
-        itijihinan_channel2 = client1.get_channel(663037675141595147)
-        flag1 = False
-        async for msg in itijihinan_channel1.history(limit=1):
-            mitouroku_channel1 = await itijihinan_channel1.fetch_message(msg.id)
-            await itijihinan_channel1.send(mitouroku_channel1.connect+" "+str(channel.id))
-            flag1 = True
-        if not flag1:
-            await itijihinan_channel1.send(str(channel.id))
-        flag2 = False
-        async for msg in itijihinan_channel2.history(limit=1):
-            mitouroku_channel2 = await itijihinan_channel2.fetch_message(msg.id)
-            await itijihinan_channel2.send(mitouroku_channel2.content+" "+str(new_channel.id))
-            flag2 = True
-        if not flag2:
-            await itijihinan_channel2.send(str(new_channel.id))
+        channel_notice = client1.get_channel(682732694768975884)
+        await channel_notice.send(f"{channel.guild.name}で<#{channel.id}>が作成されました。")
 
 
 @client1.event
@@ -251,6 +231,12 @@ async def on_guild_channel_update(before,after):
             sagyousiji_channel = client1.get_channel(636359382359080961)#作業指示書
             await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+before.channel.mention+"の辞書登録あく！")
 
+    if not before.guild.id == 624551872933527553:
+        if before.name != after.name:
+            channel_notice = client1.get_channel(682732694768975884)
+            await channel_notice.send(f"{before.guild.name}の{before.name}が{after.name}に変わりました。")
+
+
 
 @client1.event
 async def on_guild_channel_delete(channel):
@@ -259,8 +245,8 @@ async def on_guild_channel_delete(channel):
         sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
         await sagyousiji_channel.send(msg)
     else:
-        sagyousiji_channel = client1.get_channel(636359382359080961)#やることリスト
-        await sagyousiji_channel.send(msg)
+        channel_notice = client1.get_channel(682732694768975884)
+        await channel_notice.send(msg)
 
 
 @client1.event
