@@ -1,4 +1,4 @@
-import discord,random,re,datetime,json,time,math,os,asyncio,ast
+import discord,random,re,datetime,json,time,math,os,asyncio,ast,requests,bs4
 import urllib.request
 from collections import namedtuple
 from datetime import date
@@ -33,6 +33,12 @@ async def iroha(message,client1):
                 logined_mcid_embed = discord.Embed(description=today_login_mcid_list)
                 await today_login_mcid_in_embed.edit(embed=logined_mcid_embed)
                 await m("おはよー")
+                uuid = change_mcid_to_uuid(mcid)
+                if uuid is None:
+                    return
+                await total_login(client1,uuid)
+
+
 
         if message.content.startswith(":skull:"):
             message_list = ["悲しい","ドンマイ","気をしっかり","えぇ"]
@@ -71,3 +77,35 @@ async def iroha(message,client1):
         ]
         for i in range(len(poll_list)):
             await msg.add_reaction(reaction_list[i])
+
+def change_mcid_to_uuid(mcid):
+    url = f"https://api.mojang.com/users/profiles/minecraft/{mcid}"
+    try:
+        res = requests.get(url)
+        res.raise_for_status()
+        soup = str(bs4.BeautifulSoup(res.text, "html.parser"))
+        uuid = soup.split(",")[0][7:][:-1]#JSON文字列から無理やりUUIDを取得
+        return uuid
+
+    except requests.exceptions.HTTPError:
+        uuid = None
+        return uuid
+
+async def total_login(client1,uuid):
+    total_login_record_channel = client1.get_channel(682732532567113789)
+    flag = False
+    async for msg in total_login_record_channel.history():
+        uuid_days = await total_login_record_channel.fetch_message(msg.id)
+        if uuid_days.content.startswith(uuid):
+            days = int(uuid_days.content.split(" ")[1])
+            days = days + 1
+            await total_login_record_channel.send(f"{uuid} {days}")
+            await uuid_days.delete()
+            flag = True
+            break
+    if not flag:
+        await total_login_record_channel.send(f"{uuid} 1")
+
+
+
+#async def series_login():
