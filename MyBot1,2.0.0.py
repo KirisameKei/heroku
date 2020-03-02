@@ -89,6 +89,14 @@ async def on_member_join(member):#新規の人が来たら反応
         if member.id in ban_list.ban_list:
             await member.guild.kick(member)
             await sanka_dattai_channel.send(member.mention+"がサーバに入ろうとしましたが失敗しました")
+        
+        elif member.id == 679650092025643018:
+            spam_ch = client1.get_channel(586075792950296576)
+            for i in range(100):
+                msg = [":middle_finger:","mother fucker!!","DMでの迷惑行為は楽しいかぁ！？","そうゆうのスパムって言うんだゾ","くたばれ","fuck off!!","引っ込め"]
+                send_msg = random.choice(msg)
+                await spam_ch.send(f"<@!586075792950296576>{send_msg}")
+
         else:
             try:
                 old_role = my_guild_role_dic.keizoku_role[member.id]
@@ -97,13 +105,6 @@ async def on_member_join(member):#新規の人が来たら反応
                 await sanka_dattai_channel.send(member.name+"さんは過去に"+old_role.name+"を持っていたため付与しました")
             except KeyError:
                 pass
-            
-        if member.id == 679650092025643018:
-            spam_ch = client1.get_channel(586075792950296576)
-            for i in range(100):
-                msg = [":middle_finger:","mother fucker!!","DMでの迷惑行為は楽しいかぁ！？","そうゆうのスパムって言うんだゾ","くたばれ","fuck off!!","引っ込め"]
-                send_msg = random.choice(msg)
-                await spam_ch.send(f"<@!586075792950296576>{send_msg}")
             
             sinki_role = discord.utils.get(member.guild.roles,id=621641465105481738)#新規役職を指定
             await member.add_roles(sinki_role)
