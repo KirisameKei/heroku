@@ -554,12 +554,17 @@ async def mcid_check(message,client1,m):
                 if f'{mcid2}' in f'{td}':
                     right_mcid_list.append(mcid)
                     await mcid_log_channel.send(str(message.author.id)+" "+mcid)
+                    pr = True
                 else:
                     await m("**"+mcid+"**は\n・実在しない\n・整地鯖にログインしたことがない\n\
 ・MCIDを変更した\n・整地鯖ログイン後1分以上たっていない\n・MCID変更後整地鯖にログインして1分以上たっていない\n可能性があります。\n\
 この機能は整地鯖ウェブページへの負荷となります。__**意図的に間違った入力を繰り返していると判断した場合処罰の対象になります。**__もしこれがバグならけいにお知らせください。")
+                    pr = False
             except requests.exceptions.HTTPError:
                 await m(f'requests.exceptions.HTTPError')
+                pr = False
+        if not pr:
+            return
         await m("MCIDの登録が完了しました。登録されたMCID:"+str(right_mcid_list))
         if discord.utils.get(message.author.roles,name="新規"):
             role = discord.utils.get(message.guild.roles,name = "accept送信可能")
