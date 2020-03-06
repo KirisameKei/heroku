@@ -510,22 +510,24 @@ async def on_message(message):
             await user_log_channel.send(str(today)+" "+str(user_count))
 
             user_count_channel = client4.get_channel(656486784330629140)
+            kirokunaiyou_list = []
             async for msg in user_count_channel.history(limit=2):
-                today = datetime.date.today()
-                kyou = str(today)
-                kinou = str(today - datetime.timedelta(days=1))
                 kyou_kinou_user = await user_count_channel.fetch_message(msg.id)
-                if kyou_kinou_user.content.startswith(kyou):
-                    kyou_user = int(kyou_kinou_user.content[11:])
-                if kyou_kinou_user.content.startswith(kinou):
-                    kinou_user = int(kyou_kinou_user.content[11:])
-                ninzuu_zougen = kinou_user - kyou_user
-                if ninzuu_zougen > 0:
-                    send = "+"+str(ninzuu_zougen)
-                else:
-                    send = str(ninzuu_zougen)
-                await m("今のユーザー数："+str(kyou_user))
-                await m("前日比："+send)
+                kirokunaiyou_list.append(kyou_kinou_user.content)
+                
+            kyou_user = kirokunaiyou_list[0]
+            kinou_user = kirokunaiyou_list[1]
+                
+            kinou_user = int(kirokunaiyou_list[1][11:])
+            kyou_user = int(kirokunaiyou_list[0][11:])
+
+            ninzuu_zougen = kinou_user - kyou_user
+            if ninzuu_zougen > 0:
+                send = "+"+str(ninzuu_zougen)
+            else:
+                send = str(ninzuu_zougen)
+            await m("今のユーザー数："+str(kyou_user))
+            await m("前日比："+send)
 
 
 @client1.event
