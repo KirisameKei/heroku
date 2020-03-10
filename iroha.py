@@ -37,6 +37,7 @@ async def iroha(message,client1):
                 if uuid is None:
                     return
                 await total_login(client1,uuid)
+                await series_login(client1,uuid)
 
 
 
@@ -108,4 +109,22 @@ async def total_login(client1,uuid):
 
 
 
-#async def series_login():
+async def series_login(client1,login_uuid):
+    series_login_record_channel = client1.get_channel(682732441479544918)
+    today = datetime.date.today()
+    flag = False
+    async for msg in series_login_record_channel.history():
+        today_uuid_days = await series_login_record_channel.fetch_message(msg.id)
+        record_uuid = today_uuid_days.content.split(" ")[1]
+        days = int(today_uuid_days.content.split(" ")[2])
+        if record_uuid == login_uuid:
+            days = days + 1
+            await series_login_record_channel.send(f"{today} {login_uuid} {days}")
+            await today_uuid_days.delete()
+            flag = True
+            break
+    if not flag:
+        await series_login_record_channel.send(f"{today} {login_uuid} 1")
+
+
+
