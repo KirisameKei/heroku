@@ -762,7 +762,7 @@ async def loop():
             await mem.remove_roles(payed_member)
             await mem.add_roles(no_payed_member)
 
-    if now_time.hour == 0 and now_time.minute == 0:
+    if now_time.hour == 22 and now_time.minute == 0:
         today_login_channel = client1.get_channel(682410834705907780)
         today_login_mcid_in_embed = await today_login_channel.fetch_message(682423757951991908)
         mcids = today_login_mcid_in_embed.embeds[0].description
@@ -771,6 +771,16 @@ async def loop():
         today_login_mcid_list = str(today_login_mcid_list)
         logined_mcid_embed = discord.Embed(description=today_login_mcid_list)
         await today_login_mcid_in_embed.edit(embed=logined_mcid_embed)
+
+        series_login_record_channel = client1.get_channel(682732441479544918)
+        today = datetime.date.today()
+        ototoi = today - datetime.timedelta(days=2)
+        async for msg in series_login_record_channel.history():
+            today_uuid_days = await series_login_record_channel.fetch_message(msg.id)
+            if today_uuid_days.content.startswith(f"{ototoi}"):
+                await today_uuid_days.delete()
+            else:
+                pass
 
 loop.start()
 
