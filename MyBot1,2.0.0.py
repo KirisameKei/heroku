@@ -762,7 +762,7 @@ async def loop():
             await mem.remove_roles(payed_member)
             await mem.add_roles(no_payed_member)
 
-    if now_time.hour == 22 and now_time.minute == 0:
+    if now_time.hour == 0 and now_time.minute == 0:
         today_login_channel = client1.get_channel(682410834705907780)
         today_login_mcid_in_embed = await today_login_channel.fetch_message(682423757951991908)
         mcids = today_login_mcid_in_embed.embeds[0].description
