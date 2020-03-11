@@ -232,6 +232,11 @@ async def login_bonus(message,client1,m):
         if message.author.bot:
             return
 
+        if message.content.startswith("#") or message.content.startswith("//"):
+            return
+        if message.content.startswith(r"/\*") and message.content.endswith(r"\*/"):
+            return
+
         kouho = ["おめでとう！","はずれ","はずれ"]
         touraku = random.choice(kouho)
         await m(touraku)
@@ -281,7 +286,7 @@ async def my_server_commands(message,client1,m):
         await message.author.add_roles(crafter_role)
         await m(message.author.name+"から新規を剥奪し、クラフタを付与しました。")
         await m(message.author.mention+"\n"+message.author.name+"さん参加ありがとうございます。\n\
-このチャンネルで<#592576217962512394>や<#592576272752967681>を参考に、自分に必要な役職をつけてください。\n\
+このチャンネルで<#592576217962512394>や<#592576272752967681>を参考に、自分に必要な役職をつけてください。<#664286990677573680>のメッセージへのリアクションでも可能です。\n\
 もしよろしければ、<#586571234276540449>もお願いします。")
 
     if message.content == "/omikuji" or message.content == "/speca" or message.content == "/meigen" or \
@@ -719,6 +724,7 @@ async def point_commands(message,client1,m):
                 pt_dic = str(pt_dic)
                 pt_record_embed = discord.Embed(description=pt_dic)
                 await pt_dic_in_embed.edit(embed=pt_record_embed)
+                await m(f"{message.author.name}さんが{tyuusen_bangou}の宝くじを購入しました。")
             except KeyError:
                 await m(f"{message.author.name}さんはまだptを保有していません。")
         except ValueError:
