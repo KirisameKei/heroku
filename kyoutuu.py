@@ -85,6 +85,11 @@ async def kanzen_kyoutuu_message_link(message,client1,client4):
         embed.add_field(name="お問い合わせフォーム",value="https://w4.minecraftserver.jp/inquiryForm",inline=False)
         await m(embed=embed)
 
+    if message.content == "/formal":
+        await m("https://www.seichi.network/gigantic")
+    if message.content == "/informal":
+        await m("https://seichi-click-network.sokuhou.wiki/")
+
     if message.content == "/new_func":
         await m("```\n機能追加の申請をします。\n各項目は全て1回の送信で書いてください。\n\
 各項目は10分でタイムアウトします。\n備考などがない場合はなしと入力してください。\n\
