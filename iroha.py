@@ -159,7 +159,7 @@ async def login_rankings(client1,uuid):
         mcid = change_uuid_to_mcid(uuid)
         if mcid is None:
             mcid = "ERROR"
-        total_dic[f"{mcid}"] = f"{days}"
+        total_dic[f"{mcid}"] = int(days)
 
     total_ranking = ""
     for i in range(len(total_dic)):
