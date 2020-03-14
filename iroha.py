@@ -38,6 +38,7 @@ async def iroha(message,client1):
                     return
                 await total_login(client1,uuid)
                 await series_login(client1,uuid)
+                await login_rankings(client1,uuid)
 
 
 
@@ -79,6 +80,7 @@ async def iroha(message,client1):
         for i in range(len(poll_list)):
             await msg.add_reaction(reaction_list[i])
 
+
 def change_mcid_to_uuid(mcid):
     url = f"https://api.mojang.com/users/profiles/minecraft/{mcid}"
     try:
@@ -91,6 +93,27 @@ def change_mcid_to_uuid(mcid):
     except requests.exceptions.HTTPError:
         uuid = None
         return uuid
+
+
+def change_uuid_to_mcid(uuid):
+    try:
+        url = f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"
+        res = requests.get(url)
+        res.raise_for_status()
+        soup = str(bs4.BeautifulSoup(res.text, "html.parser"))
+        path = r"mcid.json"
+        f = open(path,mode="w")
+        f.write(soup)
+        f.close()
+        with open(path) as f:
+            jf = json.load(f)
+            mcid = jf["name"]
+            mcid = mcid.replace("_",r"\_")
+            return mcid
+
+    except requests.exceptions.HTTPError:
+        return None
+
 
 async def total_login(client1,uuid):
     total_login_record_channel = client1.get_channel(682732532567113789)
@@ -106,7 +129,6 @@ async def total_login(client1,uuid):
             break
     if not flag:
         await total_login_record_channel.send(f"{uuid} 1")
-
 
 
 async def series_login(client1,login_uuid):
@@ -127,4 +149,23 @@ async def series_login(client1,login_uuid):
         await series_login_record_channel.send(f"{today} {login_uuid} 1")
 
 
+async def login_rankings(client1,uuid):
+    total_login_record_channel = client1.get_channel(682732532567113789)
+    total_dic = {}
+    async for total in total_login_record_channel.history():
+        uuid_days = await total_login_record_channel.fetch_message(total.id)
+        uuid = uuid_days.content.split(" ")[0]
+        days = uuid_days.content.split(" ")[1]
+        mcid = change_uuid_to_mcid(uuid)
+        if mcid is None:
+            mcid = "ERROR"
+        total_dic[f"{mcid}"] = f"{days}"
 
+    total_ranking = ""
+    for i in range(len(total_dic)):
+        total_max = max(total_dic,key=total_dic.get)
+        total_ranking += f"{i}位：{total_max},{total_dic[total_max]}日\n"
+        del total_dic[total_max]
+
+    total_embed = discord.Embed(title="通算ログインランキング(仮)",description=total_ranking)
+    await client1.get_channel(605030288640311306).send(embed=total_embed)
