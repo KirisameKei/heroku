@@ -378,6 +378,11 @@ async def on_message(message):
         if message.guild.id == 668743334109642752:
             await kohga.kohga(message,client1,m)
 
+
+        if message.guild.id == 659375053707673600:
+            if message.content.endswith("がなんか喋ろうとしてる！"):
+                await message.delete()
+
     #except AttributeError:
     #    await message.channel.send("エラー")
 
