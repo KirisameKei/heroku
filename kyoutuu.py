@@ -1,4 +1,4 @@
-import discord,random,re,datetime,json,time,math,os,asyncio,io,bs4,chromedriver_binary,asyncio
+import discord,random,re,datetime,json,time,math,os,asyncio,io,bs4,chromedriver_binary,asyncio,requests
 from PIL import Image,ImageDraw,ImageFont
 from selenium import webdriver
 from datetime import date
