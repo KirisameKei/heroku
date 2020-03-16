@@ -1,6 +1,6 @@
-import discord,random,re,datetime,json,time,math,os,asyncio
-import urllib.request
-from collections import namedtuple
+import discord,random,re,datetime,json,time,math,os,asyncio,io,bs4,chromedriver_binary,asyncio
+from PIL import Image,ImageDraw,ImageFont
+from selenium import webdriver
 from datetime import date
 from discord.ext import tasks
 from discord import Embed#ここまでモジュールのインポート
@@ -193,6 +193,55 @@ async def itibu_kyoutuu_greeting(message):#あいさつ
             await m("こんばんは、**__"+message.author.name+"__**さん！")
         else:
             await m("今こんばんは！？")
+
+    if message.content == "/daily_ranking":
+        driver = webdriver.Chrome()
+        haikei = Image.new(mode="RGB",size=(840,2000),color=0xffffff)
+        moji = ImageDraw.Draw(haikei)
+        font1 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=72)
+        font2 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=36)
+
+        for j in range(3):
+            try:
+                driver.get("https://w4.minecraftserver.jp/#page=1&type=break&duration=daily")
+                html = driver.page_source.encode('utf-8')
+                soup = bs4.BeautifulSoup(html, "html.parser")
+
+                #情報を選別
+                number = []
+                number_img = []
+                for i in range(20):
+                    #全体を取得
+                    n = soup.select_one(f"#ranking-container > div > div > table > tbody > tr:nth-child({i+1}) > td:nth-child(3)")
+                    number.append(n)
+                    #アイコン
+                    n = str(soup.select_one(f"#ranking-container > div > div > table > tbody > tr:nth-child({i+1}) > td:nth-child(2) > div > img"))
+                    icon_url = n[24:-16]
+                    number_img.append(icon_url)
+        
+                for i in range(20):
+                    mcid = number[i].text.split("：")[0].replace("整地量","")
+                    seitiryou = number[i].text.split("：")[1].replace("Last quit","")
+                    r = requests.get(number_img[i])
+                    image = io.BytesIO(r.content)
+                    image.seek(0)
+                    icon = Image.open(image)
+
+                    haikei.paste(icon,(180,100*i+2))
+
+                    moji.text((0,100*i+14),text=f"{i+1}位",font=font1,fill=0x000000)
+                    moji.text((320,100*i+32),text=mcid,font=font2,fill=0x000000)
+                    moji.text((620,100*i+32),text=seitiryou,font=font2,fill=0x000000)
+            except AttributeError:
+                await asyncio.sleep(3)
+            else:
+                print(j)
+                break
+
+        haikei.save(r"c:\users\hayab\desktop\pic.png")
+        p = discord.File(r"c:\users\hayab\desktop\pic.png")
+        await message.channel.send(file=p)
+        driver.close()
 
 
 async def itibu_kyoutuu_thank(message):#お礼
