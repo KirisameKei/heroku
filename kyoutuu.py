@@ -198,8 +198,12 @@ async def itibu_kyoutuu_greeting(message):#あいさつ
         driver = webdriver.Chrome()
         haikei = Image.new(mode="RGB",size=(840,2000),color=0xffffff)
         moji = ImageDraw.Draw(haikei)
-        font1 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=72)
-        font2 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=36)
+        try:
+            font1 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=72)
+            font2 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=36)
+        except OSError:
+            font1 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=72)
+            font2 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=36)
 
         for j in range(3):
             try:
