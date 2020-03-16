@@ -11,3 +11,4 @@ requests==2.22.0
 bs4==0.0.1
 chromedriver-binary==80.0.3987.106.0
 Pillow==6.2.1
+selenium==3.141.0
