@@ -194,16 +194,46 @@ async def itibu_kyoutuu_greeting(message):#あいさつ
         else:
             await m("今こんばんは！？")
 
-    if message.content == "/daily_ranking":
+
+async def itibu_kyoutuu_thank(message):#お礼
+    m = message.channel.send
+    if message.author.bot:
+        return    
+    if "ありがとう" in message.content:
+        await m(":eggplant:")
+
+async def itibu_kyoutuu_mention(message,client1):#メンション対応
+    m = message.channel.send
+    if message.author.bot:
+        return
+    if  client1.user in message.mentions:
+        await m("おいゴラァ")
+        await m("やめろ")
+        await m("てめぇ常識持ってんのか？")
+        await m("誰にメンション飛ばしたと思ってるんだ")
+
+
+async def itibu_kyoutuu_daily_ranking(message):
+    if message.content == "/dailyranking":
         driver = webdriver.Chrome()
-        haikei = Image.new(mode="RGB",size=(840,2000),color=0xffffff)
+        haikei = Image.new(mode="RGB",size=(840,2100),color=0xffffff)
         moji = ImageDraw.Draw(haikei)
         try:
             font1 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=72)
             font2 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=36)
+            font3 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=48)
         except OSError:
             font1 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=72)
             font2 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=36)
+            font3 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=48)
+
+        year = now.year
+        month = now.month
+        day = now.day
+        hour = now.hour
+        minute = now.minute
+    
+        moji.text((0,14),f"{year}年{month}月{day}日{hour}時{minute}分の整地量",font=font3,fill=0x000000)
 
         for j in range(3):
             try:
@@ -231,36 +261,19 @@ async def itibu_kyoutuu_greeting(message):#あいさつ
                     image.seek(0)
                     icon = Image.open(image)
 
-                    haikei.paste(icon,(180,100*i+2))
+                    haikei.paste(icon,(180,100*(i+1)+2))
 
-                    moji.text((0,100*i+14),text=f"{i+1}位",font=font1,fill=0x000000)
-                    moji.text((320,100*i+32),text=mcid,font=font2,fill=0x000000)
-                    moji.text((620,100*i+32),text=seitiryou,font=font2,fill=0x000000)
+                    moji.text((0,100*(i+1)+14),text=f"{i+1}位",font=font1,fill=0x000000)
+                    moji.text((320,100*(i+1)+32),text=mcid,font=font2,fill=0x000000)
+                    moji.text((620,100*(i+1)+32),text=seitiryou,font=font2,fill=0x000000)
             except AttributeError:
                 await asyncio.sleep(3)
             else:
-                print(j)
                 break
 
         haikei.save(r"c:\users\hayab\desktop\pic.png")
         p = discord.File(r"c:\users\hayab\desktop\pic.png")
-        await message.channel.send(file=p)
+        picture = await message.channel.send(file=p)
         driver.close()
-
-
-async def itibu_kyoutuu_thank(message):#お礼
-    m = message.channel.send
-    if message.author.bot:
-        return    
-    if "ありがとう" in message.content:
-        await m(":eggplant:")
-
-async def itibu_kyoutuu_mention(message,client1):#メンション対応
-    m = message.channel.send
-    if message.author.bot:
-        return
-    if  client1.user in message.mentions:
-        await m("おいゴラァ")
-        await m("やめろ")
-        await m("てめぇ常識持ってんのか？")
-        await m("誰にメンション飛ばしたと思ってるんだ")
+        u = picture.attachments[0].url
+        await message.channel.send(u)

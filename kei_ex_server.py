@@ -15,6 +15,7 @@ async def kei_ex_server(message,client1):
     await kyoutuu.itibu_kyoutuu_greeting(message)
     await kyoutuu.itibu_kyoutuu_thank(message)
     await kyoutuu.itibu_kyoutuu_mention(message,client1)
+    await kyoutuu.itibu_kyoutuu_daily_ranking(message)
     await hatugensuu_kiroku(message,client1,m)
     await role_add_remove(message,client1,m)
     await login_bonus(message,client1,m)
