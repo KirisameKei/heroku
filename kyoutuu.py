@@ -11,7 +11,6 @@ from discord import Embed
 import server_log,kyoutuu,kei_ex_server,muhou#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
 import channel_dic,my_guild_role_dic,message_list,ban_list#このbotを動かすのに必要な辞書とリスト
 
-now = datetime.datetime.now()
 client1 = discord.Client()
 
 async def kanzen_kyoutuu_message_link(message,client1,client4):
@@ -227,6 +226,7 @@ async def itibu_kyoutuu_daily_ranking(message):
             font2 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=36)
             font3 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=48)
 
+        now = datetime.datetime.now()
         year = now.year
         month = now.month
         day = now.day
@@ -274,7 +274,7 @@ async def itibu_kyoutuu_daily_ranking(message):
         haikei.save(r"c:\users\hayab\desktop\pic.png")
         p = discord.File(r"c:\users\hayab\desktop\pic.png")
         picture = await message.channel.send(file=p)
-        url = picture.attachments[0].url
+        #url = picture.attachments[0].url
 
         try:
             import tokens
@@ -282,6 +282,11 @@ async def itibu_kyoutuu_daily_ranking(message):
         except ModuleNotFoundError:
             webhook_url = os.getenv("kei_ex_sercer_webhook_url")
         
+        webhook = discord.Webhook.from_url(webhook_url,adapter=discord.RequestsWebhookAdapter())
+        p = discord.File(r"c:\users\hayab\desktop\pic.png")
+        webhook.send(file=p,username="ラッキーさんありがとう",avatar_url="https://avatar.minecraft.jp/kei_3104/minecraft//m.png")
+        
+        """
         main_content = {
             "username":"webhook_test",
             "avatar_url":"https://avatar.minecraft.jp/kei_3104/minecraft//m.png",
@@ -294,7 +299,7 @@ async def itibu_kyoutuu_daily_ranking(message):
             ]
         }
 
-        requests.post(webhook_url,json.dumps(main_content),headers={'Content-Type': 'application/json'})
+        requests.post(webhook_url,json.dumps(main_content),headers={'Content-Type': 'application/json'})"""
         driver.close()
 
 async def daily_ranking(client1):
@@ -308,6 +313,7 @@ async def daily_ranking(client1):
         font1 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=72)
         font2 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=36)
 
+    now = datetime.datetime.now()
     year = now.year
     month = now.month
     day = now.day
