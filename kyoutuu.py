@@ -275,5 +275,5 @@ async def itibu_kyoutuu_daily_ranking(message):
         p = discord.File(r"c:\users\hayab\desktop\pic.png")
         picture = await message.channel.send(file=p)
         driver.close()
-        u = picture.attachments[0].url
-        await message.channel.send(u)
+        #u = picture.attachments[0].url
+        #await message.channel.send(u)
