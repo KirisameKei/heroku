@@ -214,7 +214,7 @@ async def itibu_kyoutuu_mention(message,client1):#メンション対応
 
 
 async def itibu_kyoutuu_daily_ranking(message):
-    if message.content == "/dailyranking":
+    if message.content == "/daily_ranking":
         driver = webdriver.Chrome()
         haikei = Image.new(mode="RGB",size=(840,2100),color=0xffffff)
         moji = ImageDraw.Draw(haikei)
@@ -274,9 +274,28 @@ async def itibu_kyoutuu_daily_ranking(message):
         haikei.save(r"c:\users\hayab\desktop\pic.png")
         p = discord.File(r"c:\users\hayab\desktop\pic.png")
         picture = await message.channel.send(file=p)
+        url = picture.attachments[0].url
+
+        try:
+            import tokens
+            webhook_url = tokens.kei_ex_server_webhook_url
+        except ModuleNotFoundError:
+            webhook_url = os.getenv("kei_ex_sercer_webhook_url")
+        
+        main_content = {
+            "username":"webhook_test",
+            "avatar_url":"https://avatar.minecraft.jp/kei_3104/minecraft//m.png",
+            "embeds":[
+                {
+                    "image":{
+                        "url":url
+                    }
+                }
+            ]
+        }
+
+        requests.post(webhook_url,json.dumps(main_content),headers={'Content-Type': 'application/json'})
         driver.close()
-        #u = picture.attachments[0].url
-        #await message.channel.send(u)
 
 async def daily_ranking(client1):
     driver = webdriver.Chrome()
