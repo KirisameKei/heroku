@@ -117,20 +117,7 @@ async def on_member_join(member):#新規の人が来たら反応
             made_time_msg = f"{member.name}さんは{made_time.year}年{made_time.month}月{made_time.day}日"
             made_time_msg += f"{made_time.hour}時{made_time.minute}分{made_time.second}秒からdiscordを使用しています。"
             await sanka_dattai_channel.send(made_time_msg)
-            now = datetime.datetime.now()
-            difference = now - made_time
-
-            one_hour_before = now - datetime.timedelta(hours=1)
-            one_day_before = now - datetime.timedelta(days=1)
-            one_day_before = now - datetime.timedelta(days=365)
-            if difference >= one_hour_before:
-                print("1時間以内に作られたアカウント")
-            elif difference >= one_day_before:
-                print("1日以内に作られたアカウント")
-            elif difference >= one_year_before:
-                print("1年以内に作られたアカウント")
             
-
     elif member.guild.id == 587909823665012757:#無法地帯なら
         if member.id in ban_list.ban_list:
             await member.guild.kick()
