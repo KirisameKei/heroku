@@ -277,3 +277,62 @@ async def itibu_kyoutuu_daily_ranking(message):
         driver.close()
         #u = picture.attachments[0].url
         #await message.channel.send(u)
+
+async def daily_ranking(client1):
+    driver = webdriver.Chrome()
+    haikei = Image.new(mode="RGB",size=(840,2100),color=0xffffff)
+    moji = ImageDraw.Draw(haikei)
+    try:
+        font1 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=72)
+        font2 = ImageFont.truetype(r"c:\Windows\Fonts\UDDigiKyokashoN-R.ttc",size=36)
+    except OSError:
+        font1 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=72)
+        font2 = ImageFont.truetype("./UDDigiKyokashoN-R.ttc",size=36)
+
+    year = now.year
+    month = now.month
+    day = now.day
+    
+    moji.text((0,14),f"{year}年{month}月{day}日の整地量",font=font1,fill=0x000000)
+
+    for j in range(3):
+        try:
+            driver.get("https://w4.minecraftserver.jp/#page=1&type=break&duration=daily")
+            html = driver.page_source.encode('utf-8')
+            soup = bs4.BeautifulSoup(html, "html.parser")
+
+            #情報を選別
+            number = []
+            number_img = []
+            for i in range(20):
+                #全体を取得
+                n = soup.select_one(f"#ranking-container > div > div > table > tbody > tr:nth-child({i+1}) > td:nth-child(3)")
+                number.append(n)
+                #アイコン
+                n = str(soup.select_one(f"#ranking-container > div > div > table > tbody > tr:nth-child({i+1}) > td:nth-child(2) > div > img"))
+                icon_url = n[24:-16]
+                number_img.append(icon_url)
+        
+            for i in range(20):
+                mcid = number[i].text.split("：")[0].replace("整地量","")
+                seitiryou = number[i].text.split("：")[1].replace("Last quit","")
+                r = requests.get(number_img[i])
+                image = io.BytesIO(r.content)
+                image.seek(0)
+                icon = Image.open(image)
+
+                haikei.paste(icon,(180,100*(i+1)+2))
+
+                moji.text((0,100*(i+1)+14),text=f"{i+1}位",font=font1,fill=0x000000)
+                moji.text((320,100*(i+1)+32),text=mcid,font=font2,fill=0x000000)
+                moji.text((620,100*(i+1)+32),text=seitiryou,font=font2,fill=0x000000)
+        except AttributeError:
+            await asyncio.sleep(3)
+        else:
+            break
+
+    haikei.save(r"c:\users\hayab\desktop\pic.png")
+    p = discord.File(r"c:\users\hayab\desktop\pic.png")
+    channel = client1.get_channel(689277331915014146)
+    picture = await channel.send(file=p)
+    driver.close()
