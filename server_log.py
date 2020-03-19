@@ -1,4 +1,4 @@
-import discord,random,re,datetime,json,time,math,os,asyncio
+import discord,random,re,datetime,json,time,math,os,asyncio,requests,bs4,ast,sys,traceback
 import urllib.request
 from collections import namedtuple
 from datetime import date
@@ -22,8 +22,13 @@ async def kei_ex_server_log(message,client1):
         write_channel = client1.get_channel(write_channel)
         await write_channel.send(embed=embed)
     except KeyError:
-        sagyousiji_channel = client1.get_channel(636359382359080961)#やることリスト
-        await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+message.channel.mention+"の辞書登録あく！")
+        channel_dic_channel = client1.get_channel(663037675141595147)
+        channel_dic_in_embed = await channel_dic_channel.fetch_message(682935760512352274)
+        channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
+        channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
+        write_channel = channel_dic_in_channel[message.channel.id]
+        write_channel = client1.get_channel(write_channel)
+        await write_channel.send(embed=embed)
 
 async def syobatubu_server_log(message,client1):
     now = datetime.datetime.now().strftime("%H:%M")
@@ -37,8 +42,13 @@ async def syobatubu_server_log(message,client1):
         write_channel = client1.get_channel(write_channel)
         await write_channel.send(embed=embed)
     except KeyError:
-        sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
-        await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+message.channel.mention+"の辞書登録あく！")
+        channel_dic_channel = client1.get_channel(663037675141595147)
+        channel_dic_in_embed = await channel_dic_channel.fetch_message(682944795794079767)
+        channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
+        channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
+        write_channel = channel_dic_in_channel[message.channel.id]
+        write_channel = client1.get_channel(write_channel)
+        await write_channel.send(embed=embed)
 
 async def iroha_server_log(message,client1):
     now = datetime.datetime.now().strftime("%H:%M")
@@ -52,5 +62,10 @@ async def iroha_server_log(message,client1):
         write_channel = client1.get_channel(write_channel)
         await write_channel.send(embed=embed)
     except KeyError:
-        sagyousiji_channel = client1.get_channel(636359382359080961)#作業指示書
-        await sagyousiji_channel.send("<@!523303776120209408>\nおいゴルァ！"+message.channel.mention+"の辞書登録あく！")
+        channel_dic_channel = client1.get_channel(663037675141595147)
+        channel_dic_in_embed = await channel_dic_channel.fetch_message(682944796834398336)
+        channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
+        channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
+        write_channel = channel_dic_in_channel[message.channel.id]
+        write_channel = client1.get_channel(write_channel)
+        await write_channel.send(embed=embed)
