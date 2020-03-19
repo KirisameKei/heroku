@@ -494,7 +494,7 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
         send_msg_list.append(msg)
         for i in range(len(msg_list)):
             try:
-                reply = await client4.wait_for("message",check=check_list[i],timeout=10)
+                reply = await client4.wait_for("message",check=check_list[i],timeout=600)
                 reply_list.append(reply)
             except asyncio.TimeoutError:
                 await m("タイムアウトしました。最初からやり直してください。")
@@ -529,7 +529,7 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
                 await reply_list[j].delete()
             kakunin = await m(embed=embed)
             try:
-                reply = await client4.wait_for("message",check=check6,timeout=5)
+                reply = await client4.wait_for("message",check=check6,timeout=600)
             except asyncio.TimeoutError:
                 await m("タイムアウトしました。最初からやり直してください。")
                 await kakunin.delete()
@@ -619,7 +619,7 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
             kinou_user = int(kirokunaiyou_list[1][11:])
             kyou_user = int(kirokunaiyou_list[0][11:])
 
-            ninzuu_zougen = kinou_user - kyou_user
+            ninzuu_zougen = kyou_user - kinou_user
             if ninzuu_zougen > 0:
                 send = "+"+str(ninzuu_zougen)
             else:
