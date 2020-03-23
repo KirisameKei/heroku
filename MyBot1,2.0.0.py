@@ -712,7 +712,7 @@ async def loop():
 
     if now == "09:10":
         channel = client1.get_channel(597130965927723048)
-        await channel.send("<@&673349311228280862>\nhttps://minecraft.jp/servers/54d3529e4ddda180780041a7\https://minecraftservers.org/server/575658n")
+        await channel.send("<@&673349311228280862>\nhttps://minecraft.jp/servers/54d3529e4ddda180780041a7/vote\nhttps://minecraftservers.org/server/575658n")
 
     if now == "23:58":
         await kyoutuu.daily_ranking(client1)
