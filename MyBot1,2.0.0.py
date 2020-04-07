@@ -129,6 +129,11 @@ async def on_member_join(member):#新規の人が来たら反応
 
     else:
         await sanka_dattai_channel.send(member.name+"さんが"+member.guild.name+"に参加しました。")
+        
+    if member.guild.id == 604945424922574848:#いろは鯖なら
+        if member.id in ban_list.ban_list:
+            await member.guild.kick(member)
+            await sanka_dattai_channel.send(f"{member.mention}がいろは鯖に入ろうとしましたが失敗しました")
 
 
 @client1.event
