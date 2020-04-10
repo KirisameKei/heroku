@@ -251,12 +251,14 @@ async def on_guild_channel_update(before,after):
             new_name_channel = client1.get_channel(new_name_channel)
             await new_name_channel.edit(name=after.name,position=after.position)
         except KeyError:
+            pass
+            """
             channel_dic_in_embed = await channel_dic_channel.fetch_message(682944796834398336)
             channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
             channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
             new_name_channel_id = channel_dic_in_channel[before.id]#ログ鯖の対応するチャンネルID
             new_name_channel = client1.get_channel(new_name_channel_id)#ログ鯖の対応するチャンネルID
-        await new_name_channel.edit(name=after.name,position=after.position)
+        await new_name_channel.edit(name=after.name,position=after.position)"""
 
     if parameter:
         if before.name != after.name:
@@ -892,6 +894,21 @@ async def loop():
                 await today_uuid_days.delete()
             else:
                 pass
+
+    if now_time.month == 4 and now_time.day == 13 and now_time.hour == 23 and now_time.minute == 59:
+        guild = client1.get_guild(604945424922574848)
+        oubo_role = discord.utils.get(guild.roles,id=697546205101686896)#企画参加者
+        oubosya_list = oubo_role.members
+        ch = client1.get_channel(654278574085242880)
+        try:
+            tousensya_list = random.sample(oubosya_list,k=5)
+        except IndexError:
+            await ch.send("参加者が5人に満たなかったためエラー\nどうすんだよコレ")
+        else:
+            description = f"1等：{tousensya_list[0].mention}：5st\n2等：{tousensya_list[1].mention}：3st\n3等：{tousensya_list[2].mention},{tousensya_list[3].mention},{tousensya_list[4].mention}：1st"
+            embed = discord.Embed(title="当選者",description=description,color=0xffff00)
+            await ch.send(embed=embed)
+
 
 loop.start()
 
