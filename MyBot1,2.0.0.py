@@ -120,11 +120,11 @@ async def on_member_join(member):#新規の人が来たら反応
             
     elif member.guild.id == 587909823665012757:#無法地帯なら
         if member.id in ban_list.ban_list:
-            await member.guild.kick()
+            await member.guild.kick(member)
             await sanka_dattai_channel.send(f"{member.name}が無法地帯に入ろうとして失敗しました")
         else:
             if member.id == 672910471279673358 or member.id == 684949442280947718:
-                await member.guild.kick()
+                await member.guild.kick(member)
                 await sanka_dattai_channel.send(f"{member.name}が無法地帯に入ろうとして失敗しました")
                 return
             await sanka_dattai_channel.send(member.name+"が無法地帯に参加しました。")
