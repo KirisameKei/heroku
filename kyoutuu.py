@@ -177,6 +177,7 @@ async def itibu_kyoutuu_greeting(message):#あいさつ
     m = message.channel.send
     if message.author.bot:
         return
+    now = datetime.datetime.now()
     if "おはよう" in message.content:
         if now.hour >= 5 and now.hour <= 10:
             await m("おはようございます、**__"+message.author.name+"__**さん！")
