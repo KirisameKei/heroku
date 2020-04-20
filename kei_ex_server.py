@@ -22,6 +22,7 @@ async def kei_ex_server(message,client1):
     await login_bonus(message,client1,m)
     await my_server_commands(message,client1,m)
     await mcid_check(message,client1,m)
+    await kikaku(message, client1, m)
             
     if message.content == "/dict":
         point_log_channel = client1.get_channel(663037579406606337)
@@ -755,16 +756,15 @@ async def change_mcid(message,client1,m,new_mcid,userid_mcid):
         await m(f'requests.exceptions.HTTPError')
 
 
-"""
 async def kikaku(message,client1,m):
-    five_sauzando_role = discord.utils.get(message.guild.roles,id=668021019700756490)
+    billion_role = discord.utils.get(message.guild.roles, id=668021019700756490)
     if message.channel.id == 665487669953953804:
         if message.author == client1.user:
             return
         if message.content == "/cancel":
             if discord.utils.get(message.author.roles,id=668021019700756490):
                 await m(f"{message.author.name}さんの参加をキャンセルしました。")
-                await message.author.remove_roles(five_sauzando_role)
+                await message.author.remove_roles(billion_role)
             else:
                 await m("もう付いてないよ^^")
             return
@@ -783,16 +783,17 @@ async def kikaku(message,client1,m):
             return
         mcid_log_channel = client1.get_channel(638912957421453322)
         flag = False
-        async for msg in mcid_log_channel.history():
+        async for msg in mcid_log_channel.history(limit=None):
             userid_mcid = await mcid_log_channel.fetch_message(msg.id)
-            if int(userid_mcid.content[0:18]) == message.author.id and userid_mcid.content[19:] == message.content:
+            if int(userid_mcid.content[0:18]) == message.author.id and userid_mcid.content[19:].lower() == message.content.lower():
                 await m(f"{message.author.name}さんが抽選に参加しました。")
-                await message.author.add_roles(five_sauzando_role)
+                await message.author.add_roles(billion_role)
                 flag = True
                 break
         if not flag:
             await m(f"{message.author.mention}そのMCIDは登録されていないか、あなたのMCIDではありません。")
 
+    """
     movie_watched_role = discord.utils.get(message.guild.roles,id=668021150952980491)
     sikatanakutukutta_role = discord.utils.get(message.guild.roles,id=671239038321164319)
     if message.channel.id == 665487568854319124:
