@@ -872,6 +872,7 @@ async def kikaku_select(message, client1):
 
         text = ""
         for j in range(10):
-            text += f"{tousensya_list[j].mention} : {haihusuu_list[j]}\n"
+            st, ko = divmod(haihusuu_list[j], 64)
+            text += f"{tousensya_list[j].mention} : {st}st + {ko}個\n"
         embed = discord.Embed(title="**疑似**当選結果", description=f"{text}\n**※疑似抽選であり本番ではありません**", color=0xffff00)
         await message.channel.send(embed=embed)
