@@ -80,44 +80,6 @@ async def iroha(message,client1):
         for i in range(len(poll_list)):
             await msg.add_reaction(reaction_list[i])
 
-    if message.channel.id == 605028530526617621:
-        if message.author == client1.user:
-            return
-        oubo_role = discord.utils.get(message.guild.roles,id=697546205101686896)#企画参加者
-        if message.content == "/cancel":
-            if oubo_role in message.author.roles:
-                await message.author.remove_roles(oubo_role)
-                await message.channel.send(f"{message.author.name}さんが応募をキャンセルしました。")
-            else:
-                await message.channel.send(f"{message.author.name}さんはまだ参加していません。")
-        else:
-            if oubo_role in message.author.roles:
-                await message.channel.send(f"{message.author.name}さんは既に参加しています。")
-                return
-            p = re.compile(r"^[a-zA-Z0-9\\_ ]+$")
-            if not p.fullmatch(message.content):
-                await message.channel.send(f"MCIDとして成り立ちません(ありえない文字が含まれている)")
-                return
-            message_content = message.content.replace("\\","")
-            if not (len(message_content) >= 3 and len(message_content) <= 16):
-                await message.channel.send("MCIDとして成り立ちません。(長すぎるor短すぎる)")
-                return
-
-            url = f"https://w4.minecraftserver.jp/player/{message_content.lower()}"
-            try:
-                res = requests.get(url)
-                res.raise_for_status()
-                soup = bs4.BeautifulSoup(res.text, "html.parser")
-                td = soup.td
-                if f"{message_content.lower()}" in f"{td}":
-                    await message.author.add_roles(oubo_role)
-                    await message.channel.send(f"{message.author.name}さんが参加しました。")
-                else:
-                    await message.channel.send(f"{message.author.name}さんは整地鯖にログインしたことがありません。よって抽選への参加権がありません。\nもしこればバグならけいまでお知らせください。")
-            except requests.exceptions.HTTPError:
-                await message.channel.send("現在この機能はご利用いただけません。しばらくたってからもう一度お試しください。")
-            
-
 
 def change_mcid_to_uuid(mcid):
     url = f"https://api.mojang.com/users/profiles/minecraft/{mcid}"
