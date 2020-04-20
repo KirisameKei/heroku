@@ -900,20 +900,6 @@ async def loop():
             else:
                 pass
 
-    if now_time.month == 4 and now_time.day == 13 and now_time.hour == 23 and now_time.minute == 59:
-        guild = client1.get_guild(604945424922574848)
-        oubo_role = discord.utils.get(guild.roles,id=697546205101686896)#企画参加者
-        oubosya_list = oubo_role.members
-        ch = client1.get_channel(654278574085242880)
-        try:
-            tousensya_list = random.sample(oubosya_list,k=5)
-        except IndexError:
-            await ch.send("参加者が5人に満たなかったためエラー\nどうすんだよコレ")
-        else:
-            description = f"1等：{tousensya_list[0].mention}：5st\n2等：{tousensya_list[1].mention}：3st\n3等：{tousensya_list[2].mention},{tousensya_list[3].mention},{tousensya_list[4].mention}：1st"
-            embed = discord.Embed(title="当選者",description=description,color=0xffff00)
-            await ch.send(embed=embed)
-
 
 loop.start()
 
