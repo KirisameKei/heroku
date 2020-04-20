@@ -23,6 +23,7 @@ async def kei_ex_server(message,client1):
     await my_server_commands(message,client1,m)
     await mcid_check(message,client1,m)
     await kikaku(message, client1, m)
+    await kikaku_select(message, client1)
             
     if message.content == "/dict":
         point_log_channel = client1.get_channel(663037579406606337)
@@ -846,3 +847,31 @@ async def kikaku(message,client1,m):
             for i in range(len(kikaku_sanka_user)):
                 tousen_user_raretu += kikaku_sanka_user[i].name + "\n"
         await m(tousen_user_raretu+"\nさんが当たりです(これは疑似抽選です)")"""
+
+
+async def kikaku_select(message, client1):
+    if message.content == "/select":
+        kei_ex_guild = client1.get_guild(585998962050203672)
+        oubo_role = discord.utils.get(kei_ex_guild.roles, id=668021019700756490)
+        sankasya_list = oubo_role.members
+        tousensya_list = random.sample(sankasya_list, k=10)
+        
+        kazu_list = []
+        for i in range(9):
+            kazu = random.randint(0,640)
+            kazu_list.append(kazu)
+
+        kazu_list.append(0)
+        kazu_list.sort(reverse=True)
+        n = 640
+        haihusuu_list = []
+        for i in range(10):
+            haihusuu = n - kazu_list[i]
+            haihusuu_list.append(haihusuu)
+            n = kazu_list[i]
+
+        text = ""
+        for j in range(10):
+            text += f"{tousensya_list[j].mention} : {haihusuu_list[j]}\n"
+        embed = discord.Embed(title="**疑似**当選結果", description=f"{text}\n**※疑似抽選であり本番ではありません**", color=0xffff00)
+        await message.channel.send(embed=embed)
