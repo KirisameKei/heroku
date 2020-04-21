@@ -902,6 +902,9 @@ async def loop():
 
     if now_time.month == 5 and now_time.day == 6 and now_time.hour == 22 and now_time.minute == 0:
         await kei_ex_server.kikaku_choice(client1)
+        
+    if now_time.minute == 0:
+        await kyoutuu.daily_ranking(client1)
 
 
 loop.start()
