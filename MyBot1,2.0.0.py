@@ -912,7 +912,6 @@ async def loop():
         i = 0
         flag = False
         while True:
-            finieh_mcid_list = []
             url = f"https://w4.minecraftserver.jp/api/ranking?type=break&offset={i*20}&lim=20&duration=daily"
             try:
                 res = requests.get(url)
@@ -926,6 +925,8 @@ async def loop():
                     if int(raw_data) < 10000000:
                         flag = True
                         break
+                    else:
+                        i += 1
                 if flag:
                     await notice_ch.send("───────キリトリ───────")
                     break
