@@ -907,33 +907,8 @@ async def loop():
     if now_time.minute == 3:
         await kyoutuu.daily_ranking(client1)
  
-        notice_ch = client1.get_channel(597978849476870153)
-        await notice_ch.send(f"───────{datetime.datetime.now()}───────")
-        i = 0
-        flag = False
-        while True:
-            url = f"https://w4.minecraftserver.jp/api/ranking?type=break&offset={i*20}&lim=20&duration=daily"
-            try:
-                res = requests.get(url)
-                res.raise_for_status()
-                player_data_dict = ast.literal_eval(str(bs4.BeautifulSoup(res.text, "html.parser")))
-                player_data_list = player_data_dict["ranks"]
-                for player_data in player_data_list:
-                    mcid = player_data["player"]["name"]
-                    raw_data = player_data["data"]["raw_data"]
-                    await notice_ch.send(f"{mcid} : {raw_data}")
-                    if int(raw_data) < 10000000:
-                        flag = True
-                        break
-                    else:
-                        i += 1
-                if flag:
-                    await notice_ch.send("───────キリトリ───────")
-                    break
-
-            except requests.exceptions.HTTPError:
-                await notice_ch.send("この機能は現在ご利用いただけません")
-                break
+        
+        
         #───────────ここまで──────────
 
 
