@@ -903,8 +903,38 @@ async def loop():
     if now_time.month == 5 and now_time.day == 6 and now_time.hour == 22 and now_time.minute == 0:
         await kei_ex_server.kikaku_choice(client1)
         
+    #──────────ここから──────────
     if now_time.minute == 3:
         await kyoutuu.daily_ranking(client1)
+        
+    now = datetime.datetime.now()
+    if now.minute == 3:
+        await notice_ch.send(f"───────{datetime.datetime.now()}───────")
+        i = 0
+        flag = False
+        while True:
+            finieh_mcid_list = []
+            url = f"https://w4.minecraftserver.jp/api/ranking?type=break&offset={i*20}&lim=20&duration=daily"
+            try:
+                res = requests.get(url)
+                res.raise_for_status()
+                player_data_dict = ast.literal_eval(str(bs4.BeautifulSoup(res.text, "html.parser")))
+                player_data_list = player_data_dict["ranks"]
+                for player_data in player_data_list:
+                    mcid = player_data["player"]["name"]
+                    raw_data = player_data["data"]["raw_data"]
+                    await notice_ch.send(f"{mcid} : {raw_data}")
+                    if int(raw_data) < 10000000:
+                        flag = True
+                        break
+                if flag:
+                    await notice_ch.send("───────キリトリ───────")
+                    break
+
+            except requests.exceptions.HTTPError:
+                await notice_ch.send("この機能は現在ご利用いただけません")
+                break
+        #───────────ここまで──────────
 
 
 loop.start()
