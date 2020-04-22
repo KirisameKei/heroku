@@ -909,6 +909,7 @@ async def loop():
         
     now = datetime.datetime.now()
     if now.minute == 3:
+        notice_ch = client.get_channel(597978849476870153)
         await notice_ch.send(f"───────{datetime.datetime.now()}───────")
         i = 0
         flag = False
