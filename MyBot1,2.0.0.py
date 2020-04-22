@@ -907,7 +907,7 @@ async def loop():
     if now_time.minute == 3:
         await kyoutuu.daily_ranking(client1)
  
-        notice_ch = client.get_channel(597978849476870153)
+        notice_ch = client1.get_channel(597978849476870153)
         await notice_ch.send(f"───────{datetime.datetime.now()}───────")
         i = 0
         flag = False
