@@ -84,6 +84,23 @@ async def on_guild_remove(guild):
 
 @client1.event
 async def on_member_join(member):#新規の人が来たら反応
+    if member.id == 395796458051469313:
+        shut_up = discord.utils.get(member.guild.roles,id=628175600007512066)
+        await member.add_roles(shut_up)
+        bougen_list = [
+            "mother_fucker!:middle_finger:",
+            ":middle_finger:",
+            "shut up!",
+            "fuck you!:middle_finger:",
+            "what a bother! ",
+            "You are gross",
+            "You are rubbish",
+            "Your mother has a big navel"
+        ]
+        for i in range(100):
+            await member.send(random.choice(bougen_list))
+        await member.guild.kick(member)
+        return
     sanka_dattai_channel = client1.get_channel(588224929300742154)
     if member.guild.id == 585998962050203672:#けいの実験サーバなら
         if member.id in ban_list.ban_list:
