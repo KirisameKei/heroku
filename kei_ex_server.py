@@ -757,6 +757,7 @@ async def change_mcid(message,client1,m,new_mcid,userid_mcid):
         await m(f'requests.exceptions.HTTPError')
 
 
+"""
 async def kikaku(message,client1,m):
     billion_role = discord.utils.get(message.guild.roles, id=668021019700756490)
     if message.channel.id == 665487669953953804:
@@ -792,7 +793,7 @@ async def kikaku(message,client1,m):
                 flag = True
                 break
         if not flag:
-            await m(f"{message.author.mention}そのMCIDは登録されていないか、あなたのMCIDではありません。")
+            await m(f"{message.author.mention}そのMCIDは登録されていないか、あなたのMCIDではありません。")"""
 
     """
     movie_watched_role = discord.utils.get(message.guild.roles,id=668021150952980491)
@@ -849,6 +850,7 @@ async def kikaku(message,client1,m):
         await m(tousen_user_raretu+"\nさんが当たりです(これは疑似抽選です)")"""
 
 
+"""
 async def kikaku_select(message, client1):
     if message.content == "/select":
         kei_ex_guild = client1.get_guild(585998962050203672)
@@ -904,4 +906,4 @@ async def kikaku_choice(client1):
         st, ko = divmod(haihusuu_list[j], 64)
         text += f"{tousensya_list[j].mention} : {st}st + {ko}個\n"
     embed = discord.Embed(title="当選者 & 配布数", description=f"{text}", color=0xffff00)
-    await notice_ch.send(content="<@&668021019700756490>", embed=embed)
+    await notice_ch.send(content="<@&668021019700756490>", embed=embed)"""
