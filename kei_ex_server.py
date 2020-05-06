@@ -793,9 +793,9 @@ async def kikaku(message,client1,m):
                 flag = True
                 break
         if not flag:
-            await m(f"{message.author.mention}そのMCIDは登録されていないか、あなたのMCIDではありません。")"""
+            await m(f"{message.author.mention}そのMCIDは登録されていないか、あなたのMCIDではありません。")
 
-    """
+
     movie_watched_role = discord.utils.get(message.guild.roles,id=668021150952980491)
     sikatanakutukutta_role = discord.utils.get(message.guild.roles,id=671239038321164319)
     if message.channel.id == 665487568854319124:
