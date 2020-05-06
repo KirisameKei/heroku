@@ -22,8 +22,6 @@ async def kei_ex_server(message,client1):
     await login_bonus(message,client1,m)
     await my_server_commands(message,client1,m)
     await mcid_check(message,client1,m)
-    await kikaku(message, client1, m)
-    await kikaku_select(message, client1)
             
     if message.content == "/dict":
         point_log_channel = client1.get_channel(663037579406606337)
