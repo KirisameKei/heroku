@@ -31,12 +31,18 @@ except ModuleNotFoundError: #けいローカル or heroku
         with open(path, mode="r") as f:
             program_data_list = f.readlines()
             discord_bot_token_1 = program_data_list[0]
+            discord_bot_token_2 = program_data_list[1]
+            discord_bot_token_4 = program_data_list[3]
             where_from = program_data_list[4]
     except FileNotFoundError: #heroku
         discord_bot_token_1 = os.getenv("discord_bot_token_1")
+        discord_bot_token_2 = os.getenv("discord_bot_token_2")
+        discord_bot_token_4 = os.getenv("zero_bot_token")
         where_from = os.getenv("where_from")
 else: #ConoHa
     discord_bot_token_1 = tokens_ConoHa.discord_bot_token_1
+    discord_bot_token_2 = tokens_ConoHa.discord_bot_token_2
+    discord_bot_token_4 = tokens_ConoHa.discord_bot_token_4
     where_from = tokens_ConoHa.where_from
 
 
@@ -348,6 +354,33 @@ async def on_guild_channel_delete(channel):
 @client1.event
 async def on_message(message):
     try:
+        if message.content == "/bot_stop":
+            kei_ex_guild = client1.get_guild(585998962050203672)
+            bot_stop_right_role = discord.utils.get(kei_ex_guild.roles, id=707570554462273537)
+            if not bot_stop_right_role in message.author.roles:
+                await message.channel.send("何様のつもり？")
+                return
+            await client1.close()
+            now = datetime.datetime.now().strftime(r"%Y年%m月%d日　%H:%M")
+            stop_msg = f"{message.author.mention}により{client1.user.name}が停止させられました"
+            main_content = {
+                "username": "BOT STOP",
+                "avatar_url": "https://cdn.discordapp.com/attachments/644880761081561111/703088291066675261/warning.png",
+                "content": "<@523303776120209408>",
+                "embeds": [
+                    {
+                        "title": "botが停止させられました",
+                        "description": stop_msg,
+                        "color": 0xff0000,
+                        "footer": {
+                            "text": now
+                        }
+                    }
+                ]
+            }
+            webhook_url = "https://discordapp.com/api/webhooks/704300492280561745/7bxBfj0T4RTx85l6rzACcuoNt0fqZayyA5cYQh4WTQQ53Q-HyTWNnZ2X_9pRS4RY3yc0"
+            requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'}) #エラーメッセをウェブフックに投稿
+
         m = message.channel.send
         
         await kyoutuu.kanzen_kyoutuu_message_link(message,client1,client4)#リンク展開
@@ -1008,23 +1041,11 @@ change_status.start()
 
 
 #以下ログインと接続に必要、触るな
-
-try:
-    TOKEN1 = tokens.discord_bot_1
-    TOKEN2 = tokens.discord_bot_2
-    TOKEN4 = tokens.zero_bot
-
-except NameError:
-    TOKEN1 = os.getenv("discord_bot_token_1")
-    TOKEN2 = os.getenv("discord_bot_token_2")
-    TOKEN4 = os.getenv("zero_bot_token")
-
-
 Entry = namedtuple("Entry", "client event token")
 entries = [
-    Entry(client=client1,event=asyncio.Event(),token=TOKEN1),
-    Entry(client=client2,event=asyncio.Event(),token=TOKEN2),
-    Entry(client=client4,event=asyncio.Event(),token=TOKEN4)
+    Entry(client=client1,event=asyncio.Event(),token=discord_bot_token_1),
+    Entry(client=client2,event=asyncio.Event(),token=discord_bot_token_2),
+    Entry(client=client4,event=asyncio.Event(),token=discord_bot_token_4)
 ]  
 
 async def login():
