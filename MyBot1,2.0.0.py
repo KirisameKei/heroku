@@ -921,10 +921,42 @@ async def loop():
             else:
                 pass
 
-    if now_time.month == 5 and now_time.day == 6 and now_time.hour == 22 and now_time.minute == 0:
-        await kei_ex_server.kikaku_choice(client1)
-
 loop.start()
+
+
+@tasks.loop(seconds=30)
+async def change_status():
+    await client1.wait_until_ready()
+    presense_list = [
+        "members",
+        "channels",
+        "guilds",
+        "https://discord.gg/nrvMKBT",
+        "某MEE6より優秀"
+    ]
+    presense = random.choice(presense_list)
+    if presense == "members":
+        l = []
+        for guild in client1.guilds:
+            for mem in guild.members:
+                if not mem.id in l:
+                    l.append(mem.id)
+        presense = f"{len(l)}人を監視中"
+
+    if presense == "channels":
+        i = 0
+        for guild in client1.guilds:
+            for ch in guild.channels:
+                i += 1
+        presense = f"{i}チャンネルを監視中"
+
+    if presense == "guilds":
+        presense = f"{len(client1.guilds)}サーバを監視中"
+
+    game = discord.Game(presense)
+    await client1.change_presence(status=discord.Status.online, activity=game)
+    
+change_status.start()
 
 
 #以下ログインと接続に必要、触るな
