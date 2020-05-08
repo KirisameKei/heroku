@@ -14,7 +14,7 @@ try:
 except ModuleNotFoundError:
     pass
 
-import server_log,kyoutuu,kei_ex_server,muhou,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
+import kyoutuu,kei_ex_server,muhou,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
 import channel_dic,my_guild_role_dic,message_list,ban_list#このbotを動かすのに必要な辞書とリスト
 
 import kohga#依頼
@@ -434,11 +434,9 @@ async def on_message(message):
                         if not flag:
                             await nikkan_hatugensuu_logchannel.send(str(today)+" 1")
 
-                    await server_log.kei_ex_server_log(message,client1)#ログ
                     await kei_ex_server.kei_ex_server(message,client1)#本体
 
                 if message.guild.id == 624551872933527553:#処罰部
-                    await server_log.syobatubu_server_log(message,client1)#ログ
 
                     if message.content.startswith("/last_login "):
                         mcid = message.content.replace("/last_login ","")
@@ -470,7 +468,6 @@ async def on_message(message):
                     await muhou.muhou(message)
 
                 if message.guild.id == 604945424922574848:#いろは鯖
-                    await server_log.iroha_server_log(message,client1)
                     await iroha.iroha(message,client1)
 
                 if message.guild.id == 668743334109642752:
