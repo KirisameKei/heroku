@@ -290,68 +290,6 @@ async def on_guild_channel_create(channel):
 
 
 @client1.event
-async def on_guild_channel_update(before,after):
-    channel_dic_channel = client1.get_channel(663037675141595147)
-    parameter = True
-    if before.guild.id == 585998962050203672:#けいの実験サーバ
-        try:
-            new_name_channel_id = channel_dic.my_guild_log_dic[before.id]#ログ鯖の対応するチャンネルID
-            new_name_channel = client1.get_channel(new_name_channel_id)#ログ鯖の対応するチャンネル
-        except KeyError:
-            channel_dic_in_embed = await channel_dic_channel.fetch_message(682935760512352274)
-            channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
-            channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
-            new_name_channel_id = channel_dic_in_channel[before.id]#ログ鯖の対応するチャンネルID
-            new_name_channel = client1.get_channel(new_name_channel_id)#ログ鯖の対応するチャンネルID
-        await new_name_channel.edit(name=after.name,position=after.position)
-
-    elif before.guild.id == 624551872933527553:#処罰部
-        parameter = False
-        try:
-            new_name_channel = channel_dic.syobatubu_log_dic[before.id]
-            new_name_channel = client1.get_channel(new_name_channel)
-        except KeyError:
-            channel_dic_in_embed = await channel_dic_channel.fetch_message(682944795794079767)
-            channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
-            channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
-            new_name_channel_id = channel_dic_in_channel[before.id]#ログ鯖の対応するチャンネルID
-            new_name_channel = client1.get_channel(new_name_channel_id)#ログ鯖の対応するチャンネルID
-        await new_name_channel.edit(name=after.name,position=after.position)
-
-    elif before.guild.id == 604945424922574848:#いろは鯖
-        try:
-            new_name_channel = channel_dic.iroha_server_log_dic[before.id]
-            new_name_channel = client1.get_channel(new_name_channel)
-            await new_name_channel.edit(name=after.name,position=after.position)
-        except KeyError:
-            pass
-            """
-            channel_dic_in_embed = await channel_dic_channel.fetch_message(682944796834398336)
-            channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
-            channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
-            new_name_channel_id = channel_dic_in_channel[before.id]#ログ鯖の対応するチャンネルID
-            new_name_channel = client1.get_channel(new_name_channel_id)#ログ鯖の対応するチャンネルID
-        await new_name_channel.edit(name=after.name,position=after.position)"""
-
-    if parameter:
-        if before.name != after.name:
-            channel_notice = client1.get_channel(682732694768975884)
-            await channel_notice.send(f"{before.guild.name}の{before.name}が{after.name}に変わりました。")
-
-
-
-@client1.event
-async def on_guild_channel_delete(channel):
-    msg = f"{channel.guild.name}で{channel.name}が削除されました"
-    if channel.guild.id == 624551872933527553:#処罰部
-        sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
-        await sagyousiji_channel.send(msg)
-    else:
-        channel_notice = client1.get_channel(682732694768975884)
-        await channel_notice.send(msg)
-
-
-@client1.event
 async def on_message(message):
     try:
         if message.content == "/bot_stop":
