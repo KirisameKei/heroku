@@ -321,8 +321,6 @@ async def on_message(message):
 
         try:
             m = message.channel.send
-            
-            await kyoutuu.kanzen_kyoutuu_message_link(message,client1,client4)#リンク展開
 
             if message.author.name == "MEE6":
                 await message.add_reaction("\U0001F595")    
