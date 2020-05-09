@@ -400,9 +400,6 @@ async def on_message(message):
                         except requests.exceptions.HTTPError:
                             await m(f'requests.exceptions.HTTPError')
 
-                if message.guild.id == 587909823665012757:#無法地帯
-                    await muhou.muhou(message)
-
                 if message.guild.id == 604945424922574848:#いろは鯖
                     await iroha.iroha(message,client1)
 
