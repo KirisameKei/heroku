@@ -7,7 +7,7 @@ from discord import Embed#ここまでモジュールのインポート
 
 from quote import expand#メッセージリンク展開用
 
-import kyoutuu,kei_ex_server,muhou,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
+import kyoutuu#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
 import channel_dic,my_guild_role_dic,message_list,ban_list#このbotを動かすのに必要な辞書とリスト
 
 async def iroha(message,client1):
