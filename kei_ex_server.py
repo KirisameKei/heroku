@@ -455,6 +455,7 @@ async def my_server_commands(message,client1,m):
             mcid = message.content.replace("/mcavatar ","")
             await m(f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png")
 
+        """
         if message.content == "/help":
             help_command = "\
             /crafter\n\
@@ -508,7 +509,7 @@ async def my_server_commands(message,client1,m):
             help_embed_2.add_field(value=help_sonota)
 
             await m(embed=help_embed_1)
-            await m(embed=help_embed_2)
+            await m(embed=help_embed_2)"""
 
 
 async def mcid_check(message,client1,m):
