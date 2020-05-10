@@ -234,62 +234,6 @@ async def on_member_remove(member):#脱退者が出たら反応
 
 
 @client1.event
-async def on_guild_channel_create(channel):
-    channel_dic_channel = client1.get_channel(663037675141595147)
-
-    if channel.guild.id == 585998962050203672:#けいの実験サーバ
-        channel_dic_in_embed = await channel_dic_channel.fetch_message(682935760512352274)
-        channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
-        channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
-        channel_dic_in_channel[channel.id] = new_channel.id
-        channel_dic_in_channel = str(channel_dic_in_channel)
-        channel_dic_record_embed = discord.Embed(title="けいの実験サーバ",description=channel_dic_in_channel)
-
-        kei_ex_server_log_guild = client1.get_guild(647311568454811649)
-        new_channel = await kei_ex_server_log_guild.create_text_channel(name=channel.name)
-        sagyousiji_channel = client1.get_channel(636359382359080961)
-        await sagyousiji_channel.send(f"<@!523303776120209408>\n新しいチャンネル「{channel.name}」が{channel.guild.name}で作成されました。\n\
-            辞書に追加してください。\n{channel.id}:{new_channel.id},#{channel.name}")
-
-    elif channel.guild.id == 624551872933527553:#処罰部
-        channel_dic_in_embed = await channel_dic_channel.fetch_message(682944795794079767)
-        channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
-        channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
-        channel_dic_in_channel[channel.id] = new_channel.id
-        channel_dic_in_channel = str(channel_dic_in_channel)
-        channel_dic_record_embed = discord.Embed(title="HJK",description=channel_dic_in_channel)
-
-        syobatubu_log_guild = client1.get_guild(633328124968435712)#やることリスト
-        new_channel = await syobatubu_log_guild.create_text_channel(name=channel.name)
-        sagyousiji_channel = client1.get_channel(638904268543361037)#作業指示書
-        await sagyousiji_channel.send(f"<@!523303776120209408>\n新しいチャンネル「{channel.name}」が作成されました。\n\
-            辞書に追加してください。\n{channel.id}:{new_channel.id},#{channel.name}")
-
-    elif channel.guild.id == 604945424922574848:#いろは鯖
-        channel_dic_in_embed = await channel_dic_channel.fetch_message(682944796834398336)
-        channel_dic_in_channel = channel_dic_in_embed.embeds[0].description
-        channel_dic_in_channel = ast.literal_eval(channel_dic_in_channel)#辞書完成
-        channel_dic_in_channel[channel.id] = new_channel.id
-        channel_dic_in_channel = str(channel_dic_in_channel)
-        channel_dic_record_embed = discord.Embed(title="いろは鯖",description=channel_dic_in_channel)
-
-        iroha_server_log_guild = client1.get_guild(660445544296218650)
-        new_channel = await iroha_server_log_guild.create_text_channel(name=channel.name)
-        sagyousiji_channel = client1.get_channel(636359382359080961)
-        await sagyousiji_channel.send(f"<@!523303776120209408>\n新しいチャンネル「{channel.name}」が{channel.guild.name}で作成されました。\n\
-            辞書に追加してください。\n{channel.id}:{new_channel.id},#{channel.name}")
-
-    else:
-        channel_notice = client1.get_channel(682732694768975884)
-        await channel_notice.send(f"{channel.guild.name}で<#{channel.id}>が作成されました。")
-
-    try:
-        await channel_dic_in_embed.edit(embed=channel_dic_record_embed)
-    except UnboundLocalError:
-        pass
-
-
-@client1.event
 async def on_message(message):
     try:
         if message.content == "/bot_stop":
