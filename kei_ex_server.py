@@ -296,9 +296,6 @@ async def my_server_commands(message,client1,m):
         message.content.startswith("/stimer ") or message.content.startswith("/mtimer ") or message.content.startswith("/htimer ") or \
         message.content.startswith("/role_count ") or message.content.startswith("/mcid ") or message.content.startswith("/vote ") or \
         message.content.startswith("/mcavatar ") or message.content == "/help":
-        if not message.channel.id in channel_dic.my_guild_allow_command_channel:
-            await m("ここで実行しないでください！")
-            return
 
         if message.content == "/omikuji":
             send = random.choice(message_list.omikuji)
