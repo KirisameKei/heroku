@@ -16,12 +16,12 @@ async def iroha(message,client1):
 
     await kyoutuu.itibu_kyoutuu_thank(message)
 
-        if message.content.startswith(":skull:"):
-            message_list = ["悲しい","ドンマイ","気をしっかり","えぇ"]
-            send = random.choice(message_list)
-            await m(send)
-        if message.content.startswith(":medal:"):
-            await m("おめ")
+    if message.content.startswith(":skull:"):
+        message_list = ["悲しい","ドンマイ","気をしっかり","えぇ"]
+        send = random.choice(message_list)
+        await m(send)
+    if message.content.startswith(":medal:"):
+        await m("おめ")
 
     if message.content.startswith("/vote "):
         poll_list = message.content.split(" ")
