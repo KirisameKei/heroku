@@ -20,7 +20,6 @@ async def kei_ex_server(message,client1):
     await hatugensuu_kiroku(message,client1,m)
     await role_add_remove(message,client1,m)
     await my_server_commands(message,client1,m)
-    await mcid_check(message,client1,m)
             
     if message.content == "/dict":
         point_log_channel = client1.get_channel(663037579406606337)
@@ -226,41 +225,6 @@ async def role_add_remove(message,client1,m):
                     sakusyosuu = int(sakusyosuu) + 1
                     await message.channel.purge(limit=sakusyosuu)
                     await message.author.remove_roles(role)
-
-
-async def login_bonus(message,client1,m):
-    if message.channel.id == 634602609017225225:
-        if message.author.bot:
-            return
-
-        if message.content.startswith("#") or message.content.startswith("//"):
-            return
-        if message.content.startswith(r"/\*") and message.content.endswith(r"\*/"):
-            return
-
-        kouho = ["おめでとう！","はずれ","はずれ"]
-        touraku = random.choice(kouho)
-        await m(touraku)
-        if touraku == "おめでとう！":
-            get_pt = random.randint(1,30)
-            await m(f"{get_pt}ptゲット")
-            point_log_channel = client1.get_channel(663037579406606337)
-            pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
-            pt_log = pt_dic_in_embed.embeds[0].description
-            pt_dic = ast.literal_eval(pt_log)
-            try:
-                user_hoyuu_pt = pt_dic[message.author.id]
-                after_pt = user_hoyuu_pt + get_pt
-                pt_dic[message.author.id] = after_pt
-                await m(f"{message.author.name}の所有pt：{user_hoyuu_pt}→{after_pt}")
-
-            except KeyError:
-                pt_dic[message.author.id] = get_pt
-                await m(f"{message.author.name}が初めてptをゲットしました。。\n{message.author.name}の所有pt:{get_pt}")
-
-            pt_dic = str(pt_dic)
-            pt_record_embed = discord.Embed(description=pt_dic)
-            await pt_dic_in_embed.edit(embed=pt_record_embed)
 
 
     if message.content == "/mypt" or message.content.startswith("/otherpt ") or \
@@ -509,117 +473,6 @@ async def my_server_commands(message,client1,m):
 
             await m(embed=help_embed_1)
             await m(embed=help_embed_2)"""
-
-
-async def mcid_check(message,client1,m):
-    if message.channel.id == 640833025822949387:
-        if message.author == client1.user:
-            return
-        p = re.compile(r"^[a-zA-Z0-9_ ]+$")
-        if not p.fullmatch(message.content):
-            await m("MCID報告に使えない文字が含まれています。")
-            return
-        mcid_log_channel = client1.get_channel(638912957421453322)
-        mcid_list = message.content.split(" ")
-        for i in range(len(mcid_list)):
-            try:
-                mcid_mojisuu = len(mcid_list[i])
-                if mcid_mojisuu < 3:
-                    await m("**"+mcid_list[i]+"**は短すぎます。")
-                    del mcid_list[i]
-                if mcid_mojisuu > 16:
-                    await m("**"+mcid_list[i]+"**は長すぎます。")
-                    del mcid_list[i]
-            except IndexError:
-                pass
-
-        for i in range(len(mcid_list)):
-            try:
-                flag = False
-                async for msg in mcid_log_channel.history():
-                    userid_mcid = await mcid_log_channel.fetch_message(msg.id)
-                    mcid = userid_mcid.content[19:]
-                    ch = client1.get_channel(595072339545292804)
-                    if mcid_list[i] == mcid:
-                        await m(f"**{mcid}**は既に登録されています。これが本当に現在の自分のMCIDならけいにお知らせください。")
-                        del mcid_list[i]
-                        flag = True
-                        break
-            except IndexError:
-                pass
-        
-        right_mcid_list = []
-        pr = False
-        for i in range(len(mcid_list)):
-            mcid = mcid_list[i]
-            mcid2 = str.lower(mcid)
-            url = f"https://w4.minecraftserver.jp/player/{mcid2}"
-            try:
-                res = requests.get(url)
-                res.raise_for_status()
-                soup = bs4.BeautifulSoup(res.text, "html.parser")
-                td = soup.td
-                if f'{mcid2}' in f'{td}':
-                    right_mcid_list.append(mcid)
-                    await mcid_log_channel.send(str(message.author.id)+" "+mcid)
-                    pr = True
-                else:
-                    await m("**"+mcid+"**は\n・実在しない\n・整地鯖にログインしたことがない\n\
-・MCIDを変更した\n・整地鯖ログイン後1分以上たっていない\n・MCID変更後整地鯖にログインして1分以上たっていない\n可能性があります。\n\
-この機能は整地鯖ウェブページへの負荷となります。__**意図的に間違った入力を繰り返していると判断した場合処罰の対象になります。**__もしこれがバグならけいにお知らせください。")
-            except requests.exceptions.HTTPError:
-                await m(f'requests.exceptions.HTTPError')
-        if pr:
-            await m("MCIDの登録が完了しました。登録されたMCID:"+str(right_mcid_list))
-            if discord.utils.get(message.author.roles,name="新規"):
-                role = discord.utils.get(message.guild.roles,name = "accept送信可能")
-                await message.author.add_roles(role)
-                await m(message.author.mention+"MCIDの報告ありがとうございます。ルールに同意いただけるなら<#592581835343659030>で**/accept**をお願い致します。")
-            else:
-                await m("MCID追加の報告ありがとうございます。")
-
-
-    if message.channel.id == 640833084782018580:
-        if message.author == client1.user:
-            return
-        if not "→" in message.content:
-            await m("MCID変更報告の形式は旧MCID→新MCIDです。")
-            return
-        p = re.compile(r"^[a-zA-Z0-9_→]+$")
-        if not p.fullmatch(message.content):
-            await m("MCID変更報告に使えない文字が含まれています。")
-            return
-        mcid_log_channel = client1.get_channel(638912957421453322)
-        old_mcid_user_say = message.content.split("→")[0]
-        new_mcid = message.content.replace(old_mcid_user_say+"→","")
-        if old_mcid_user_say == new_mcid:
-            await m("変えてないじゃん！")
-            return
-        flag = False
-        async for msg in mcid_log_channel.history():
-            userid_mcid = await mcid_log_channel.fetch_message(msg.id)
-            userid = int(userid_mcid.content[0:18])
-            old_mcid_touroku = userid_mcid.content[19:]
-            if old_mcid_touroku == old_mcid_user_say:
-                if not userid == message.author.id:
-                    await m("他人のMCIDの変更報告はできません")
-                    flag = True
-                    break
-                flag1 = False
-                async for msg in mcid_log_channel.history():
-                    touroku_mcid = await mcid_log_channel.fetch_message(msg.id)
-                    if touroku_mcid.content[19:] == new_mcid:
-                        await m("そのMCIDはすでに登録されています。これが本当に現在の自分のMCIDならけいにお知らせください。")
-                        flag1 = True
-                        flag = True
-                        break
-                    if not flag1:
-                        await change_mcid(message,client1,m,new_mcid,userid_mcid)
-                        flag = True
-                        break
-
-        if not flag:
-            await m("まだ登録されていないMCIDを変更しようとしています")
 
 
 async def point_commands(message,client1,m):
