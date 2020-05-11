@@ -135,58 +135,8 @@ async def on_guild_remove(guild):
 
 @client1.event
 async def on_member_join(member):#新規の人が来たら反応
-    if member.id == 395796458051469313:
-        shut_up = discord.utils.get(member.guild.roles,id=628175600007512066)
-        await member.add_roles(shut_up)
-        bougen_list = [
-            "mother_fucker!:middle_finger:",
-            ":middle_finger:",
-            "shut up!",
-            "fuck you!:middle_finger:",
-            "what a bother! ",
-            "You are gross",
-            "You are rubbish",
-            "Your mother has a big navel"
-        ]
-        for i in range(100):
-            await member.send(random.choice(bougen_list))
-        await member.guild.kick(member)
-        return
-    sanka_dattai_channel = client1.get_channel(588224929300742154)
-    if member.guild.id == 585998962050203672:#けいの実験サーバなら
-        if member.id in ban_list.ban_list:
-            await member.guild.kick(member)
-            await sanka_dattai_channel.send(member.mention+"がサーバに入ろうとしましたが失敗しました")
-        
-        elif member.id == 679650092025643018:
-            spam_ch = client1.get_channel(586075792950296576)
-            for i in range(100):
-                msg = [":middle_finger:","mother fucker!!","DMでの迷惑行為は楽しいかぁ！？","そうゆうのスパムって言うんだゾ","くたばれ","fuck off!!","引っ込め"]
-                send_msg = random.choice(msg)
-                await spam_ch.send(f"<@!586075792950296576>{send_msg}")
-
-        else:
-            try:
-                old_role = my_guild_role_dic.keizoku_role[member.id]
-                old_role = discord.utils.get(member.guild.roles,id=old_role)
-                await member.add_roles(old_role)
-                await sanka_dattai_channel.send(member.name+"さんは過去に"+old_role.name+"を持っていたため付与しました")
-            except KeyError:
-                pass
             
-            sinki_role = discord.utils.get(member.guild.roles,id=621641465105481738)#新規役職を指定
-            await member.add_roles(sinki_role)
-            kangei_msg = member.mention+"さんようこそ！:tada:\n"
-            kangei_msg += "まず<#640833025822949387>をお願いします\n"
-            kangei_msg += "次に、<#586000955053441039>を読んで同意していただけるなら"
-            kangei_msg += "<#592581835343659030>で**/accept**と打ち込んでください"
-            await sanka_dattai_channel.send(kangei_msg)
-            made_time = member.created_at + datetime.timedelta(hours=9)
-            made_time_msg = f"{member.name}さんは{made_time.year}年{made_time.month}月{made_time.day}日"
-            made_time_msg += f"{made_time.hour}時{made_time.minute}分{made_time.second}秒からdiscordを使用しています。"
-            await sanka_dattai_channel.send(made_time_msg)
-            
-    elif member.guild.id == 587909823665012757:#無法地帯なら
+    if member.guild.id == 587909823665012757:#無法地帯なら
         if member.id in ban_list.ban_list:
             await member.guild.kick(member)
             await sanka_dattai_channel.send(f"{member.name}が無法地帯に入ろうとして失敗しました")
@@ -207,30 +157,6 @@ async def on_member_join(member):#新規の人が来たら反応
         if member.id in ban_list.ban_list:
             await member.guild.kick(member)
             await sanka_dattai_channel.send(f"{member.mention}がいろは鯖に入ろうとしましたが失敗しました")
-
-
-@client1.event
-async def on_member_remove(member):#脱退者が出たら反応
-    sanka_dattai_channel = client1.get_channel(588224929300742154)
-    if member.guild.id == 585998962050203672:#けいの実験サーバなら
-        if member.id in ban_list.ban_list:
-            pass
-        else:
-            await sanka_dattai_channel.send(member.mention+"さんさようなら:sob:")
-            mcid_log_channel = client1.get_channel(638912957421453322)
-            async for msg in mcid_log_channel.history():
-                user_id_mcid = await mcid_log_channel.fetch_message(msg.id)
-                if user_id_mcid.content.startswith(str(member.id)):
-                    await user_id_mcid.delete()
-
-    elif member.guild.id == 587909823665012757:#無法地帯なら
-        await sanka_dattai_channel.send(member.name+"さんが無法地帯のカオスさに耐えられなくなりました")
-
-    elif member.guild.id == 624551872933527553:#処罰部なら
-        await sanka_dattai_channel.send(member.name+"がHJKから抜けました")
-
-    else:
-        await sanka_dattai_channel.send(member.name+"さんが"+member.guild.name+"から抜けました。")
 
 
 @client1.event
