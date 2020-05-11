@@ -227,32 +227,7 @@ async def role_add_remove(message,client1,m):
                     await message.author.remove_roles(role)
 
 
-    if message.content == "/mypt" or message.content.startswith("/otherpt ") or \
-        message.content.startswith("/addpt ") or message.content.startswith("/usept ") or message.content.startswith("/lottery "):
-        await point_commands(message,client1,m)
-
-
 async def my_server_commands(message,client1,m):
-    if message.content == "/accept":
-        if not message.channel.id == 592581835343659030:
-            await m("ここで実行しないでください！")
-            return
-        if not discord.utils.get(message.author.roles,name="新規"):
-            await m("もう付いてないよ^^")
-            return
-        if not discord.utils.get(message.author.roles,name="accept送信可能"):
-            await m("まず<#640833025822949387>をお願いします。")
-            return
-        sinki_role = discord.utils.get(message.guild.roles,name="新規")
-        accept_role = discord.utils.get(message.guild.roles,name="accept送信可能")
-        crafter_role = discord.utils.get(message.guild.roles,name="クラフタ")
-        await message.author.remove_roles(sinki_role)
-        await message.author.remove_roles(accept_role)
-        await message.author.add_roles(crafter_role)
-        await m(message.author.name+"から新規を剥奪し、クラフタを付与しました。")
-        await m(message.author.mention+"\n"+message.author.name+"さん参加ありがとうございます。\n\
-このチャンネルで<#592576217962512394>や<#592576272752967681>を参考に、自分に必要な役職をつけてください。<#664286990677573680>のメッセージへのリアクションでも可能です。\n\
-もしよろしければ、<#586571234276540449>もお願いします。")
 
     if message.content == "/omikuji" or message.content == "/speca" or message.content == "/meigen" or \
         message.content.startswith("/osusume_") or message.content.startswith("/name ") or message.content.startswith("/weather ") or \
@@ -339,49 +314,7 @@ async def my_server_commands(message,client1,m):
                 else:
                     await message.channel.send("そこの天気はわかりません...")
 
-        if message.content.startswith("/role_count "):
-            str_role_id = message.content[12:30]
-            try:
-                int_role_id = int(str_role_id)
-                role = discord.utils.get(message.guild.roles,id=int_role_id)
-                ninzuu = str(len(role.members))
-                if int_role_id == 585998962050203672:
-                    await m("このサーバには"+ninzuu+"人います。")
-                else:
-                    await m(role.name+"は"+ninzuu+"人います。")
-
-            except ValueError:
-                await m("IDは18桁の半角数字です。")
-
-        if message.content.startswith("/mcid "):
-            str_userid = message.content[6:]
-            if not len(str_userid) == 18:
-                await m("IDは18桁の半角数字です。")
-                return
-            try:
-                int_userid = int(str_userid)
-                member = message.guild.get_member(int_userid)
-                mcid_log_channel = client1.get_channel(638912957421453322)
-                flag = False
-                how_many_accounts = 0
-                send_msg = member.name+"のMCID:\n"
-                async for msg in mcid_log_channel.history():
-                    userid_mcid = await mcid_log_channel.fetch_message(msg.id)
-                    if userid_mcid.content[0:18] == str_userid:
-                        mcid = userid_mcid.content[19:]
-                        send_msg += mcid+"\n"
-                        how_many_accounts = how_many_accounts + 1
-                        flag = True
-                    
-                if not flag:
-                    await m("まだMCIDを報告していないユーザーです。")
-
-                if flag:
-                    send_msg += "以上"+str(how_many_accounts)+"アカ"
-                    await m(send_msg)
-
-            except ValueError:
-                await m("IDは18桁の半角数字です。")
+        
 
         if message.content.startswith("/vote "):
             poll_list = message.content.split(" ")
@@ -473,118 +406,6 @@ async def my_server_commands(message,client1,m):
 
             await m(embed=help_embed_1)
             await m(embed=help_embed_2)"""
-
-
-async def point_commands(message,client1,m):
-    if not message.channel.id in channel_dic.my_guild_allow_command_channel:
-        await m("ここで実行しないでください！")
-        return
-
-    point_log_channel = client1.get_channel(663037579406606337)
-    pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
-    pt_log = pt_dic_in_embed.embeds[0].description
-    pt_dic = ast.literal_eval(pt_log)
-
-    if message.content == "/mypt":
-        try:
-            hoyuu_pt = pt_dic[message.author.id]
-            await m(f"{message.author.name}さんの所有pt:{hoyuu_pt}")
-        except KeyError:
-            await m(f"{message.author.name}さんはまだptを所有していません。")
-
-    if message.content.startswith("/otherpt "):
-        try:
-            user_id = int(message.content[9:27])
-            user = client1.get_user(user_id)
-            try:
-                hoyuu_pt = pt_dic[user_id]
-                await m(f"{user.name}さんは{hoyuu_pt}pt所有しています。")
-            except KeyError:
-                try:
-                    await m(f"{user.name}さんはptを所有していません。")
-                except AttributeError:
-                    await m(f"そのユーザーは{client1.user.name}の監視下にありません。")
-        except ValueError:
-            await m("IDは18桁の半角数字です。")
-
-
-    if message.content.startswith("/addpt "):
-        if not discord.utils.get(message.author.roles,name="けい"):
-            await m("何様のつもり？")
-            return
-        try:
-            user_id = int(message.content[7:25])
-            give_pt = int(message.content[26:])
-            user = client1.get_user(user_id)
-            try:
-                before_pt = pt_dic[user_id]
-                after_pt = before_pt + give_pt
-                pt_dic[user_id] = after_pt
-                await m(f"{user.name}に{give_pt}pt付与しました。{user.name}の保有pt:{before_pt}→{after_pt}")
-            except KeyError:
-                try:
-                    await m(f"{user.name}がはじめてptをゲットしました。{user.name}のpt:{get_pt}")
-                    pt_dic[user_id] = give_pt
-                except AttributeError:
-                    await m(f"そのユーザーは{client1.user.name}の監視下にありません。")
-            pt_dic = str(pt_dic)
-            pt_record_embed = discord.Embed(description=pt_dic)
-            await pt_dic_in_embed.edit(embed=pt_record_embed)
-        except ValueError:
-            await m("ID、付与ptは18桁の半角数字です。")
-
-
-    if message.content.startswith("/usept "):
-        if not discord.utils.get(message.author.roles,name="けい"):
-            await m("何様のつもり？")
-            return
-        try:
-            user_id = int(message.content[7:25])
-            use_pt = int(message.content[26:])
-            user = client1.get_user(user_id)
-            try:
-                before_pt = pt_dic[user_id]
-                after_pt = before_pt - use_pt
-                if after_pt < 0:
-                    await m("ptが足りません。")
-                    return
-                pt_dic[user_id] = after_pt
-                await m(f"{user.name}が{use_pt}pt使用しました。{user.name}の保有pt:{before_pt}→{after_pt}")
-            except KeyError:
-                try:
-                    await m(f"{user.name}さんはまだptを所有していません。")
-                except AttributeError:
-                    await m(f"そのユーザーは{client1.user.name}の監視下にありません。")
-            pt_dic = str(pt_dic)
-            pt_record_embed = discord.Embed(description=pt_dic)
-            await pt_dic_in_embed.edit(embed=pt_record_embed)
-        except ValueError:
-            await m("ID、付与ptは18桁の半角数字です。")
-
-    if message.content.startswith("/lottery "):
-        tyuusen_bangou = message.content[9:12]
-        if not len(tyuusen_bangou) == 3:
-            await m("抽選番号は3桁で指定してください")
-            return
-        try:
-            int_tyuusen_bangou = int(tyuusen_bangou)
-            try:
-                hoyuu_pt = pt_dic[message.author.id]
-                after_pt = hoyuu_pt - 64
-                if after_pt < 0:
-                    await m("ptが足りません。")
-                    return
-                pt_dic[message.author.id] = after_pt
-                loto_kiroku_channel = client1.get_channel(654897878140977154)
-                await loto_kiroku_channel.send(str(message.author.id)+" "+tyuusen_bangou)
-                pt_dic = str(pt_dic)
-                pt_record_embed = discord.Embed(description=pt_dic)
-                await pt_dic_in_embed.edit(embed=pt_record_embed)
-                await m(f"{message.author.name}さんが{tyuusen_bangou}の宝くじを購入しました。")
-            except KeyError:
-                await m(f"{message.author.name}さんはまだptを保有していません。")
-        except ValueError:
-            await m("抽選番号は半角数字です")
 
 
 async def change_mcid(message,client1,m,new_mcid,userid_mcid):
