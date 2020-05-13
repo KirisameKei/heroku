@@ -220,25 +220,6 @@ async def on_message(message):
 
             #try:
                 if message.guild.id == 585998962050203672:#けいの実験サーバ
-                    if not message.author.bot:
-                        #日間発言数記録
-                        nikkan_hatugensuu_logchannel = client1.get_channel(641511982805024768)
-                        today = datetime.date.today()
-                        flag = False
-                        async for msg in nikkan_hatugensuu_logchannel.history(limit=1):
-                            today_hatugensuu = await nikkan_hatugensuu_logchannel.fetch_message(msg.id)
-                            if today_hatugensuu.content.startswith(str(today)):
-                                hatugensuu = int(today_hatugensuu.content[11:])
-                                hatugensuu = str(hatugensuu + 1)
-                                await nikkan_hatugensuu_logchannel.send(str(today)+" "+hatugensuu)
-                                try:
-                                    await today_hatugensuu.delete()
-                                    flag = True
-                                    break
-                                except discord.errors.NotFound:
-                                    await m("<@!523303776120209408>\nbotの処理が追い付きませんでした。<#641511982805024768>を確認して下さい。")
-                        if not flag:
-                            await nikkan_hatugensuu_logchannel.send(str(today)+" 1")
 
                     await kei_ex_server.kei_ex_server(message,client1)#本体
 
@@ -470,22 +451,6 @@ async def loop():
             start = message_list.siritori_start
             hajime = random.choice(start)
             await channel.send(hajime)
-
-    if now == "00:00":
-        hiduke = datetime.datetime.today()
-        keikaniti = datetime.date.today().timetuple()[7] - 1
-        syuuryouritu = str(keikaniti / 365 * 100)
-        channel = client1.get_channel(597130965927723048)
-        await channel.send("日付変更をお知らせします。今日の日付："+str(hiduke.year)+"年"+str(hiduke.month)+"月"+str(hiduke.day)+"日\n"+\
-    str(hiduke.year)+"年の"+syuuryouritu+"%が終了しました。")
-
-        zero_channel = client4.get_channel(656484919882547200)
-        await zero_channel.send("日付変更をお知らせします。今日の日付："+str(hiduke.year)+"年"+str(hiduke.month)+"月"+str(hiduke.day)+"日")
-
-        seichisaba_birthday = datetime.date(2020,6,29)
-        atonannniti = str(seichisaba_birthday - datetime.date.today())
-        atonannniti = atonannniti.replace(atonannniti[-13:],"")
-        await channel.send("整地鯖4周年まであと"+atonannniti+"日です")
 
     #kohgaの依頼
     now_time = datetime.datetime.now()

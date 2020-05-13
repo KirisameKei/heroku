@@ -17,7 +17,6 @@ async def kei_ex_server(message,client1):
     await kyoutuu.itibu_kyoutuu_mention(message,client1)
     await kyoutuu.itibu_kyoutuu_daily_ranking(message)
     await kyoutuu.itibu_kyoutuu_check_break(message,client1)
-    await hatugensuu_kiroku(message,client1,m)
     await role_add_remove(message,client1,m)
     await my_server_commands(message,client1,m)
             
@@ -35,11 +34,6 @@ async def kei_ex_server(message,client1):
         stolen_point = math.floor(before_stolen_point * wariai)
         after_stolen_point = before_stolen_point - stolen_point
         await m(f"あ！{stolen_user.name}から{stolen_point}ptが盗まれてる！と仮定\n{before_stolen_point}→{after_stolen_point}と仮定")
-
-    if "https://discord.gg/" in message.content or "http://discord.gg/" in message.content:
-        if not message.channel.id in channel_dic.my_guild_allow_senden_channel:#宣伝許可チャンネルに入っていなければ
-            await message.delete()
-            await m(message.author.mention+"\n指定チャンネル以外での宣伝は禁止です！メッセージを削除しました。")
 
     if message.channel.id == 603832801036468244:
         if message.content.endswith("ん") or message.content.endswith("ン"):
@@ -90,31 +84,6 @@ async def kei_ex_server(message,client1):
             await m(str(last_login))
         except requests.exceptions.HTTPError:
             await m(f'requests.exceptions.HTTPError')
-
-
-async def hatugensuu_kiroku(message,client1,m):
-    #日間発言数発表
-    if message.author == client1.user:
-        if message.content.startswith("日付変更をお知らせします。"):
-            today = datetime.date.today()
-            kinou = str(today - datetime.timedelta(days=1))
-            ototoi = str(today - datetime.timedelta(days=2))
-            nikkan_hatugensuu_logchannel = client1.get_channel(641511982805024768)
-            flag = False
-            async for msg in nikkan_hatugensuu_logchannel.history(limit=3):
-                kinou_ototoi_hatugensuu = await nikkan_hatugensuu_logchannel.fetch_message(msg.id)
-                if kinou_ototoi_hatugensuu.content.startswith(kinou):
-                    kinou_hatugensuu = int(kinou_ototoi_hatugensuu.content[11:])
-                if kinou_ototoi_hatugensuu.content.startswith(ototoi):
-                    ototoi_hatugensuu = int(kinou_ototoi_hatugensuu.content[11:])
-            hatugensuu_zougen = kinou_hatugensuu - ototoi_hatugensuu
-            if hatugensuu_zougen > 0:
-                send = "+"+str(hatugensuu_zougen)
-            else:
-                send = str(hatugensuu_zougen)
-            await asyncio.sleep(3)
-            await m("昨日の発言数："+str(kinou_hatugensuu))
-            await m("前日比："+send)
 
 
 async def role_add_remove(message,client1,m):
@@ -406,176 +375,3 @@ async def my_server_commands(message,client1,m):
 
             await m(embed=help_embed_1)
             await m(embed=help_embed_2)"""
-
-
-async def change_mcid(message,client1,m,new_mcid,userid_mcid):
-    mcid_log_channel = client1.get_channel(638912957421453322)
-    mcid2 = str.lower(new_mcid)
-    url = f"https://w4.minecraftserver.jp/player/{mcid2}"
-    try:
-        res = requests.get(url)
-        res.raise_for_status()
-        soup = bs4.BeautifulSoup(res.text, "html.parser")
-        td = soup.td
-        if f'{mcid2}' in f'{td}':
-            await mcid_log_channel.send(str(message.author.id)+" "+new_mcid)
-            await userid_mcid.delete()
-            await m("MCIDの変更登録が完了しました。")
-        else:
-            await m("**"+new_mcid+"**は\n・実在しない\n・整地鯖にログインしたことがない\n\
-・MCIDを変更した\n・整地鯖ログイン後1分以上たっていない\n・MCID変更後整地鯖にログインして1分以上たっていない\n可能性があります。\n\
-この機能は整地鯖ウェブページへの負荷となります。__**意図的に間違った入力を繰り返していると判断した場合処罰の対象になります。**__もしこれがバグならけいにお知らせください。")
-    except requests.exceptions.HTTPError:
-        await m(f'requests.exceptions.HTTPError')
-
-
-"""
-async def kikaku(message,client1,m):
-    billion_role = discord.utils.get(message.guild.roles, id=668021019700756490)
-    if message.channel.id == 665487669953953804:
-        if message.author == client1.user:
-            return
-        if message.content == "/cancel":
-            if discord.utils.get(message.author.roles,id=668021019700756490):
-                await m(f"{message.author.name}さんの参加をキャンセルしました。")
-                await message.author.remove_roles(billion_role)
-            else:
-                await m("もう付いてないよ^^")
-            return
-        if discord.utils.get(message.author.roles,id=668021019700756490):
-            await m(f"{message.author.name}さんは既に参加しています。")
-            return
-        p = re.compile(r"^[0-9a-zA-Z_]+$")
-        if not p.fullmatch(message.content):
-            await m("MCIDに使用できない文字が含まれています。")
-            return
-        if len(message.content) < 3:
-            await m("短すぎます！")
-            return
-        if len(message.content) > 16:
-            await m("長すぎます！")
-            return
-        mcid_log_channel = client1.get_channel(638912957421453322)
-        flag = False
-        async for msg in mcid_log_channel.history(limit=None):
-            userid_mcid = await mcid_log_channel.fetch_message(msg.id)
-            if int(userid_mcid.content[0:18]) == message.author.id and userid_mcid.content[19:].lower() == message.content.lower():
-                await m(f"{message.author.name}さんが抽選に参加しました。")
-                await message.author.add_roles(billion_role)
-                flag = True
-                break
-        if not flag:
-            await m(f"{message.author.mention}そのMCIDは登録されていないか、あなたのMCIDではありません。")
-
-
-    movie_watched_role = discord.utils.get(message.guild.roles,id=668021150952980491)
-    sikatanakutukutta_role = discord.utils.get(message.guild.roles,id=671239038321164319)
-    if message.channel.id == 665487568854319124:
-        if message.author == client1.user:
-            return
-        if message.content == "/cancel":
-            if discord.utils.get(message.author.roles,id=668021150952980491):
-                await m(f"{message.author.name}さんの参加をキャンセルしました。")
-                await message.author.remove_roles(movie_watched_role)
-            else:
-                await m("もう付いてないよ^^")
-            return
-        if discord.utils.get(message.author.roles,id=671239038321164319):
-            return
-        if discord.utils.get(message.author.roles,id=668021150952980491):
-            await m(f"{message.author.name}さんは既に参加しています。")
-            return
-        p = re.compile(r"^[0-9a-zA-Z_]+$")
-        if not p.fullmatch(message.content):
-            await m("MCIDに使用できない文字が含まれています。")
-            return
-        if len(message.content) < 3:
-            await m("短すぎます！")
-            return
-        if len(message.content) > 16:
-            await m("長すぎます！")
-            return
-        mcid_log_channel = client1.get_channel(638912957421453322)
-        await message.author.add_roles(sikatanakutukutta_role)
-        flag = False
-        async for msg in mcid_log_channel.history():
-            userid_mcid = await mcid_log_channel.fetch_message(msg.id)
-            if int(userid_mcid.content[0:18]) == message.author.id and userid_mcid.content[19:] == message.content:
-                await m(f"{message.author.name}さんが抽選に参加しました。")
-                await message.author.add_roles(movie_watched_role)
-                flag = True
-                break
-        if not flag:
-            await m("そのMCIDは登録されていないか、あなたのMCIDではありません。")
-        await message.author.remove_roles(sikatanakutukutta_role)
-
-    if message.content == "/choice":
-        kikaku_sanka_user = five_sauzando_role.members
-        tousen_user_raretu = ""
-        try:
-            tousen_user = random.sample(kikaku_sanka_user,5)
-            for i in range(5):
-                tousen_user_raretu += tousen_user[i].name + "\n"
-        except ValueError:
-            for i in range(len(kikaku_sanka_user)):
-                tousen_user_raretu += kikaku_sanka_user[i].name + "\n"
-        await m(tousen_user_raretu+"\nさんが当たりです(これは疑似抽選です)")"""
-
-
-"""
-async def kikaku_select(message, client1):
-    if message.content == "/select":
-        kei_ex_guild = client1.get_guild(585998962050203672)
-        oubo_role = discord.utils.get(kei_ex_guild.roles, id=668021019700756490)
-        sankasya_list = oubo_role.members
-        tousensya_list = random.sample(sankasya_list, k=10)
-        
-        kazu_list = []
-        for i in range(9):
-            kazu = random.randint(0,640)
-            kazu_list.append(kazu)
-
-        kazu_list.append(0)
-        kazu_list.sort(reverse=True)
-        n = 640
-        haihusuu_list = []
-        for i in range(10):
-            haihusuu = n - kazu_list[i]
-            haihusuu_list.append(haihusuu)
-            n = kazu_list[i]
-
-        text = ""
-        for j in range(10):
-            st, ko = divmod(haihusuu_list[j], 64)
-            text += f"{tousensya_list[j].mention} : {st}st + {ko}個\n"
-        embed = discord.Embed(title="**疑似**当選結果", description=f"{text}\n**※疑似抽選であり本番ではありません**", color=0xffff00)
-        await message.channel.send(embed=embed)
-
-
-async def kikaku_choice(client1):
-    notice_ch = client1.get_channel(586420858512343050)
-    kei_ex_guild = client1.get_guild(585998962050203672)
-    oubo_role = discord.utils.get(kei_ex_guild.roles, id=668021019700756490)
-    sankasya_list = oubo_role.members
-    tousensya_list = random.sample(sankasya_list, k=10)
-    
-    kazu_list = []
-    for i in range(9):
-        kazu = random.randint(0,640)
-        kazu_list.append(kazu)
-
-    kazu_list.append(0)
-    kazu_list.sort(reverse=True)
-    n = 640
-    haihusuu_list = []
-    for i in range(10):
-        haihusuu = n - kazu_list[i]
-        haihusuu_list.append(haihusuu)
-        n = kazu_list[i]
-
-    text = ""
-    for j in range(10):
-        st, ko = divmod(haihusuu_list[j], 64)
-        text += f"{tousensya_list[j].mention} : {st}st + {ko}個\n"
-    embed = discord.Embed(title="当選者 & 配布数", description=f"{text}", color=0xffff00)
-    await notice_ch.send(content="<@&668021019700756490>", embed=embed)"""
