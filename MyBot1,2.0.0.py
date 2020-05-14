@@ -5,6 +5,7 @@ from datetime import date
 from discord.ext import tasks
 #from discord import FFmpegPCMAudio
 from discord import Embed#ここまでモジュールのインポート
+from discord import Webhook, RequestsWebhookAdapter
 
 from quote import expand#メッセージリンク展開用
 import quote
@@ -132,6 +133,30 @@ async def on_guild_remove(guild):
     sanka_dattai_channel = client1.get_channel(588224929300742154)
     await sanka_dattai_channel.send(f"{client1.user.name}が{guild.name}から抜けました。")
 
+
+@client1.event
+async def on_guild_channel_delete(channel):
+    if not channel.guild.id == 697772875557634139:
+        return
+    categorychannel = channel.category
+    guild = channel.guild
+    ch = await categorychannel.create_text_channel(name=channel.name, position=channel.position)
+    webhook = await ch.create_webhook(name=channel.name)
+    wh_token = webhook.token
+    wh_id = webhook.id
+    webhook_url = f"https://discordapp.com/api/webhooks/{wh_id}/{wh_token}"
+    webhook = Webhook.from_url(webhook_url, adapter=RequestsWebhookAdapter())
+    member = random.choice(guild.members)
+    avatar = f"{member.avatar_url}"
+    webhook.send("<@672910471279673358><@684949442280947718>\nチャンネル削除？意味ないよ？", avatar_url=avatar)
+
+
+@client1.event
+async def on_typing(channel, user, when):
+    if not channel.guild.id == 697772875557634139:
+        return
+    time = (when + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d-%H:%M:%S:%f")
+    await channel.send(f"{user.name}が何か喋ろうとしている！\n{time}")
 
 
 @client1.event
