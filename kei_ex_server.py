@@ -8,7 +8,7 @@ from discord import Embed#ここまでモジュールのインポート/name
 from quote import expand#メッセージリンク展開用
 
 import kyoutuu#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
-import my_guild_role_dic,message_list,ban_list#このbotを動かすのに必要な辞書とリスト
+import my_guild_role_dic,message_list,ban_list,channel_dic#このbotを動かすのに必要な辞書とリスト
 
 async def kei_ex_server(message,client1):
     m = message.channel.send
