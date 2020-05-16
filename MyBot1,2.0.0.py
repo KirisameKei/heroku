@@ -7,16 +7,13 @@ from discord.ext import tasks
 from discord import Embed#ここまでモジュールのインポート
 from discord import Webhook, RequestsWebhookAdapter
 
-from quote import expand#メッセージリンク展開用
-import quote
-
 try:
     import tokens
 except ModuleNotFoundError:
     pass
 
 import kyoutuu,kei_ex_server,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
-import my_guild_role_dic,message_list,ban_list#このbotを動かすのに必要な辞書とリスト
+import my_guild_role_dic,message_list,ban_list,channel_dic#このbotを動かすのに必要な辞書とリスト
 
 import kohga#依頼
 
@@ -327,34 +324,6 @@ async def loop():
 
     if now == "23:58":
         await kyoutuu.daily_ranking(client1)
-
-    if weekday == 6:
-        if now == "02:00":
-            osirase_channel = client1.get_channel(585999375952642067)
-            await osirase_channel.send("利子を付与します。")
-            point_log_channel = client1.get_channel(663037579406606337)
-            pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
-            pt_log = pt_dic_in_embed.embeds[0].description
-            pt_dic = ast.literal_eval(pt_log)
-
-            for user_id in pt_dic:
-                hoyuu_pt = pt_dic[user_id]
-                if hoyuu_pt <= 128:
-                    rishi = 1.2
-                elif hoyuu_pt <= 576:
-                    rishi = 1.1
-                elif hoyuu_pt <= 1728:
-                    rishi = 1.05
-                elif hoyuu_pt <= 3456:
-                    rishi = 1.01
-                else:
-                    rishi = 1
-                after_pt = math.floor(hoyuu_pt*rishi)
-                pt_dic[user_id] = after_pt
-            pt_dic = str(pt_dic)
-            pt_record_embed = discord.Embed(description=pt_dic)
-            await pt_dic_in_embed.edit(embed=pt_record_embed)
-            await osirase_channel.send("利子を付与しました")
 
         if now == "04:00":
             osirase_channel = client1.get_channel(585999375952642067)
