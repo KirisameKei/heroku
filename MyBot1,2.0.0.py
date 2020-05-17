@@ -318,6 +318,19 @@ async def loop():
     now = datetime.datetime.now().strftime("%H:%M")
     weekday = datetime.datetime.now().weekday()
 
+    if weekday == 2 and now == "12:00":
+        guild = client1.get_guild(587909823665012757)
+        pict_list = [
+            "kero.png",
+            "rem.png",
+            "anan_1919.png",
+            "poop.png",
+            "who.jpg"
+        ]
+        pict = random.choice(pict_list)
+        img = open(pict, mode="rb").read()
+        await guild.edit(icon=img)
+    
     if now == "09:10":
         channel = client1.get_channel(597130965927723048)
         await channel.send("<@&673349311228280862>\nhttps://minecraft.jp/servers/54d3529e4ddda180780041a7/vote\nhttps://minecraftservers.org/server/575658")
