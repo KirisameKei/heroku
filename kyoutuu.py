@@ -14,46 +14,6 @@ import my_guild_role_dic,message_list,ban_list#このbotを動かすのに必要
 client1 = discord.Client()
 
 
-async def itibu_kyoutuu_greeting(message):#あいさつ
-    m = message.channel.send
-    if message.author.bot:
-        return
-    now = datetime.datetime.now()
-    if "おはよう" in message.content:
-        if now.hour >= 5 and now.hour <= 10:
-            await m("おはようございます、**__"+message.author.name+"__**さん！")
-        else:
-            await m("今おはよう！？")
-    if "こんにちは" in message.content:
-        if now.hour >= 9 and now.hour <= 17:
-            await m("こんにちは、**__"+message.author.name+"__**さん！")
-        else:
-            await m("今こんにちは！？")
-    if "こんばんは" in message.content:
-        if now.hour >= 18 and now.hour <= 23:
-            await m("こんばんは、**__"+message.author.name+"__**さん！")
-        else:
-            await m("今こんばんは！？")
-
-
-async def itibu_kyoutuu_thank(message):#お礼
-    m = message.channel.send
-    if message.author.bot:
-        return    
-    if "ありがとう" in message.content:
-        await m(":eggplant:")
-
-async def itibu_kyoutuu_mention(message,client1):#メンション対応
-    m = message.channel.send
-    if message.author.bot:
-        return
-    if  client1.user in message.mentions:
-        await m("おいゴラァ")
-        await m("やめろ")
-        await m("てめぇ常識持ってんのか？")
-        await m("誰にメンション飛ばしたと思ってるんだ")
-
-
 async def itibu_kyoutuu_daily_ranking(message):
     if message.content == "/daily_ranking":
         driver = webdriver.Chrome()

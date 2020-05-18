@@ -12,8 +12,6 @@ import my_guild_role_dic,message_list,ban_list,channel_dic#このbotを動かす
 
 async def kei_ex_server(message,client1):
     m = message.channel.send
-    await kyoutuu.itibu_kyoutuu_greeting(message)
-    await kyoutuu.itibu_kyoutuu_thank(message)
     await kyoutuu.itibu_kyoutuu_mention(message,client1)
     await kyoutuu.itibu_kyoutuu_daily_ranking(message)
     await kyoutuu.itibu_kyoutuu_check_break(message,client1)
@@ -204,24 +202,6 @@ async def my_server_commands(message,client1,m):
         if message.content == "/osusume_movie":
             send = random.choice(message_list.osusume_movie)
             await m(send)
-
-        if message.content.startswith("/name "):
-            try:
-                int_loop_suu = int(message.content[6:])
-                if int_loop_suu > 10:
-                    await m("長すぎます！10文字以下にしてください。")
-                    return
-                if int_loop_suu < 1:
-                    await m("短すぎます！1文字以上にしてください。")
-                    return
-                kouho = random.choice(message_list.name_kouho)
-                send = kouho
-                for i in range(int_loop_suu-1):
-                    kouho = random.choice(message_list.name_kouho)
-                    send += kouho
-                await m(send)
-            except ValueError:
-                await m("文字数は半角数字で入力してください。")
 
         if message.content.startswith("/vote "):
             poll_list = message.content.split(" ")
