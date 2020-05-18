@@ -223,42 +223,6 @@ async def my_server_commands(message,client1,m):
             except ValueError:
                 await m("文字数は半角数字で入力してください。")
 
-        if message.content.startswith("/weather "):
-            reg_res = re.compile(u"/weather (.+)").search(message.content)
-            if reg_res:
-                if reg_res.group(1) in message_list.citycodes.keys():
-                    citycode = message_list.citycodes[reg_res.group(1)]
-                    resp = urllib.request.urlopen('http://weather.livedoor.com/forecast/webservice/json/v1?city=%s'%citycode).read()
-                    resp = json.loads(resp.decode('utf-8'))
-                    msg = resp['publicTime']+"に発表\n"
-                    msg += resp['location']['city']+"の天気は、\n"
-                    for f in resp['forecasts']:
-                        msg += f['dateLabel'] + "が" + f['telop']+"\n"
-                    msg += "です。\n"
-                    AsuMaxTemp = resp['forecasts'][1]['temperature']['max']['celsius']
-                    AsuMinTemp = resp['forecasts'][1]['temperature']['min']['celsius']
-                    try:
-                        KyouMaxTemp = resp['forecasts'][0]['temperature']['max']['celsius']#今日の最高気温を試す
-                        try:#今日の最低気温を試す
-                            KyouMinTemp = resp['forecasts'][0]['temperature']['min']['celsius']
-                            await message.channel.send(message.author.mention+"\n"+msg+"今日の最高気温は"+KyouMaxTemp+"℃で、最低気温は"+KyouMinTemp+"℃、\n\
-明日の最高気温は"+AsuMaxTemp+"℃で、最低気温は"+AsuMinTemp+"℃です。")
-                        except TypeError:#最高は取得成功、最低は取得失敗
-                            await message.channel.send(message.author.mention+"\n"+msg+"今日の最高気温は"+KyouMaxTemp+"℃で、最低気温の情報なし、\n\
-明日の最高気温は"+AsuMaxTemp+"℃で、最低気温は"+AsuMinTemp+"℃です。")
-                    except TypeError:#最高の取得失敗、最低不明
-                        try:#今日の最低気温を試す
-                            KyouMinTemp = resp['forecasts'][0]['temperature']['min']['celsius']#最高の取得失敗、最低の取得成功
-                            await message.channel.send(message.author.mention+"\n"+msg+"今日の最高気温は情報なしで、最低気温は"+KyouMinTemp+"℃、\n\
-明日の最高気温は"+AsuMaxTemp+"℃で、最低気温は"+AsuMinTemp+"℃です。")
-                        except TypeError:#最高も最低も取得失敗
-                            await message.channel.send(message.author.mention+"\n"+msg+"今日の最高気温の情報なしで、最低気温の情報もなし、\n\
-明日の最高気温は"+AsuMaxTemp+"℃で、最低気温は"+AsuMinTemp+"℃です。")
-                else:
-                    await message.channel.send("そこの天気はわかりません...")
-
-        
-
         if message.content.startswith("/vote "):
             poll_list = message.content.split(" ")
             del poll_list[0]#/pollを消す
