@@ -67,7 +67,7 @@ def unexpected_error():
             }
         ]
     }
-    error_notice_webhook_url = "https://discordapp.com/api/webhooks/704300492280561745/7bxBfj0T4RTx85l6rzACcuoNt0fqZayyA5cYQh4WTQQ53Q-HyTWNnZ2X_9pRS4RY3yc0"
+    error_notice_webhook_url = ""
     requests.post(error_notice_webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'}) #エラーメッセをウェブフックに投稿
 
 
@@ -159,7 +159,7 @@ async def on_message(message):
                     }
                 ]
             }
-            webhook_url = "https://discordapp.com/api/webhooks/704300492280561745/7bxBfj0T4RTx85l6rzACcuoNt0fqZayyA5cYQh4WTQQ53Q-HyTWNnZ2X_9pRS4RY3yc0"
+            webhook_url = ""
             requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'}) #エラーメッセをウェブフックに投稿
 
         try:
