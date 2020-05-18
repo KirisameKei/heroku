@@ -5,33 +5,15 @@ from datetime import date
 from discord.ext import tasks
 from discord import Embed#ここまでモジュールのインポート/name
 
-from quote import expand#メッセージリンク展開用
-
 import kyoutuu#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
 import my_guild_role_dic,message_list,ban_list,channel_dic#このbotを動かすのに必要な辞書とリスト
 
 async def kei_ex_server(message,client1):
     m = message.channel.send
-    await kyoutuu.itibu_kyoutuu_mention(message,client1)
     await kyoutuu.itibu_kyoutuu_daily_ranking(message)
     await kyoutuu.itibu_kyoutuu_check_break(message,client1)
     await role_add_remove(message,client1,m)
     await my_server_commands(message,client1,m)
-            
-    if message.content == "/dict":
-        point_log_channel = client1.get_channel(663037579406606337)
-        pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
-        pt_log = pt_dic_in_embed.embeds[0].description
-        pt_dic = ast.literal_eval(pt_log)
-        pt_dic_keys_list = list(pt_dic.keys())
-        stolen_user_id = random.choice(pt_dic_keys_list)
-        stolen_user = client1.get_user(stolen_user_id)
-        before_stolen_point = pt_dic[stolen_user_id]
-        wariai = random.randint(1,4)
-        wariai = wariai / 10
-        stolen_point = math.floor(before_stolen_point * wariai)
-        after_stolen_point = before_stolen_point - stolen_point
-        await m(f"あ！{stolen_user.name}から{stolen_point}ptが盗まれてる！と仮定\n{before_stolen_point}→{after_stolen_point}と仮定")
 
     if message.channel.id == 603832801036468244:
         if message.content.endswith("ん") or message.content.endswith("ン"):
@@ -237,59 +219,3 @@ async def my_server_commands(message,client1,m):
         if message.content.startswith("/mcavatar "):
             mcid = message.content.replace("/mcavatar ","")
             await m(f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png")
-
-        """
-        if message.content == "/help":
-            help_command = "\
-            /crafter\n\
-            /shooter\n\
-            **__/tuuti__**\n\
-            /omikuji\n\
-            /speca\n\
-            /meigen\n\
-            /htimer n content\n\
-            /mtimer n content\n\
-            /stimer n content\n\
-            /osusume_eshi\n\
-            /osusume_youtuber\n\
-            /osusume_movie\n\
-            "
-            help_kyodou = "\
-            クラフタ役職を付与\n\
-            シュータ役職を付与\n\
-            **__通知ほしい役職を付与__**\n\
-            おみくじが引けます\n\
-            けいが独断と偏見で選んだ名スペカを宣言します\n\
-            けいが独断と偏見で選んだ名言と迷言を言います\n\
-            n時間後にメンション付きでcontentを送ります\n\
-            n分後に(ry\n\
-            n秒後に(ry\n\
-            けいの好きな絵師を紹介します\n\
-            けいの好きな動画投稿者を紹介します\n\
-            けいの好きな動画を紹介します\n\
-            "
-
-            help_sonota = "\
-            ・「ありがとう」の入ったメッセージを送ると反応します\n\
-            ・「おはよう」「こんにちは」「こんばんは」の入ったメッセージを送ると時間によって違う反応をします\n\
-            ・毎週しりとりチャンネルをリセットして最初のお題を言います。\n\
-            ・<#634602609017225225>にメッセージを送ると確率でポイントがもらえます(1pt == 1ガチャ券)\n\
-            ・毎週日曜日にを持っているユーザーに利子を付与します\n\
-            ・しりとりを「ん」や「ン」で終わらせると続けてくれます\n\
-            ・隠し要素がいくつかあります。最初に発見すれば役職がもらえます。(現在一枠あります)\n\
-            ・「魔理ちゃんのことが大好きです」というとフラれます。実は告白成功するバグが仕様で存在します。最初に見つけた人には役職あげます。\n\
-            ・指定チャンネル以外でディスコの招待リンクを貼ると消されて怒られます。\n\
-            ・DMにメッセージを送ると返事をします。(ラグがひどいです)\n\
-            ・発言数をカウントします。日間発言数とユーザーごとの発言数があり、日間は一日の最後に発表、ユーザーはレベルアップ機能があります。\n\
-            ・管理者以外が/tokusyu、/delmsgを実行すると魔理ちゃんに怒られます。そして・・・？```\n\
-            "
-
-            help_embed_1 = discord.Embed(title="HELP(1/2)",description="[コマンド系]",color=0x0000ff)
-            help_embed_1.add_field(name="コマンド",value=help_command)
-            help_embed_1.add_field(name="挙動",value=help_kyodou)
-
-            help_embed_2 = discord.Embed(title="HELP(2/2)",description="[その他の機能]",color=0x0000ff)
-            help_embed_2.add_field(value=help_sonota)
-
-            await m(embed=help_embed_1)
-            await m(embed=help_embed_2)"""
