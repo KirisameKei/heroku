@@ -131,30 +131,6 @@ async def on_guild_remove(guild):
     await sanka_dattai_channel.send(f"{client1.user.name}が{guild.name}から抜けました。")
 
 
-@client1.event
-async def on_guild_channel_delete(channel):
-    if not channel.guild.id == 697772875557634139:
-        return
-    categorychannel = channel.category
-    guild = channel.guild
-    ch = await categorychannel.create_text_channel(name=channel.name, position=channel.position)
-    webhook = await ch.create_webhook(name=channel.name)
-    wh_token = webhook.token
-    wh_id = webhook.id
-    webhook_url = f"https://discordapp.com/api/webhooks/{wh_id}/{wh_token}"
-    webhook = Webhook.from_url(webhook_url, adapter=RequestsWebhookAdapter())
-    member = random.choice(guild.members)
-    avatar = f"{member.avatar_url}"
-    webhook.send("<@672910471279673358><@684949442280947718>\nチャンネル削除？意味ないよ？", avatar_url=avatar)
-
-
-@client1.event
-async def on_typing(channel, user, when):
-    if not channel.guild.id == 697772875557634139:
-        return
-    time = (when + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d-%H:%M:%S:%f")
-    await channel.send(f"{user.name}が何か喋ろうとしている！\n{time}")
-
 
 @client1.event
 async def on_message(message):
@@ -217,43 +193,13 @@ async def on_message(message):
 
             #try:
                 if message.guild.id == 585998962050203672:#けいの実験サーバ
-
                     await kei_ex_server.kei_ex_server(message,client1)#本体
-
-                if message.guild.id == 624551872933527553:#処罰部
-
-                    if message.content.startswith("/last_login "):
-                        mcid = message.content.replace("/last_login ","")
-                        p = re.compile(r"^[a-zA-Z0-9_]+$")
-                        if not p.fullmatch(mcid):
-                            await m("MCIDに使えない文字が含まれています。")
-                            return
-                        if len(mcid) < 3:
-                            await m("短すぎます！")
-                            return
-                        if len(mcid) > 16:
-                            await m("長すぎます！")
-                            return
-                        url = f"https://w4.minecraftserver.jp/player/{mcid}"
-                        try:
-                            res = requests.get(url)
-                            res.raise_for_status()
-                            soup = bs4.BeautifulSoup(res.text, "html.parser")
-                            td = soup.td
-                            if not f'{mcid}' in f'{td}':
-                                await m("整地鯖にログインしたことのないMCIDです。")
-                                return
-                            last_login = soup.select('td')[1]
-                            await m(str(last_login))
-                        except requests.exceptions.HTTPError:
-                            await m(f'requests.exceptions.HTTPError')
 
                 if message.guild.id == 604945424922574848:#いろは鯖
                     await iroha.iroha(message,client1)
 
                 if message.guild.id == 668743334109642752:
                     await kohga.kohga(message,client1,m)
-
 
                 if message.guild.id == 659375053707673600:
                     if message.content.endswith("がなんか喋ろうとしてる！"):
