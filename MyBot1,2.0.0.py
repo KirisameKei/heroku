@@ -284,94 +284,6 @@ async def loop():
     if now == "23:58":
         await kyoutuu.daily_ranking(client1)
 
-        if now == "04:00":
-            osirase_channel = client1.get_channel(585999375952642067)
-            await osirase_channel.send("今週の当選発表を行います。")
-            tousen_bangou = random.randint(0,999)
-            str_tousen_bangou = str(tousen_bangou)
-            if len(str_tousen_bangou) == 1:
-                send = "00" + str_tousen_bangou
-            if len(str_tousen_bangou) == 2:
-                send = "0" + str_tousen_bangou
-            if len(str_tousen_bangou) == 3:
-                send = str_tousen_bangou
-            await osirase_channel.send("今週の当選番号は**"+send+"**です")
-
-            atari_mae = tousen_bangou - 1
-            atari_usiro = tousen_bangou + 1
-
-            if atari_mae == -1:
-                atari_mae = 999
-            if atari_usiro == 1000:
-                atari_usiro = 0
-
-            atari_mae = str(atari_mae)
-            atari_usiro = str(atari_usiro)
-        
-            if len(atari_mae) == 1:
-                atari_mae = "00" + atari_mae
-            if len(atari_mae) == 2:
-                atari_mae = "0" + atari_mae
-            if len(atari_mae) == 3:
-                atari_mae = atari_mae
-            if len(atari_usiro) == 1:
-                atari_usiro = "00" + atari_usiro
-            if len(atari_usiro) == 2:
-                atari_usiro = "0" + atari_usiro
-            if len(atari_usiro) == 3:
-                atari_usiro = atari_usiro
-
-            simoniketa_issyo = send[1:3]
-        
-            loto_kiroku_channel = client1.get_channel(654897878140977154)
-            point_log_channel = client1.get_channel(663037579406606337)
-            pt_dic_in_embed = await point_log_channel.fetch_message(679328510463967263)
-            pt_log = pt_dic_in_embed.embeds[0].description
-            pt_dic = ast.literal_eval(pt_log)
-            async for msg in loto_kiroku_channel.history():
-                str_userid_tyuusen_bangou = await loto_kiroku_channel.fetch_message(msg.id)
-                int_userid_loto_channel = int(str_userid_tyuusen_bangou.content[0:18])
-                str_tyuusen_bangou = str_userid_tyuusen_bangou.content[19:22]
-                if str_tyuusen_bangou == send:#ピタリ賞なら
-                    hoyuu_pt = pt_dic[int_userid_loto_channel]
-                    after_pt = hoyuu_pt + 3456
-                    pt_dic = str(pt_dic)
-                    pt_record_embed = discord.Embed(description=pt_dic)
-                    await pt_dic_in_embed.edit(embed=pt_record_embed)
-                    try:
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await osirase_channel(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
-                    except AttributeError:
-                        await osirase_channel(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")                
-
-                elif str_tyuusen_bangou == atari_mae or str_tousen_bangou == atari_usiro:
-                    hoyuu_pt = pt_dic[int_userid_loto_channel]
-                    after_pt = hoyuu_pt + 1728
-                    pt_dic = str(pt_dic)
-                    pt_record_embed = discord.Embed(description=pt_dic)
-                    await pt_dic_in_embed.edit(embed=pt_record_embed)
-                    try:
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await osirase_channel(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
-                    except AttributeError:
-                        await osirase_channel(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")     
-
-                elif str_tyuusen_bangou.endswith(simoniketa_issyo):
-                    hoyuu_pt = pt_dic[int_userid_loto_channel]
-                    after_pt = hoyuu_pt + 64
-                    pt_dic = str(pt_dic)
-                    pt_record_embed = discord.Embed(description=pt_dic)
-                    await pt_dic_in_embed.edit(embed=pt_record_embed)
-                    try:
-                        user_name = client1.get_user(int_userid_loto_channel).name
-                        await osirase_channel(f"{user_name}の所有pt:{hoyuu_pt}→{after_pt}")    
-                    except AttributeError:
-                        await osirase_channel(f"{int_userid_loto_channel}の所有pt:{hoyuu_pt}→{after_pt}")     
-                else:
-                    pass
-            await loto_kiroku_channel.purge()
-            await osirase_channel.send("以上です")
-
         #しりとりリセット
         if now == "03:00":
             channel = client1.get_channel(603832801036468244)
@@ -391,62 +303,8 @@ async def loop():
             await mem.remove_roles(payed_member)
             await mem.add_roles(no_payed_member)
 
-    if now_time.hour == 0 and now_time.minute == 0:
-        today_login_channel = client1.get_channel(682410834705907780)
-        today_login_mcid_in_embed = await today_login_channel.fetch_message(682423757951991908)
-        mcids = today_login_mcid_in_embed.embeds[0].description
-        today_login_mcid_list = ast.literal_eval(mcids)
-        today_login_mcid_list.clear()
-        today_login_mcid_list = str(today_login_mcid_list)
-        logined_mcid_embed = discord.Embed(description=today_login_mcid_list)
-        await today_login_mcid_in_embed.edit(embed=logined_mcid_embed)
-
-        series_login_record_channel = client1.get_channel(682732441479544918)
-        today = datetime.date.today()
-        ototoi = today - datetime.timedelta(days=2)
-        async for msg in series_login_record_channel.history():
-            today_uuid_days = await series_login_record_channel.fetch_message(msg.id)
-            if today_uuid_days.content.startswith(f"{ototoi}"):
-                await today_uuid_days.delete()
-            else:
-                pass
 
 loop.start()
-
-
-@tasks.loop(seconds=30)
-async def change_status():
-    await client1.wait_until_ready()
-    presense_list = [
-        "members",
-        "channels",
-        "guilds",
-        "https://discord.gg/nrvMKBT",
-        "某MEE6より優秀"
-    ]
-    presense = random.choice(presense_list)
-    if presense == "members":
-        l = []
-        for guild in client1.guilds:
-            for mem in guild.members:
-                if not mem.id in l:
-                    l.append(mem.id)
-        presense = f"{len(l)}人を監視中"
-
-    if presense == "channels":
-        i = 0
-        for guild in client1.guilds:
-            for ch in guild.channels:
-                i += 1
-        presense = f"{i}チャンネルを監視中"
-
-    if presense == "guilds":
-        presense = f"{len(client1.guilds)}サーバを監視中"
-
-    game = discord.Game(presense)
-    await client1.change_presence(status=discord.Status.online, activity=game)
-    
-change_status.start()
 
 
 #以下ログインと接続に必要、触るな
