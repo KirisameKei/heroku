@@ -31,11 +31,13 @@ except ModuleNotFoundError: #けいローカル or heroku
             discord_bot_token_1 = program_data_list[0]
             discord_bot_token_2 = program_data_list[1]
             discord_bot_token_4 = program_data_list[3]
+            error_notice_webhook_url = program_data_list[4]
             where_from = program_data_list[4]
     except FileNotFoundError: #heroku
         discord_bot_token_1 = os.getenv("discord_bot_token_1")
         discord_bot_token_2 = os.getenv("discord_bot_token_2")
         discord_bot_token_4 = os.getenv("zero_bot_token")
+        error_notice_webhook_url = os.getenv("error_notice_webhook_url")
         where_from = os.getenv("where_from")
 else: #ConoHa
     discord_bot_token_1 = tokens_ConoHa.discord_bot_token_1
@@ -67,7 +69,6 @@ def unexpected_error():
             }
         ]
     }
-    error_notice_webhook_url = ""
     requests.post(error_notice_webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'}) #エラーメッセをウェブフックに投稿
 
 
@@ -159,8 +160,7 @@ async def on_message(message):
                     }
                 ]
             }
-            webhook_url = ""
-            requests.post(webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'}) #エラーメッセをウェブフックに投稿
+            requests.post(error_notice_webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'}) #エラーメッセをウェブフックに投稿
 
         try:
             m = message.channel.send
