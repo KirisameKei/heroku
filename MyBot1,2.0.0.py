@@ -13,7 +13,7 @@ except ModuleNotFoundError:
     pass
 
 import kyoutuu,kei_ex_server,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
-import my_guild_role_dic,message_list,ban_list,channel_dic#このbotを動かすのに必要な辞書とリスト
+import my_guild_role_dic,message_list,channel_dic#このbotを動かすのに必要な辞書とリスト
 
 import kohga#依頼
 
