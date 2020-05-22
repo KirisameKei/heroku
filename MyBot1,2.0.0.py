@@ -94,45 +94,6 @@ async def on_ready():
 async def on_ready():
     print(client4.user.name+"がログインしました")
 
-
-@client1.event
-async def on_guild_join(guild):
-    for g in guild.text_channels:
-        syoukai_msg = "初めましての方は初めまして、そうでない方はまたお会いしましたね。<@!523303776120209408>制作の魔理沙botです。\n"
-        syoukai_msg += f"このbotを{guild.name}に導入していただきありがとうございます。\n"
-        syoukai_msg += "皆様にお願いしたいことがあります。このbotに極度に負荷をかけるような行為をしないでください。また、"
-        syoukai_msg += "私のサーバに書かれている利用規約に記載された招待用コマンドの実行以外でこのbotの招待リンクを作成・使用・配布しないでください。\n"
-        syoukai_msg += "バグ、不具合等問題がありましたら容赦なく<@!523303776120209408>にメンションかDMを飛ばしてください。\n"
-        syoukai_msg += "問題がなかったらお楽しみください。\n"
-        syoukai_msg += "最後に私のサーバを紹介・宣伝します。https://discord.gg/nrvMKBT このbotについてもっと知りたい、このbotを招待したい、けいの活動に興味がある、"
-        syoukai_msg += "理由は何でも構いません。ぜひ見ていってください"
-        try:
-            await g.send(syoukai_msg)
-            break
-        except:
-            pass
-
-    sanka_dattai_channel = client1.get_channel(588224929300742154)
-    await sanka_dattai_channel.send(f"{client1.user.name}が{guild.name}に参加しました。")
-
-    for ch in guild.text_channels:
-        try:
-            invite = await ch.create_invite(reason="けいを招待するため")
-            break
-        except:
-            pass
-    kei = client1.get_user(523303776120209408)
-    dm = await kei.create_dm()
-    await dm.send(invite)
-
-
-@client1.event
-async def on_guild_remove(guild):
-    sanka_dattai_channel = client1.get_channel(588224929300742154)
-    await sanka_dattai_channel.send(f"{client1.user.name}が{guild.name}から抜けました。")
-
-
-
 @client1.event
 async def on_message(message):
     try:
@@ -192,6 +153,11 @@ async def on_message(message):
                             await m("そのユーザーは見つかりませんでした。")
 
             #try:
+                if message.content.startswith("="):
+                    siki = message.content.replace("=", "")
+                    kotae = eval(siki)
+                    await message.channel.send(f"{kotae}")
+
                 if message.guild.id == 585998962050203672:#けいの実験サーバ
                     await kei_ex_server.kei_ex_server(message,client1)#本体
 
