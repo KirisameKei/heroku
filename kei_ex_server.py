@@ -43,25 +43,6 @@ async def kei_ex_server(message,client1):
 async def role_add_remove(message,client1,m):
     if not message.author.bot:
         #役職付与・剥奪
-        if message.content in my_guild_role_dic.ippan_role:
-            if not message.channel.id in channel_dic.my_guild_allow_command_channel:
-                await m("ここで実行しないでください！")
-                return
-            role = my_guild_role_dic.ippan_role[message.content]
-            role = discord.utils.get(message.guild.roles,name=role)
-            if not message.content.startswith("/not "):#notで始まっていなければ(付与系なら)
-                if discord.utils.get(message.author.roles,name=role.name):
-                    await m("もう持ってるじゃん・・・")
-                else:
-                    await message.author.add_roles(role)
-                    await m(message.author.name+"に"+role.name+"を付与しました")
-
-            else:#notで始まっていたら(剥奪系なら)
-                if discord.utils.get(message.author.roles,name=role.name):
-                    await message.author.remove_roles(role)
-                    await m(message.author.name+"から"+role.name+"を剥奪しました")
-                else:
-                    await m("もう付いてないよ^^")
 
         if message.content.startswith("/hide"):
             if not message.channel.id in channel_dic.my_guild_allow_command_channel:
@@ -160,30 +141,6 @@ async def my_server_commands(message,client1,m):
         if not message.channel.id in channel_dic.my_guild_allow_command_channel:
             await m("ここで実行しないでください！")
             return
-
-        if message.content == "/omikuji":
-            send = random.choice(message_list.omikuji)
-            await m(send)
-
-        if message.content == "/speca":
-            send = random.choice(message_list.speca)
-            await m(send)
-
-        if message.content == "/meigen":
-            send = random.choice(message_list.meigen)
-            await m(send)
-        
-        if message.content == "/osusume_eshi":
-            send = random.choice(message_list.osusume_eshi)
-            await m(send)
-
-        if message.content == "/osusume_youtuber":
-            send = random.choice(message_list.osusume_youtuber)
-            await m(send)
-
-        if message.content == "/osusume_movie":
-            send = random.choice(message_list.osusume_movie)
-            await m(send)
 
         if message.content.startswith("/vote "):
             poll_list = message.content.split(" ")
