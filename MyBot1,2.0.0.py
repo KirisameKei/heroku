@@ -46,30 +46,17 @@ else: #ConoHa
     where_from = tokens_ConoHa.where_from
 
 
-def unexpected_error():
+async def unexpected_error():
     """
     予期せぬエラーが起きたときの対処
-    エラーメッセージ全文と発生時刻をウェブフックで通知"""
+    エラーメッセージ全文と発生時刻を通知"""
 
     now = datetime.datetime.now().strftime("%H:%M") #今何時？
     error_msg = f"```\n{traceback.format_exc()}```" #エラーメッセージ全文
-    #webhookで投稿する中身
-    main_content = {
-        "username": "ERROR", #表示されるwebhook名
-        "avatar_url": "https://cdn.discordapp.com/attachments/644880761081561111/703088291066675261/warning.png", #使用アイコン
-        "content": "<@523303776120209408>", #けいにメンション
-        "embeds": [ #エラー内容・発生時間まとめ
-            {
-                "title": "エラーが発生しました",
-                "description": error_msg,
-                "color": 0xff0000,
-                "footer": {
-                    "text": now
-                }
-            }
-        ]
-    }
-    requests.post(error_notice_webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'}) #エラーメッセをウェブフックに投稿
+    error_embed = discord.Embed(title="ERROR", description=error_msg, color=0xff0000)
+    error_embed.set_footer(text=now)
+    python_todo_list = client1.get_channel(636359382359080961)
+    await python_todo_list.send(content="<@523303776120209408>", embed=error_embed)
 
 
 @client1.event
@@ -79,7 +66,7 @@ async def on_ready():
         await login_notice_ch.send(f"{client1.user.name}がログインしました(from:{where_from})")
         print(f"{client1.user.name}がログインしました")
     except:
-        unexpected_error()
+        await unexpected_error()
 
 
 @client2.event
@@ -96,33 +83,22 @@ async def on_ready():
 
 @client1.event
 async def on_message(message):
-    try:
-        if message.content == "/bot_stop":
-            kei_ex_guild = client1.get_guild(585998962050203672)
-            bot_stop_right_role = discord.utils.get(kei_ex_guild.roles, id=707570554462273537)
-            if not bot_stop_right_role in message.author.roles:
-                await message.channel.send("何様のつもり？")
-                return
-            await client1.close()
-            now = datetime.datetime.now().strftime(r"%Y年%m月%d日　%H:%M")
-            stop_msg = f"{message.author.mention}により{client1.user.name}が停止させられました"
-            main_content = {
-                "username": "BOT STOP",
-                "avatar_url": "https://cdn.discordapp.com/attachments/644880761081561111/703088291066675261/warning.png",
-                "content": "<@523303776120209408>",
-                "embeds": [
-                    {
-                        "title": "botが停止させられました",
-                        "description": stop_msg,
-                        "color": 0xff0000,
-                        "footer": {
-                            "text": now
-                        }
-                    }
-                ]
-            }
-            requests.post(error_notice_webhook_url, json.dumps(main_content), headers={'Content-Type': 'application/json'}) #エラーメッセをウェブフックに投稿
+    if message.content == "/bot_stop":
+        kei_ex_guild = client1.get_guild(585998962050203672)
+        bot_stop_right_role = discord.utils.get(kei_ex_guild.roles, id=707570554462273537)
+        if not bot_stop_right_role in message.author.roles:
+            await message.channel.send("何様のつもり？")
+            return
 
+        now = datetime.datetime.now().strftime(r"%Y/%m/%d　%H:%M")
+        stop_msg = f"{message.author.mention}により{client1.user.name}が停止させられました"
+        stop_embed = discord.Embed(title="botが停止させられました", description=stop_msg, color=0xff0000)
+        stop_embed.set_footer(text=now)
+        python_todo_list = client1.get_channel(636359382359080961)
+        await python_todo_list.send(content="<@523303776120209408>", embed=stop_embed)
+
+        await client1.close()
+    try:
         try:
             m = message.channel.send
 
@@ -176,7 +152,7 @@ async def on_message(message):
         except RuntimeError:
             pass
     except:
-        unexpected_error()
+        await unexpected_error()
 
 
 @client2.event

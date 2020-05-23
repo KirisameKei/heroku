@@ -11,7 +11,6 @@ import my_guild_role_dic,message_list,channel_dic#このbotを動かすのに必
 async def kei_ex_server(message,client1):
     m = message.channel.send
     await kyoutuu.itibu_kyoutuu_daily_ranking(message)
-    await kyoutuu.itibu_kyoutuu_check_break(message,client1)
     await role_add_remove(message,client1,m)
     await my_server_commands(message,client1,m)
 
