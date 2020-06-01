@@ -13,13 +13,6 @@ import my_guild_role_dic,message_list#このbotを動かすのに必要な辞書
 async def iroha(message,client1):
     m = message.channel.send
 
-    if message.content.startswith(":skull:"):
-        message_list = ["悲しい","ドンマイ","気をしっかり","えぇ"]
-        send = random.choice(message_list)
-        await m(send)
-    if message.content.startswith(":medal:"):
-        await m("おめ")
-
     if message.content.startswith("/vote "):
         poll_list = message.content.split(" ")
         del poll_list[0]#/pollを消す
