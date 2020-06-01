@@ -11,7 +11,6 @@ import my_guild_role_dic,message_list,channel_dic#このbotを動かすのに必
 async def kei_ex_server(message,client1):
     m = message.channel.send
     await kyoutuu.itibu_kyoutuu_daily_ranking(message)
-    await role_add_remove(message,client1,m)
     await my_server_commands(message,client1,m)
 
     if message.channel.id == 603832801036468244:
@@ -39,104 +38,9 @@ async def kei_ex_server(message,client1):
         await m(f"{message.author.mention}\nDMに招待リンクを送信しました。(管理者権限を持っているサーバに導入できます)")
 
 
-async def role_add_remove(message,client1,m):
-    if not message.author.bot:
-        #役職付与・剥奪
-
-        if message.content.startswith("/hide"):
-            if not message.channel.id in channel_dic.my_guild_allow_command_channel:
-                await m("ここで実行しないでください！")
-                return
-            role = discord.utils.get(message.guild.roles,name="かくれんぼなう")
-            if message.content == "/hide me":
-                if discord.utils.get(message.author.roles,name="かくれんぼなう"):
-                    await m(message.author.name+"が見つかりませんでした。")
-                else:
-                    await message.author.add_roles(role)
-                    await m(message.author.name+"が隠れました。もーいーよ！")
-            else:
-                user_id = message.content[6:]
-                p = re.compile(r"^[0-9]+$")
-                if not p.fullmatch(user_id):
-                    await m("IDは18桁の半角数字です")
-                    return
-                user_id = int(user_id)
-                member = message.guild.get_member(user_id)
-                if discord.utils.get(member.roles,name="管理者"):
-                    await m("管理者を隠そうとは・・・さてはこの鯖を乗っ取る気だなおめー")
-                    return
-                if discord.utils.get(member.roles,name="かくれんぼなう"):
-                    await m(member.name+"は既に隠れているようです。私には見つけられませんでした。")
-                    return
-                await member.add_roles(role)
-                await m(member.name+"が隠れました。もーいーよ！")
-
-        if message.content.startswith("/find "):
-            if not message.channel.id in channel_dic.my_guild_allow_command_channel:
-                await m("ここで実行しないでください！")
-                return
-            role = discord.utils.get(message.guild.roles,name="かくれんぼなう")
-            if message.content == "/find me":
-                if discord.utils.get(message.author.roles,name="かくれんぼなう"):
-                    await message.author.remove_roles(role)
-                    await m(message.author.name+"、みーっけ！")
-                else:
-                    await m("もう見つけてるよ・・・")
-            else:
-                user_id = message.content[6:]
-                p = re.compile(r"^[0-9]+$")
-                if not p.fullmatch(user_id):
-                    await m("IDは18桁の半角数字です")
-                    return
-                user_id = int(user_id)
-                member = message.guild.get_member(user_id)
-                if not discord.utils.get(member.roles,name="かくれんぼなう"):
-                    await m("そこにいるよ・・・")
-                    return
-                await member.remove_roles(role)
-                await m(member.name+"、みーっけ！")
-
-
-        if message.content == "/delallow":
-            if not discord.utils.get(message.author.roles,name="管理者"):
-                await m("何様のつもり？")
-                doM = discord.utils.get(message.guild.roles,name="ドM")
-                await message.author.add_roles(doM)
-                return
-            if not message.channel.id == 597122356606926870:#ここにマル秘のIDを入れる
-                await m("ここで実行しないでください！")
-                return
-            role = discord.utils.get(message.guild.roles,name="delmsg許可")
-            await message.author.add_roles(role)
-            await m(message.author.name+"にdelmsg許可を付与しました。")
-
-        if message.content.startswith("/delmsg"):
-            role = discord.utils.get(message.guild.roles,name="delmsg許可")
-            if not discord.utils.get(message.author.roles,name="delmsg許可"):
-                await m("何様のつもり？")
-                doM = discord.utils.get(message.guild.roles,name="ドM")
-                await message.author.add_roles(doM)
-                return
-                
-            if message.content == "/delmsg":
-                await message.channel.purge()
-                await message.author.remove_roles(role)
-            else:
-                sakusyosuu = message.content[8:]
-                p = re.compile(r"^[0-9]+$")
-                if p.fullmatch(sakusyosuu):
-                    sakusyosuu = int(sakusyosuu) + 1
-                    await message.channel.purge(limit=sakusyosuu)
-                    await message.author.remove_roles(role)
-
-
 async def my_server_commands(message,client1,m):
 
-    if message.content == "/omikuji" or message.content == "/speca" or message.content == "/meigen" or \
-        message.content.startswith("/osusume_") or message.content.startswith("/name ") or message.content.startswith("/weather ") or \
-        message.content.startswith("/stimer ") or message.content.startswith("/mtimer ") or message.content.startswith("/htimer ") or \
-        message.content.startswith("/role_count ") or message.content.startswith("/mcid ") or message.content.startswith("/vote ") or \
-        message.content.startswith("/mcavatar ") or message.content == "/help":
+    if message.content.startswith("/vote ") or message.content.startswith("/mcavatar "):
         if not message.channel.id in channel_dic.my_guild_allow_command_channel:
             await m("ここで実行しないでください！")
             return
