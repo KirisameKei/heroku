@@ -13,17 +13,6 @@ async def kei_ex_server(message,client1):
     await kyoutuu.itibu_kyoutuu_daily_ranking(message)
     await my_server_commands(message,client1,m)
 
-    if message.channel.id == 603832801036468244:
-        if message.content.endswith("ん") or message.content.endswith("ン"):
-            choice = random.choice(message_list.siritori_nn)
-            await m(choice)
-
-    if message.content == "魔理ちゃんのことが大好きです":
-        if message.author.name == "けい":
-            await m("私も好きだぜ///")
-        else:
-            await m("ごめんな、私はけいさんのことが好きなんだぜ・・・")
-
     if message.content == "/marichan_invite":
         if not message.channel.id in channel_dic.my_guild_allow_command_channel:
             await m(f"{message.author.mention}\nここで実行しないでください！\nコマンド漏洩防止のためメッセージを削除します。")
@@ -40,7 +29,7 @@ async def kei_ex_server(message,client1):
 
 async def my_server_commands(message,client1,m):
 
-    if message.content.startswith("/vote ") or message.content.startswith("/mcavatar "):
+    if message.content.startswith("/vote "):
         if not message.channel.id in channel_dic.my_guild_allow_command_channel:
             await m("ここで実行しないでください！")
             return
@@ -75,7 +64,3 @@ async def my_server_commands(message,client1,m):
             ]
             for i in range(len(poll_list)):
                 await msg.add_reaction(reaction_list[i])
-
-        if message.content.startswith("/mcavatar "):
-            mcid = message.content.replace("/mcavatar ","")
-            await m(f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png")
