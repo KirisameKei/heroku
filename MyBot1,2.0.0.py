@@ -15,8 +15,6 @@ except ModuleNotFoundError:
 import kyoutuu,kei_ex_server,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
 import my_guild_role_dic,message_list,channel_dic#このbotを動かすのに必要な辞書とリスト
 
-import kohga#依頼
-
 client1 = discord.Client()#魔理沙bot(メインで使用)
 client4 = discord.Client()#零bot
 
@@ -128,9 +126,6 @@ async def on_message(message):
                 if message.guild.id == 604945424922574848:#いろは鯖
                     await iroha.iroha(message,client1)
 
-                if message.guild.id == 668743334109642752:
-                    await kohga.kohga(message,client1,m)
-
             #except AttributeError:
             #    await message.channel.send("エラー")
         except RuntimeError:
@@ -164,18 +159,6 @@ async def loop():
             start = message_list.siritori_start
             hajime = random.choice(start)
             await channel.send(hajime)
-
-    #kohgaの依頼
-    now_time = datetime.datetime.now()
-    if now_time.day == 1 and now_time.hour == 0 and now_time.minute == 0:
-        kohga_server = client1.get_guild(668743334109642752)
-        house_member = discord.utils.get(kohga_server.roles,id=668743691040718858)#家の人
-        payed_member = discord.utils.get(kohga_server.roles,id=668745683398033418)#支払い済み
-        no_payed_member = discord.utils.get(kohga_server.roles,id=668745506817835028)#未払い
-        for mem in house_member.members:
-            await mem.remove_roles(payed_member)
-            await mem.add_roles(no_payed_member)
-
 
 loop.start()
 
