@@ -15,7 +15,6 @@ except ModuleNotFoundError:
 import kyoutuu,kei_ex_server,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
 
 client1 = discord.Client()#魔理沙bot(メインで使用)
-client4 = discord.Client()#零bot
 
 try:
     import tokens_ConoHa
@@ -62,10 +61,6 @@ async def on_ready():
         await unexpected_error()
 
 
-@client4.event
-async def on_ready():
-    print(client4.user.name+"がログインしました")
-
 @client1.event
 async def on_message(message):
     if message.content == "/bot_stop":
@@ -86,11 +81,6 @@ async def on_message(message):
     try:
         try:
             m = message.channel.send
-
-            if message.author.name == "MEE6":
-                await message.add_reaction("\U0001F595")    
-            if message.author.id == 672910471279673358:
-                await message.add_reaction("\U0001F595")
 
             if message.author != client1.user:#DM対処
                 if message.channel == message.author.dm_channel:
@@ -136,8 +126,7 @@ async def on_message(message):
 #以下ログインと接続に必要、触るな
 Entry = namedtuple("Entry", "client event token")
 entries = [
-    Entry(client=client1,event=asyncio.Event(),token=discord_bot_token_1),
-    Entry(client=client4,event=asyncio.Event(),token=discord_bot_token_4)
+    Entry(client=client1,event=asyncio.Event(),token=discord_bot_token_1)
 ]  
 
 async def login():
