@@ -6,18 +6,12 @@ from discord.ext import tasks
 from discord import Embed#ここまでモジュールのインポート/name
 
 import kyoutuu#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
-import my_guild_role_dic,message_list,channel_dic#このbotを動かすのに必要な辞書とリスト
 
 async def kei_ex_server(message,client1):
     m = message.channel.send
     await kyoutuu.itibu_kyoutuu_daily_ranking(message)
-    await my_server_commands(message,client1,m)
 
     if message.content == "/marichan_invite":
-        if not message.channel.id in channel_dic.my_guild_allow_command_channel:
-            await m(f"{message.author.mention}\nここで実行しないでください！\nコマンド漏洩防止のためメッセージを削除します。")
-            await message.delete()
-            return
         dm = await message.author.create_dm()
         marichan_inviter_role = discord.utils.get(message.guild.roles,id=663542711290429446)
         await message.author.add_roles(marichan_inviter_role)
@@ -30,9 +24,6 @@ async def kei_ex_server(message,client1):
 async def my_server_commands(message,client1,m):
 
     if message.content.startswith("/vote "):
-        if not message.channel.id in channel_dic.my_guild_allow_command_channel:
-            await m("ここで実行しないでください！")
-            return
 
         if message.content.startswith("/vote "):
             poll_list = message.content.split(" ")

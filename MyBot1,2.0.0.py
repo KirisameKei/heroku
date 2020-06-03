@@ -13,7 +13,6 @@ except ModuleNotFoundError:
     pass
 
 import kyoutuu,kei_ex_server,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
-import my_guild_role_dic,message_list,channel_dic#このbotを動かすのに必要な辞書とリスト
 
 client1 = discord.Client()#魔理沙bot(メインで使用)
 client4 = discord.Client()#零bot
@@ -132,35 +131,6 @@ async def on_message(message):
             pass
     except:
         await unexpected_error()
-
-
-@tasks.loop(seconds=60)
-async def loop():
-    now = datetime.datetime.now().strftime("%H:%M")
-    weekday = datetime.datetime.now().weekday()
-
-    if weekday == 2 and now == "12:00":
-        guild = client1.get_guild(587909823665012757)
-        pict_list = [
-            "kero.png",
-            "rem.png",
-            "anan_1919.png",
-            "poop.png",
-            "who.jpg"
-        ]
-        pict = random.choice(pict_list)
-        img = open(pict, mode="rb").read()
-        await guild.edit(icon=img)
-
-        #しりとりリセット
-        if now == "03:00":
-            channel = client1.get_channel(603832801036468244)
-            await channel.purge()
-            start = message_list.siritori_start
-            hajime = random.choice(start)
-            await channel.send(hajime)
-
-loop.start()
 
 
 #以下ログインと接続に必要、触るな

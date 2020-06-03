@@ -9,7 +9,6 @@ from discord import Embed#ここまでモジュールのインポート
 from discord import Embed
 
 import kyoutuu#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
-import my_guild_role_dic,message_list#このbotを動かすのに必要な辞書とリスト
 
 client1 = discord.Client()
 
