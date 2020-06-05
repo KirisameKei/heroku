@@ -13,3 +13,4 @@ chromedriver-binary==80.0.3987.106.0
 Pillow==6.2.1
 selenium==3.141.0
 requests==2.22.0
+twitter1.18.0
