@@ -1,1 +1,1 @@
-discordbot: python MyBot1,2.0.0.py
+discordbot: python discord_bot_new.py
