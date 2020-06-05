@@ -102,11 +102,6 @@ async def on_message(message):
                 if message.guild.id == 585998962050203672:#けいの実験サーバ
                     await kei_ex_server.kei_ex_server(message,client1)#本体
 
-                if message.guild.id == 604945424922574848:#いろは鯖
-                    await iroha.iroha(message,client1)
-
-            #except AttributeError:
-            #    await message.channel.send("エラー")
         except RuntimeError:
             pass
     except:
