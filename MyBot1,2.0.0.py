@@ -1,18 +1,8 @@
-import discord,random,re,datetime,json,time,math,os,asyncio,requests,bs4,ast,sys,traceback
-import urllib.request
+import discord, re, datetime, os, asyncio, traceback
 from collections import namedtuple
-from datetime import date
-from discord.ext import tasks
-#from discord import FFmpegPCMAudio
 from discord import Embed#ここまでモジュールのインポート
-from discord import Webhook, RequestsWebhookAdapter
 
-try:
-    import tokens
-except ModuleNotFoundError:
-    pass
-
-import kyoutuu,kei_ex_server,iroha#on_message関数の使用に必要(メッセージサーバごとに処理を分ける)
+import kyoutuu,kei_ex_server
 
 client1 = discord.Client()#魔理沙bot(メインで使用)
 
