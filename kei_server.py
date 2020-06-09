@@ -58,9 +58,6 @@ async def on_message(client1, message):
     if message.channel.id == 603832801036468244:
         await shiritori(message)
 
-    if message.content == "/marichan_invite":
-        await marichan_invite(message)
-
     if message.channel.id == 639830406270681099:
         await dm_send(client1, message)
 
@@ -208,28 +205,6 @@ async def shiritori(message):
         "ンジャジジャ島"
     ]
     await message.channel.send(random.choice(shiritori_n_list))
-
-
-async def marichan_invite(message):
-    """
-    魔理沙bot招待コマンドが実行されたとき用の関数"""
-
-    await message.delete()
-    await message.channel.send("コマンド漏洩防止のためコマンドを削除しました", delete_after=5)
-    marichan_inviter_role = discord.utils.get(message.guild.roles, id=663542711290429446)
-    await message.author.add_roles(marichan_inviter_role)
-    try:
-        import tokens_ConoHa
-    except ModuleNotFoundError:
-        invite_url = os.getenv("marichan_invite_url")
-    else:
-        invite_url = tokens_ConoHa.marichan_invite_url
-    try:
-        await message.author.send(invite_url)
-    except discord.errors.Forbidden:
-        await message.channel.send("権限エラー。DMを解放してください。")
-        return
-    await message.channel.send("DMに招待urlを送信しました。管理者を持っているサーバーに入れられます。")
 
 
 async def dm_send(client1, message):
