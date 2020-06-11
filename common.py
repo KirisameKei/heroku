@@ -3,7 +3,7 @@ import datetime
 
 import discord
 
-async def quote_message(client1, client4, message):icon_url
+async def quote_message(client1, client4, message):
     """
     メッセージリンク展開用関数"""
 
