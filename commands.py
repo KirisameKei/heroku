@@ -35,7 +35,7 @@ def role_info(message, role_id):
         else:
             mention_able = "否"
         role_info_embed.add_field(name="メンションの可否", value=mention_able, inline=False)
-        role_info_embed.set_footer(text=message.guild.name, icon_url=message.guild.icon_url)
+        role_info_embed.set_footer(text=message.guild.name, icon_url=message.guild.icon_url_as(format="png"))
         return role_info_embed
 
     except AttributeError:
@@ -51,7 +51,7 @@ def guild_info(client1, guild_id):
     guild = client1.get_guild(guild_id)
     try:
         guild_info_embed = discord.Embed(title=guild.name, color=0xffffff)
-        guild_info_embed.set_thumbnail(url=guild.icon_url)
+        guild_info_embed.set_thumbnail(url=guild.icon_url_as(format="png"))
         guild_info_embed.add_field(name="参加人数", value=f"{len(guild.members)}", inline=True)
         guild_made_time = (guild.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
         guild_info_embed.add_field(name="作成日時", value=f"{guild_made_time}　(JST)", inline=True)
@@ -80,7 +80,7 @@ async def user_info(client1, user_id):
         return error_embed
 
     user_info_embed = discord.Embed(title=user.name, color=0x000000)
-    user_info_embed.set_thumbnail(url=user.avatar_url)
+    user_info_embed.set_thumbnail(url=user.avatar_url_as(format="png"))
     user_info_embed.add_field(name="botかどうか", value=f"{user.bot}", inline=False)
     user_made_time = (user.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
     user_info_embed.add_field(name="アカウント作成日時", value=f"{user_made_time}　(JST)", inline=False)
