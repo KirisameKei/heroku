@@ -3,7 +3,7 @@ import datetime
 
 import discord
 
-async def quote_message(client1, client4, message):
+async def quote_message(client1, client4, message):icon_url
     """
     メッセージリンク展開用関数"""
 
@@ -43,8 +43,8 @@ async def quote_message(client1, client4, message):
 
             if msg.embeds or msg.content or msg.attachments:
                 embed = discord.Embed(description=msg.content, timestamp=msg.created_at)
-                embed.set_author(name=msg.author, icon_url=msg.author.avatar_url)
-                embed.set_footer(text=msg.channel.name, icon_url=msg.guild.icon_url)
+                embed.set_author(name=msg.author, icon_url=msg.author.avatar_url_as(format="png"))
+                embed.set_footer(text=msg.channel.name, icon_url=msg.guild.icon_url_as(format="png"))
                 if msg.attachments:
                     embed.set_image(url=msg.attachments[0].url)
                 embed = quote_reaction(msg, embed)
@@ -324,8 +324,8 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
                 embed.add_field(name="やりたいこと", value=f"{reply_list[1].content}{reply_list[2].content}", inline=False)
                 embed.add_field(name="条件の指定", value=reply_list[3].content)
                 embed.add_field(name="備考", value=reply_list[4].content)
-                embed.set_author(name=message.author.name, icon_url=message.author.avatar_url)
-                embed.set_footer(text=message.guild.name, icon_url=message.guild.icon_url)
+                embed.set_author(name=message.author.name, icon_url=message.author.avatar_url_as(format="png"))
+                embed.set_footer(text=message.guild.name, icon_url=message.guild.icon_url_as(format="png"))
                 if reply_list[0].content == "no":#非公開なら
                     await reply.delete()
                     kei = client1.get_user(523303776120209408)
@@ -389,8 +389,8 @@ async def bug_report(client1, message):
                 notice_ch = client1.get_channel(636359382359080961)
                 now = datetime.datetime.now().strftime(r"%Y/%m/%d　%H:%M")
                 notice_embed = discord.Embed(title="バグです！", description=reply.content, color=0xff0000)
-                notice_embed.set_author(name=message.author.name, icon_url=message.author.avatar_url)
-                notice_embed.set_footer(text=f"{message.guild.name}　{now}", icon_url=message.guild.icon_url)
+                notice_embed.set_author(name=message.author.name, icon_url=message.author.avatar_url_as(format="png"))
+                notice_embed.set_footer(text=f"{message.guild.name}　{now}", icon_url=message.guild.icon_url_as(format="png"))
                 await notice_ch.send(content="<@523303776120209408>", embed=notice_embed)
                 await message.channel.send("不具合の報告ありがとうございます。内容をけいの実験サーバ「python開発やることリスト」に送信しました。\n\
 疑問点がある、情報が不十分等の理由でメンションやDMをさせていただく場合があります。")

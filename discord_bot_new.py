@@ -24,7 +24,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 try:
     import tokens_ConoHa
 except ModuleNotFoundError: #けいローカル or heroku
-    discord_bot_token_1 = os.getenv("discord_bot_token_1")
+    discord_bot_token_1 = os.getenv("discord_bot_token_1")icon_url
     discord_bot_token_4 = os.getenv("discord_bot_token_4")
     where_from = os.getenv("where_from")
     error_notice_webhook_url = os.getenv("error_notice_webhook")
@@ -92,7 +92,7 @@ async def on_guild_join(guild):
             description += "このbotについてもっと知りたい、このbotを招待したい、けいの活動に興味がある、理由は何でも構いません。ぜひ見ていってください"
             self_introduction_embed = discord.Embed(title=title, description=description, color=0xffff00)
             kei = client1.get_user(523303776120209408)
-            self_introduction_embed.set_footer(text="←作った人", icon_url=kei.avatar_url)
+            self_introduction_embed.set_footer(text="←作った人", icon_url=kei.avatar_url_as(format="png"))
             try:
                 await ch.send(embed=self_introduction_embed)
                 break
@@ -108,8 +108,8 @@ async def on_guild_join(guild):
                 pass
 
         member_embed = discord.Embed(title="╋", description=f"{client1.user.name}が{guild.name}に参加しました", color=0xfffffe)
-        member_embed.set_author(name=client1.user.name, icon_url=client1.user.avatar_url)
-        member_embed.set_footer(text=guild.name, icon_url=guild.icon_url)
+        member_embed.set_author(name=client1.user.name, icon_url=client1.user.avatar_url_as(format="png"))
+        member_embed.set_footer(text=guild.name, icon_url=guild.icon_url_as(format="png"))
         join_leave_notice_ch = client1.get_channel(588224929300742154)
         await join_leave_notice_ch.send(embed=member_embed)
 
@@ -120,8 +120,8 @@ async def on_guild_join(guild):
 async def on_guild_remove(guild):
     try:
         member_embed = discord.Embed(title="━", description=f"{client1.user.name}が{guild.name}から脱退しました", color=0xff0000)
-        member_embed.set_author(name=client1.user.name, icon_url=client1.user.avatar_url)
-        member_embed.set_footer(text=guild.name, icon_url=guild.icon_url)
+        member_embed.set_author(name=client1.user.name, icon_url=client1.user.avatar_url_as(format="png"))
+        member_embed.set_footer(text=guild.name, icon_url=guild.icon_url_as(format="png"))
         join_leave_notice_ch = client1.get_channel(588224929300742154)
         await join_leave_notice_ch.send(embed=member_embed)
     except:
@@ -352,7 +352,7 @@ async def dm(client1, message):
 
     send_ch = client1.get_channel(639830406270681099)
     dm_embed = discord.Embed(description=message.content)
-    dm_embed.set_author(name=f"{message.author.name}\n{message.author.id}", icon_url=message.author.avatar_url)
+    dm_embed.set_author(name=f"{message.author.name}\n{message.author.id}", icon_url=message.author.avatar_url_as(format="png"))
     await send_ch.send(embed=dm_embed)
 
 

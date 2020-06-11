@@ -92,8 +92,8 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
                 embed.add_field(name="やりたいこと",value=f"{reply_list[1].content}{reply_list[2].content}",inline=False)
                 embed.add_field(name="条件の指定",value=reply_list[3].content)
                 embed.add_field(name="備考",value=reply_list[4].content)
-                embed.set_author(name=message.author.name,icon_url=message.author.avatar_url)
-                embed.set_footer(text=message.guild.name,icon_url=message.guild.icon_url)
+                embed.set_author(name=message.author.name,icon_url=message.author.avatar_url_as(format="png"))
+                embed.set_footer(text=message.guild.name,icon_url=message.guild.icon_url_as(format="png"))
                 if reply_list[0].content == "no":#非公開なら
                     dm = await client4.get_user(523303776120209408).create_dm()
                     await reply.delete()
