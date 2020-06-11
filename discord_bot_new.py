@@ -24,7 +24,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 try:
     import tokens_ConoHa
 except ModuleNotFoundError: #けいローカル or heroku
-    discord_bot_token_1 = os.getenv("discord_bot_token_1")icon_url
+    discord_bot_token_1 = os.getenv("discord_bot_token_1")
     discord_bot_token_4 = os.getenv("discord_bot_token_4")
     where_from = os.getenv("where_from")
     error_notice_webhook_url = os.getenv("error_notice_webhook")
