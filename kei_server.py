@@ -236,6 +236,25 @@ async def dm_send(client1, message):
         await message.channel.send("権限がありません")
 
 
+async def marichan_birthday(client1):
+    """
+    6/28は魔理沙botの誕生日です"""
+
+    ch = client1.get_channel(585999375952642067)
+    embed = discord.Embed(title="Happy Birthday!!:tada:",
+                        description="本日、6月28日は魔理沙bot生誕一周年です。\n記念に現時刻から23:59(botの指示による)までに本サーバでガチャ券を寄こせと言うとガチャ券を1st進呈します。(イベントへの備えであまり上げられないことをご了承ください。)(アサルターなら受け取りに来る時間があるなら掘った方がいいと思います。)",
+                        color=0xffff00)
+    await ch.send(content=discord.utils.get(client1.get_guild(585998962050203672).roles, id=585998962050203672).name, embed=embed)
+
+
+async def marichan_birthday_finish(client1):
+    """
+    しゅーりょーカンカンカン"""
+
+    ch = client1.get_channel(585999375952642067)
+    await ch.send("あはははは！おわりですおわりです！！！！")
+
+
 async def jms_notice(client1):
     """
     毎日9:10に雑談チャンネルでメンションを飛ばす"""

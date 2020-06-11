@@ -288,6 +288,24 @@ async def change_guild_icon():
         unexpected_error()
 
 
+@tasks.loop(seconds=60)
+async def marichan_birthday():
+    try:
+        await client1.wait_until_ready()
+        now = datetime.datetime.now()
+
+        if now.month == 6 and now.day == 28 and now.hour == 0 and now.minute == 0:
+            await kei_server.marichan_birthday(client1)
+
+        if now.month == 6 and now.day == 28 and now.hour == 23 and now.minute == 59:
+            await kei_server.marichan_birthday_finish(client1)
+
+    except:
+        unexpected_error()
+
+marichan_birthday.start()
+
+
 @tasks.loop(seconds=30)
 async def change_status():
     try:
@@ -338,10 +356,11 @@ async def dm(client1, message):
     await send_ch.send(embed=dm_embed)
 
 
+#以下ログインに必要
+#触るな
 Entry = namedtuple("Entry", "client event token")
 entries = [
     Entry(client=client1,event=asyncio.Event(),token=discord_bot_token_1),
-    #Entry(client=client2,event=asyncio.Event(),token=discord_bot_token_2),
     Entry(client=client4,event=asyncio.Event(),token=discord_bot_token_4)
 ]  
 
