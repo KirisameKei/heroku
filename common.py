@@ -42,7 +42,7 @@ async def quote_message(client1, client4, message):
                 return embed
 
             if msg.embeds or msg.content or msg.attachments:
-                embed = discord.Embed(description=msg.content, timestamp=msg.created_at)
+                embed = discord.Embed(description=f"[{msg.content}](https://discordapp.com/channels/{guild_id}/{channel_id}/{message_id})", timestamp=msg.created_at)
                 embed.set_author(name=msg.author, icon_url=msg.author.avatar_url_as(format="png"))
                 embed.set_footer(text=msg.channel.name, icon_url=msg.guild.icon_url_as(format="png"))
                 if msg.attachments:
