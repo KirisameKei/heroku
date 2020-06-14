@@ -213,7 +213,7 @@ async def on_message(message):
                 await hjk.on_message(client1, message)
 
             if message.guild.id == 587909823665012757: #無法地帯
-                await muhou.on_message(message)
+                await muhou.on_message(client1, message)
 
         except (RuntimeError, aiohttp.client_exceptions.ServerDisconnectedError):
             pass
@@ -286,6 +286,8 @@ async def change_guild_icon():
 
     except:
         unexpected_error()
+
+change_guild_icon.start()
 
 
 @tasks.loop(seconds=60)
