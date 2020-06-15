@@ -32,7 +32,8 @@ async def change_guild_icon(client1):
         "rem.png",
         "anan_1919.png",
         "poop.png",
-        "who.jpg"
+        "who.jpg",
+        "anzu_pic1.jpg",
     ]
     pict = random.choice(pict_list)
     img = open(pict, mode="rb").read()
