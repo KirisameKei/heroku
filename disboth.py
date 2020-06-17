@@ -12,7 +12,6 @@ import requests
 from discord.ext import tasks
 
 import common
-import hjk
 import muhou
 import kei_server
 import zero_server
@@ -63,7 +62,7 @@ def unexpected_error():
 async def on_ready():
     try:
         login_notice_ch = client1.get_channel(595072269483638785)
-        await login_notice_ch.send(f"{client1.user.name}がログインしました(from:{where_from})ちゃんとこれが起動してる？")
+        await login_notice_ch.send(f"{client1.user.name}がログインしました(from:{where_from})")
         print(f"{client1.user.name}がログインしました")
     except:
         unexpected_error()
