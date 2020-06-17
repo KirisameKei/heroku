@@ -209,9 +209,6 @@ async def on_message(message):
             if message.guild.id == 585998962050203672: #けい鯖
                 await kei_server.on_message(client1, message)
 
-            if message.guild.id == 624551872933527553: #HJK
-                await hjk.on_message(client1, message)
-
             if message.guild.id == 587909823665012757: #無法地帯
                 await muhou.on_message(client1, message)
 
