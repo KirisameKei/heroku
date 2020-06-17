@@ -1,1 +1,1 @@
-discordbot: python discord_bot_new.py
+discordbot: python disboth.py
