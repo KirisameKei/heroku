@@ -335,7 +335,7 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
                     guild_name = message.guild.name
                     await reply.delete()
                     notice_ch = client1.get_channel(636359382359080961)
-                    await notice_ch.send(embed=embed)
+                    await notice_ch.send(content="<@523303776120209408>", embed=embed)
                     await message.channel.send("依頼内容をけいの実験サーバ「python開発やることリスト」に送信しました。回答をお待ちください。\n\
 疑問点がある、情報が不十分等の理由でメンションやDMをさせていただく場合があります。")
 
