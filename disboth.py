@@ -136,6 +136,7 @@ async def on_message(message):
             await message.channel.send("何様のつもり？")
             return
 
+        await client1.close()
         now = datetime.datetime.now().strftime(r"%Y年%m月%d日　%H:%M")
         stop_msg = f"{message.author.mention}により{client1.user.name}が停止させられました"
         main_content = {
@@ -154,8 +155,6 @@ async def on_message(message):
             ]
         }
         requests.post(error_notice_webhook_url, json.dumps(main_content), headers={"Content-Type": "application/json"}) #エラーメッセをウェブフックに投稿
-
-        await client1.close()
 
     try:
         try:
@@ -262,7 +261,7 @@ async def shiritori_reset():
         await client1.wait_until_ready()
         now = datetime.datetime.now()
 
-        if now.weekday == 6 and now.hour == 3 and now.minute == 0:
+        if now.weekday() == 6 and now.hour == 3 and now.minute == 0:
             await kei_server.shiritori_reset(client1)
 
     except:
