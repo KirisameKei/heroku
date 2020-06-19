@@ -307,7 +307,12 @@ async def seichi_break(message):
         res = requests.get(url)
         res.raise_for_status()
         sorp = bs4.BeautifulSoup(res.text, "html.parser")
-        player_data_dict = json.loads(sorp.decode("utf-8"))
+        try:
+            player_data_dict = json.loads(sorp.decode("utf-8"))
+        except json.decoder.JSONDecodeError:
+            mcid = mcid.replace("_", "\_")
+            await message.channel.send(f"{mcid}は存在しません")
+            return
         uuid = player_data_dict["id"]
     except requests.exceptions.HTTPError:
         await message.channel.send("現在データ参照元が使用できない状態です。しばらく待ってからもう一度お試しください。")
