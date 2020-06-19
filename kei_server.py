@@ -194,17 +194,18 @@ async def shiritori(message):
     """
     しりとりチャンネルでメッセージがんかンで終わったら対処する"""
 
-    shiritori_n_list = [
-        "ンジャメナ",
-        "ンゴロンゴロ",
-        "ンカイ",
-        "ンガミ湖",
-        "ンズワニ島","ンゼレコレ",
-        "ンスタ",
-        "ンスカ",
-        "ンジャジジャ島"
-    ]
-    await message.channel.send(random.choice(shiritori_n_list))
+    if message.content.endswith("ん") or message.content.endswith("ン"):
+        shiritori_n_list = [
+            "ンジャメナ",
+            "ンゴロンゴロ",
+            "ンカイ",
+            "ンガミ湖",
+            "ンズワニ島","ンゼレコレ",
+            "ンスタ",
+            "ンスカ",
+            "ンジャジジャ島"
+        ]
+        await message.channel.send(random.choice(shiritori_n_list))
 
 
 async def dm_send(client1, message):
