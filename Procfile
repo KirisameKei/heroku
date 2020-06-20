@@ -1,1 +1,1 @@
-discordbot: python avatar.py
+discordbot: python disboth.py
