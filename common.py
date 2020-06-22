@@ -3,7 +3,7 @@ import datetime
 
 import discord
 
-async def quote_message(client1, client4, message):
+async def quote_message(client1, message):# client4, message):
     """
     メッセージリンク展開用関数"""
 
@@ -22,14 +22,15 @@ async def quote_message(client1, client4, message):
                 ch = guild.get_channel(channel_id)
                 msg = await ch.fetch_message(message_id)
             except AttributeError:
+                """
                 try:
                     guild = client4.get_guild(guild_id)
                     ch = guild.get_channel(channel_id)
                     msg = await ch.fetch_message(message_id)
-                except AttributeError:
-                    faild_embed = discord.Embed(title="404NotFriend")
-                    await message.channel.send(embed=faild_embed)
-                    return
+                except AttributeError:"""
+                faild_embed = discord.Embed(title="404NotFriend")
+                await message.channel.send(embed=faild_embed)
+                return
 
             def quote_reaction(msg, embed):
                 if msg.reactions:
