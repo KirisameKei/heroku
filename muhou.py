@@ -2,6 +2,8 @@ import random
 
 import discord
 
+import commands
+
 async def on_message(client1, message):
     if message.author.name == "MEE6":
         await anti_mee6(message)

@@ -12,6 +12,7 @@ import requests
 from discord.ext import tasks
 
 import common
+import iroha
 import muhou
 import kei_server
 import zero_server
@@ -199,6 +200,9 @@ async def on_message(message):
 
             if message.guild.id == 585998962050203672: #けい鯖
                 await kei_server.on_message(client1, message)
+
+            if message.guild.id == 604945424922574848: #いろは鯖
+                await iroha.on_message(client1, message)
 
             if message.guild.id == 587909823665012757: #無法地帯
                 await muhou.on_message(client1, message)

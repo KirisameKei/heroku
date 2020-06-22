@@ -2,6 +2,8 @@ import random
 
 import discord
 
+import commands
+
 async def on_message(client1, message):
     """
     いろは鯖にメッセージが投稿されたときに呼び出される関数"""
