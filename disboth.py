@@ -17,21 +17,13 @@ import kei_server
 import zero_server
 
 client1 = discord.Client()
-client4 = discord.Client()
+#client4 = discord.Client()
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-try:
-    import tokens_ConoHa
-except ModuleNotFoundError: #けいローカル or heroku
-    discord_bot_token_1 = os.getenv("discord_bot_token_1")
-    discord_bot_token_4 = os.getenv("discord_bot_token_4")
-    where_from = os.getenv("where_from")
-    error_notice_webhook_url = os.getenv("error_notice_webhook")
-else: #ConoHa
-    discord_bot_token_1 = tokens_ConoHa.discord_bot_token_1
-    discord_bot_token_4 = tokens_ConoHa.discord_bot_token_4
-    where_from = tokens_ConoHa.where_from
-    error_notice_webhook_url = tokens_ConoHa.error_notice_webhook
+discord_bot_token_1 = os.getenv("discord_bot_token_1")
+#discord_bot_token_4 = os.getenv("discord_bot_token_4")
+where_from = os.getenv("where_from")
+error_notice_webhook_url = os.getenv("error_notice_webhook")
 
 
 def unexpected_error():
@@ -68,12 +60,13 @@ async def on_ready():
         unexpected_error()
 
 
+"""
 @client4.event
 async def on_ready():
     try:
         print(f"{client4.user.name}がログインしました")
     except:
-        unexpected_error()
+        unexpected_error()"""
 
 
 @client1.event
@@ -169,7 +162,7 @@ async def on_message(message):
                 return
 
             if "https://discordapp.com/channels/" in message.content:
-                await common.quote_message(client1, client4, message) #メッセージリンク展開用関数
+                await common.quote_message(client1, message)# client4, message) #メッセージリンク展開用関数
 
             if message.content == "/help":
                 await common.help(message)
@@ -218,6 +211,7 @@ async def on_message(message):
         unexpected_error()
 
 
+"""
 @client4.event
 async def on_message(message):
     try:
@@ -227,7 +221,7 @@ async def on_message(message):
         if message.content == "/new_func":
             await zero_server.zero_server_new_func(client1, client4, message)
     except:
-        unexpected_error()
+        unexpected_error()"""
 
 
 @client1.event
@@ -358,7 +352,7 @@ async def dm(client1, message):
 Entry = namedtuple("Entry", "client event token")
 entries = [
     Entry(client=client1,event=asyncio.Event(),token=discord_bot_token_1),
-    Entry(client=client4,event=asyncio.Event(),token=discord_bot_token_4)
+    #Entry(client=client4,event=asyncio.Event(),token=discord_bot_token_4)
 ]  
 
 async def login():
