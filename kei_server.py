@@ -126,7 +126,7 @@ async def hide_member(message):
         await message.channel.send(f"{message.author.name}が隠れました。もーいーよ")
     else:
         try:
-            user_id = int(message.content.split())
+            user_id = int(message.content.split()[1])
         except ValueError:
             await message.channel.send("不正なIDです")
             return
@@ -160,7 +160,7 @@ async def find_member(message):
         member = message.guild.get_member(user_id)
     else:
         try:
-            user_id = int(message.content.split())
+            user_id = int(message.content.split()[1])
         except ValueError:
             await message.channel.send("不正なIDです")
             return
