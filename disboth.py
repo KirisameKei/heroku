@@ -174,6 +174,9 @@ async def on_message(message):
             if message.content == "/bug_report":
                 await common.bug_report(client1, message)
 
+            if message.content == "少し放置" or message.content == "学校終わって三条":
+                await common.end_reaction(message)
+
             if message.author.id == 159985870458322944:
                 await message.add_reaction("\U0001F595")
 

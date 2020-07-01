@@ -132,6 +132,7 @@ async def help(message):
     common_help = "・メッセージリンクを貼ると展開します"
     common_help += "\n・MEE6の発言に:middle_finger:をつけます"
     common_help += "\n・挨拶やお礼に反応します"
+    common_help += "\n・「少し放置」と「学校終わって三条」にendリアクションを付けます"
     help_embed.add_field(name="全サーバ共通の機能", value=common_help, inline=False)
 
     if message.guild.id == 585998962050203672: #けい鯖
@@ -148,6 +149,7 @@ async def help(message):
         local_help_key += "\n**/break␣MCID**"
         local_help_key += "\n**/mcavatar MCID**"
         local_help_key += "\n**/vote␣args**"
+        local_help_key += "\n**/ranking␣[point, speak]**"
         local_help_value = "実験台役職を付与(危険)"
         local_help_value += "\n実験台役職を剥奪"
         local_help_value += "\n役職, サーバ, ユーザーの情報を表示"
@@ -161,6 +163,7 @@ async def help(message):
         local_help_value += "\nMCIDの整地量、順位、Lvを表示"
         local_help_value += "\nMCIDのスキンを表示"
         local_help_value += "\n投票用コマンド"
+        local_help_value += "\n各種ランキングを表示"
 
         local_help = "・<#664286990677573680>のメッセージにリアクションを付けると役職が着脱されます"
         local_help += "\n・発言のログが取られています"
@@ -442,3 +445,13 @@ async def greeting(message):
     if "ありがとう" in message.content:
         await message.add_reaction("🍆")
         await message.channel.send(":eggplant:")
+
+
+async def end_reaction(message):
+    """
+    「少し放置」にendを付ける"""
+
+    try:
+        await message.add_reaction("🔚")
+    except discord.errors.Forbidden:
+        pass
