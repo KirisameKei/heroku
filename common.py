@@ -81,7 +81,7 @@ async def form_link(message):
     if message.content == "/inquiry":
         await message.channel.send("https://w4.minecraftserver.jp/inquiryForm")
     if message.content == "/formal":
-        await message/channel.send("https://www.seichi.network/gigantic")
+        await message.channel.send("https://www.seichi.network/gigantic")
     if message.content == "/informal":
         await message.channel.send("https://seichi-click-network.sokuhou.wiki/")
 
