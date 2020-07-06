@@ -72,7 +72,7 @@ async def on_raw_reaction_add(client1, payload):
     member = guild.get_member(payload.user_id)
 
     if channel.id == 664286990677573680:
-        if not payload.message_id == 708518613702803527:
+        if not payload.message_id == 729518295996432404:
             return
         if user == client1.user:
             return
