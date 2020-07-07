@@ -302,6 +302,10 @@ async def seichi_break(message):
     breakコマンド対応用関数"""
 
     mcid = message.content.split()[1].replace("\\", "")
+    p = re.compile(r"^[a-zA-Z0-9_]+$")
+    if not p.fullmatch(mcid):
+        await message.channel.send("MCIDに使用できない文字が含まれています。")
+        return
     url = f"https://api.mojang.com/users/profiles/minecraft/{mcid}"
     try:
         res = requests.get(url)
