@@ -28,7 +28,13 @@ async def quote_message(client1, message):# client4, message):
                     ch = guild.get_channel(channel_id)
                     msg = await ch.fetch_message(message_id)
                 except AttributeError:"""
-                faild_embed = discord.Embed(title="404NotFriend")
+                guild_name = ""
+                if guild_id == 237758724121427969:
+                    guild_name = "整地鯖"
+                elif guild_id == 558125111081697300:
+                    guild_name = "KGx"
+
+                faild_embed = discord.Embed(title="404NotFriend", description=guild_name)
                 await message.channel.send(embed=faild_embed)
                 return
 
