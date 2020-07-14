@@ -41,7 +41,7 @@ async def change_guild_icon(client1):
         "kawaii"
     ]
     pict = random.choice(pict_list)
-    img = open(pict, mode="rb").read()
+    img = open(f"./pictures/{pict}", mode="rb").read()
     await guild.edit(icon=img)
 
 
