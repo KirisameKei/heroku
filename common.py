@@ -1,13 +1,14 @@
 import asyncio
 import datetime
+import re
 
 import discord
 
-async def quote_message(client1, message):# client4, message):
+async def quote_message(client1, message, message_content):# client4, message):
     """
     メッセージリンク展開用関数"""
 
-    for url in message.content.split("https://discordapp.com/channels/")[1:]:
+    for url in message_content.split("https://discordapp.com/channels/")[1:]:
         try:
             id_list = url.split("/")
             try:
@@ -22,12 +23,6 @@ async def quote_message(client1, message):# client4, message):
                 ch = guild.get_channel(channel_id)
                 msg = await ch.fetch_message(message_id)
             except AttributeError:
-                """
-                try:
-                    guild = client4.get_guild(guild_id)
-                    ch = guild.get_channel(channel_id)
-                    msg = await ch.fetch_message(message_id)
-                except AttributeError:"""
                 guild_name = ""
                 if guild_id == 237758724121427969:
                     guild_name = "整地鯖"

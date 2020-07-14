@@ -16,14 +16,11 @@ import iroha
 import muhou
 import noname
 import kei_server
-import zero_server
 
 client1 = discord.Client()
-#client4 = discord.Client()
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 discord_bot_token_1 = os.getenv("discord_bot_token_1")
-#discord_bot_token_4 = os.getenv("discord_bot_token_4")
 where_from = os.getenv("where_from")
 error_notice_webhook_url = os.getenv("error_notice_webhook")
 
@@ -60,15 +57,6 @@ async def on_ready():
         print(f"{client1.user.name}がログインしました")
     except:
         unexpected_error()
-
-
-"""
-@client4.event
-async def on_ready():
-    try:
-        print(f"{client4.user.name}がログインしました")
-    except:
-        unexpected_error()"""
 
 
 @client1.event
@@ -163,8 +151,9 @@ async def on_message(message):
             if message.guild is None:
                 return
 
-            if "https://discordapp.com/channels/" in message.content:
-                await common.quote_message(client1, message)# client4, message) #メッセージリンク展開用関数
+            message_content = message.content.replace("canary.", "").replace("ptb.", "")
+            if "https://discordapp.com/channels/" in message_content:
+                await common.quote_message(client1, message, message_content) #メッセージリンク展開用関数
 
             if message.content == "/help":
                 await common.help(message)
@@ -220,19 +209,6 @@ async def on_message(message):
             await message.channel.send("権限がありません")
     except:
         unexpected_error()
-
-
-"""
-@client4.event
-async def on_message(message):
-    try:
-        if "https://discordapp.com/channels/" in message.content:
-            await common.quote_message(client1, client4, message) #メッセージリンク展開用関数
-
-        if message.content == "/new_func":
-            await zero_server.zero_server_new_func(client1, client4, message)
-    except:
-        unexpected_error()"""
 
 
 @client1.event
@@ -378,7 +354,6 @@ async def dm(client1, message):
 Entry = namedtuple("Entry", "client event token")
 entries = [
     Entry(client=client1,event=asyncio.Event(),token=discord_bot_token_1),
-    #Entry(client=client4,event=asyncio.Event(),token=discord_bot_token_4)
 ]  
 
 async def login():
