@@ -14,6 +14,7 @@ from discord.ext import tasks
 import common
 import iroha
 import muhou
+import noname
 import kei_server
 import zero_server
 
@@ -210,6 +211,9 @@ async def on_message(message):
             if message.guild.id == 587909823665012757: #無法地帯
                 await muhou.on_message(client1, message)
 
+            if message.guild.id == 673838958303641620: #のねむ鯖
+                await noname.on_message(client1, message)
+
         except (RuntimeError, aiohttp.client_exceptions.ServerDisconnectedError):
             pass
         except discord.errors.Forbidden:
@@ -302,6 +306,21 @@ async def marichan_birthday():
         unexpected_error()
 
 marichan_birthday.start()
+
+
+@tasks.loop(seconds=60)
+async def noname_kikaku():
+    try:
+        await client1.wait_until_ready()
+        now = datetime.datetime.now()
+
+        if now.month == 7 and now.day == 31 and now.hour == 23 and now.minute == 59:
+            await noname.noname_kikaku(client1)
+
+    except:
+        unexpected_error()
+
+noname_kikaku.start()
 
 
 @tasks.loop(seconds=30)
