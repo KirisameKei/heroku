@@ -6,7 +6,6 @@ import random
 
 import discord
 import requests
-import twitter
 
 import commands
 
@@ -21,9 +20,6 @@ async def on_message(client1, message):
     if message.content == "/not test_member":
         test_member_role = discord.utils.get(message.guild.roles, id=586009049259311105) #実験台役職
         await message.author.remove_roles(test_member_role)
-
-    if message.channel.id == 702904669860659260:
-        await twitter_connection(message)
 
     if message.content.startswith("/hide "):
         await hide_member(message)
@@ -277,40 +273,3 @@ async def shiritori_reset(client1):
         "リリカ・プリズムリバー"
     ]
     await ch.send(random.choice(start_msg_list))
-
-
-async def twitter_connection(message):
-    """
-    私の鯖に投稿された日間整地量のグラフurlを取得してbytes型にしてtwitterに投稿する"""
-
-    image_url = message.attachments[2].url
-    res = requests.get(image_url)
-    image = io.BytesIO(res.content)
-    image.seek(0)
-    image = image.read()
-
-    today = datetime.date.today().strftime(r"%Y%m%d")
-
-    try:
-        import tokens_ConoHa
-    except ModuleNotFoundError:
-        consumer_key = os.getenv("consumer_key")
-        consumer_secret = os.getenv("consumer_secret")
-        twitter_token = os.getenv("twitter_token")
-        token_secret = os.getenv("token_secret")
-    else:
-        consumer_key = tokens_ConoHa.consumer_key
-        consumer_secret = tokens_ConoHa.consumer_secret
-        twitter_token = tokens_ConoHa.twitter_token
-        token_secret = tokens_ConoHa.token_secret
-
-    auth = twitter.OAuth(consumer_key=consumer_key,
-                        consumer_secret=consumer_secret,
-                        token=twitter_token,
-                        token_secret=token_secret)
-
-    t = twitter.Twitter(auth=auth)
-
-    pic_upload = twitter.Twitter(domain="upload.twitter.com", auth=auth)
-    id_img1 = pic_upload.media.upload(media=image)["media_id_string"]
-    t.statuses.update(status=f"#整地鯖\n{today}", media_ids=",".join([id_img1]))
