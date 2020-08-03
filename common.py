@@ -225,6 +225,20 @@ async def help(message):
         local_help = "・MEE6の発言に悪態をつきます"
         local_help += "\n・週に一度サーバアイコンを変更します"
 
+    if message.guild.id == 673838958303641620: #のねむ鯖
+        local_help_key = "**/info␣[role, guild, user]␣ID**"
+        local_help_key += "\n**/last_login␣MCID**"
+        local_help_key += "\n**/weather␣地点名**"
+        local_help_key += "\n**/break␣MCID**"
+        local_help_key += "\n**/mcavatar MCID**"
+        local_help_key += "\n**/vote␣args**"
+        local_help_value = "役職, サーバ, ユーザーの情報を表示"
+        local_help_value += "\nMCIDの整地鯖最終ログイン日時を表示"
+        local_help_value += "\n地点名の天気予報を表示"
+        local_help_value += "\nMCIDの整地量、順位、Lvを表示"
+        local_help_value += "\nMCIDのスキンを表示"
+        local_help_value += "\n投票用コマンド"
+
     try:
         help_embed.add_field(name=f"{message.guild.name}でのコマンド", value=local_help_key, inline=True)
         help_embed.add_field(name="挙動", value=local_help_value, inline=True)
