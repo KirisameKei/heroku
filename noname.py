@@ -1,5 +1,7 @@
 import discord
 
+import commands
+
 async def on_message(client1, message):
     """
     メッセージを受け取る関数"""
