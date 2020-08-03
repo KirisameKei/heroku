@@ -284,21 +284,6 @@ async def marichan_birthday():
 marichan_birthday.start()
 
 
-@tasks.loop(seconds=60)
-async def noname_kikaku():
-    try:
-        await client1.wait_until_ready()
-        now = datetime.datetime.now()
-
-        if now.month == 7 and now.day == 31 and now.hour == 23 and now.minute == 59:
-            await noname.noname_kikaku(client1)
-
-    except:
-        unexpected_error()
-
-noname_kikaku.start()
-
-
 @tasks.loop(seconds=30)
 async def change_status():
     try:
