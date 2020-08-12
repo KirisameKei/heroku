@@ -88,13 +88,77 @@ async def user_info(client1, user_id):
     return user_info_embed
 
 
+async def ch_info(client1, ch_id):
+    """
+    チャンネル情報を取得する関数
+    discord.Embedを返す"""
+
+    ch = client1.get_channel(ch_id)
+    try:
+        ch_name = ch.name
+    except AttributeError:
+        error_embed = discord.Embed(title="ERROR", description="ID指定が間違っているか本botの監視下にないチャンネルです", color=0xff0000)
+        return error_embed
+
+    else:
+        ch_info_embed = discord.Embed(title=ch.name, color=0x000000)
+        ch_made_time = (ch.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
+        ch_info_embed.add_field(name="チャンネル作成日時", value=f"{ch_made_time}　(JST)", inline=False)
+        if type(ch) == discord.TextChannel:
+            channel_type = "テキストチャンネル"
+            if ch.is_nsfw():
+                nsfw = "True"
+            else:
+                nsfw = "False"
+            category = ch.category
+            if category is None:
+                category = "None"
+            else:
+                category = category.name
+            ch_info_embed.add_field(name="NSFW", value=nsfw, inline=False)
+            ch_info_embed.add_field(name="所属カテゴリ", value=category, inline=False)
+        elif type(ch) == discord.VoiceChannel:
+            channel_type = "ボイスチャンネル"
+            category = ch.category
+            if category is None:
+                category = "None"
+            else:
+                category = category.name
+            ch_info_embed.add_field(name="所属カテゴリ", value=category, inline=False)
+            ch_info_embed.add_field(name="音声ビットレート", value=f"{ch.bitrate}bit/s", inline=False)
+            if ch.user_limit == 0:
+                user_limit = "上限なし"
+            else:
+                user_limit = ch.user_limit
+            ch_info_embed.add_field(name="ユーザーリミット", value=ch.user_limit, inline=False)
+        elif type(ch) == discord.CategoryChannel:
+            channel_type = "カテゴリチャンネル"
+            if ch.is_nsfw():
+                nsfw = "True"
+            else:
+                nsfw = "False"
+            ch_info_embed.add_field(name="NSFW", value=nsfw, inline=False)
+            texts = len(ch.text_channels)
+            voices = len(ch.voice_channels)
+            ch_info_embed.add_field(name="保有チャンネル数", value=f"テキストチャンネル: {texts}\nボイスチャンネル: {voices}", inline=False)
+        else:
+            channel_type = "DMチャンネル"
+            ch_info_embed.add_field(name="相手", value=ch.recipient.name)
+        ch_info_embed.add_field(name="チャンネルタイプ", value=channel_type, inline=False)
+        try:
+            ch_info_embed.set_footer(text=ch.guild.name, icon_url=ch.guild.icon_url_as(format="png"))
+        except AttributeError:
+            ch_info_embed.set_footer(text=ch.recipient.name, icon_url=ch.recipient.avatar_url_as(format="png"))
+        return ch_info_embed
+
+
 async def info(client1, message):
     """
-    role, guild, userの情報を表示する関数"""
+    role, guild, user, chの情報を表示する関数"""
 
     check_list = message.content.split()
     if not len(check_list) == 3:
-        await message.channel.send("引数の数が正しくありません\nヒント: `/info␣[role, guild, user]␣ID`")
+        await message.channel.send("引数の数が正しくありません\nヒント: `/info␣[role, guild, user, ch]␣ID`")
         return
     check = check_list[1]
     check_id = check_list[2]
@@ -102,7 +166,7 @@ async def info(client1, message):
     try:
         check_id = int(check_id)
     except ValueError:
-        await message.channel.send("IDとして成り立ちません\nヒント: `/info␣[role, guild, user]␣ID`")
+        await message.channel.send("IDとして成り立ちません\nヒント: `/info␣[role, guild, user, ch]␣ID`")
         return
 
     if check == "role":
@@ -111,8 +175,10 @@ async def info(client1, message):
         info_embed = guild_info(client1, check_id)
     elif check == "user":
         info_embed = await user_info(client1, check_id)
+    elif check == "ch":
+        info_embed = await ch_info(client1, check_id)
     else:
-        await message.channel.send("第二引数の指定が正しくありません\nヒント: `/info␣[role, guild, user]␣ID`")
+        await message.channel.send("第二引数の指定が正しくありません\nヒント: `/info␣[role, guild, user, ch]␣ID`")
         return
 
     await message.channel.send(embed=info_embed)
@@ -148,6 +214,7 @@ async def weather(message):
     """
     weatherコマンド対応用関数"""
 
+    """
     citycodes = {
         "稚内": "011000",
         "旭川": "012010",
@@ -266,7 +333,9 @@ async def weather(message):
         weather_embed.set_thumbnail(url=weather_data_dict["forecasts"][0]["image"]["url"])
         await message.channel.send(embed=weather_embed)
     except requests.exceptions.HTTPError:
-        await message.channel.send("現在データ参照元が使用できない状態です。しばらく待ってからもう一度お試しください。")
+        await message.channel.send("現在データ参照元が使用できない状態です。しばらく待ってからもう一度お試しください。")"""
+
+    await message.channel.send("現在weatherコマンドは機能を停止しております。")
 
 
 async def random_name(message):
