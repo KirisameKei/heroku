@@ -2,6 +2,8 @@ import asyncio
 import datetime
 import io
 import json
+import math
+import os
 import random
 import re
 
@@ -214,128 +216,152 @@ async def weather(message):
     """
     weatherコマンド対応用関数"""
 
-    """
-    citycodes = {
-        "稚内": "011000",
-        "旭川": "012010",
-        "網走": "013010",
-        "根室": "014010",
-        "釧路": "014020",
-        "室蘭": "015010",
-        "札幌": "016010",
-        "函館": "017010",
-        "青森": "020010",
-        "八戸": "020030",
-        "盛岡": "030010",
-        "仙台": "040010",
-        "秋田": "050010",
-        "山形": "060010",
-        "米沢": "060020",
-        "酒田": "060030",
-        "新庄": "060040",
-        "福島": "070010",
-        "若松": "070030",
-        "水戸": "080010",
-        "宇都宮": "090010",
-        "前橋": "100010",
-        "みなかみ": "100020",
-        "さいたま": "110010",
-        "秩父": "110030",
-        "熊谷": "110020",
-        "千葉": "120010",
-        "銚子": "120020",
-        "館山": "120030",
-        "東京": "130010",
-        "横浜": "140010",
-        "新潟": "150010",
-        "長岡": "150020",
-        "富山": "160010",
-        "金沢": "170010",
-        "福井": "180010",
-        "敦賀": "180020",
-        "甲府": "190010",
-        "長野": "200010",
-        "松本": "200020",
-        "岐阜": "210010",
-        "高山": "210020",
-        "静岡": "220010",
-        "浜松": "220040",
-        "名古屋": "230010",
-        "豊橋": "230020",
-        "津": "240010",
-        "大津": "250010",
-        "京都": "260010",
-        "舞鶴": "260020",
-        "大阪": "270000",
-        "神戸": "280010",
-        "奈良": "290010",
-        "和歌山": "300010",
-        "潮岬": "300020",
-        "鳥取": "310010",
-        "米子": "310020",
-        "松江": "320010",
-        "岡山": "330010",
-        "広島": "340010",
-        "下関": "350010",
-        "山口": "350020",
-        "萩": "350040",
-        "徳島": "360010",
-        "高松": "370000",
-        "松山": "380010",
-        "宇和島": "380030",
-        "高知": "390010",
-        "室戸岬": "390020",
-        "福岡": "400010",
-        "久留米": "400040",
-        "佐賀": "410010",
-        "長崎": "420010",
-        "熊本": "430010",
-        "人吉": "430040",
-        "大分": "440010",
-        "佐伯": "440040",
-        "宮崎": "450010",
-        "延岡": "450020",
-        "都城": "450030",
-        "鹿児島": "460010",
-        "種子島": "460030",
-        "那覇": "471010",
-        "南大東": "472000",
-        "宮古島": "473000",
-        "石垣島": "474010",
-        "与那国島": "474020"
-    }
-    try:
-        city = citycodes[message.content.split()[1]]
-    except KeyError:
-        await message.channel.send(f"{message.content.split()[1]}は登録されていません")
-        return
-    url = f"http://weather.livedoor.com/forecast/webservice/json/v1?city={city}"
-    try:
-        res = requests.get(url)
-        res.raise_for_status()
-        sorp = bs4.BeautifulSoup(res.text, "html.parser")
-        weather_data_dict = json.loads(sorp.decode("utf-8"))
-        title = weather_data_dict["title"] + "\n"
-        description = weather_data_dict["publicTime"] + "に発表\n"
-        description += "```\n" + weather_data_dict["description"]["text"] + "```\n```\n"
-        for f in weather_data_dict["forecasts"]:
-            description += f["dateLabel"] + "の天気は" + f["telop"] + "、"
-            try:
-                description += "最高気温は" + f["temperature"]["max"]["celsius"] + "℃、"
-            except TypeError:
-                description += "最高気温の情報なし"
-            try:
-                description += "最低気温は" + f["temperature"]["min"]["celsius"] + "℃\n"
-            except TypeError:
-                description += "最低気温の情報なし\n"
-        description += "```"
-        weather_embed = discord.Embed(title=title, description=description, color=0xfffffe)
-        weather_embed.set_thumbnail(url=weather_data_dict["forecasts"][0]["image"]["url"])
-        await message.channel.send(embed=weather_embed)
-    except requests.exceptions.HTTPError:
-        await message.channel.send("現在データ参照元が使用できない状態です。しばらく待ってからもう一度お試しください。")"""
+    if message.content.split()[1] == "map":
+        url_date = datetime.date.today().strftime(r"%y%m%d")
+        now = datetime.datetime.now().hour
+        if now >= 0 and now < 6:
+            await message.channel.send("この時間は機能を停止しております(実装がめんどくさいんです許してください)")
+            return
+        elif now >= 6 and now < 9:
+            url_time = "03"
+        elif now >= 9 and now < 12:
+            url_time = "06"
+        elif now >= 12 and now < 15 :
+            url_time = "09"
+        elif now >= 15 and now < 18:
+            url_time = "12"
+        elif now >= 18 and now < 21:
+            url_time = "15"
+        elif now >= 21 and now < 24:
+            url_time = "18"
 
-    await message.channel.send("現在weatherコマンドは機能を停止しております。")
+        url = f"https://www.jma.go.jp/jp/g3/images/jp_c/{url_date}{url_time}.png"
+        weather_embed = discord.Embed()
+        weather_embed.set_image(url=url)
+        await message.channel.send(embed=weather_embed)
+
+    else:
+        citycode = {
+            "川崎": ["139.717224", "35.520561"]
+        }
+
+        try:
+            lon_lat_list = citycode[message.content.split()[1]]
+        except KeyError:
+            cities = ""
+            for city in citycode.keys():
+                cities += f"{city}、"
+            await message.channel.send(f"その地点は登録されていません\n現在登録されている地点:```\n{cities}```")
+            return
+        key = os.getenv("weather_API_key")
+
+        lon = lon_lat_list[0]
+        lat = lon_lat_list[1]
+
+        api = f"http://api.openweathermap.org/data/2.5/onecall?units=metric&lat={lat}&lon={lon}&exclude=minutely,hourly&lang=ja&units=metric&APPID={key}"
+
+        try:
+            res = requests.get(api)
+            res.raise_for_status()
+            sorp = bs4.BeautifulSoup(res.text, "html.parser")
+            weather_data_dict = json.loads(sorp.decode("utf-8"))
+        except requests.exceptions.HTTPError:
+            await message.channel.send("現在データ参照元が使用できない状態です。しばらく待ってからもう一度お試しください。")
+            return
+        else:
+            now = (datetime.datetime.fromtimestamp(weather_data_dict["current"]["dt"])).strftime(r"%Y/%m/%d-%H:%M")
+            #────現在の天気によってembedの色を決める────
+            if weather_data_dict["current"]["weather"][0]["main"] == "Thunderstorm":
+                color = 0xffff00
+            elif weather_data_dict["current"]["weather"][0]["main"] == "Drizzle" or weather_data_dict["current"]["weather"][0]["main"] == "Rain":
+                color = 0x0000ff
+            elif weather_data_dict["current"]["weather"][0]["main"] == "Snow":
+                color = 0xfffffe
+            elif weather_data_dict["current"]["weather"][0]["main"] == "Clear":
+                color = 0xff7700
+            elif weather_data_dict["current"]["weather"][0]["main"] == "Atmosphere" or weather_data_dict["current"]["weather"][0]["main"] == "Clouds":
+                color = 0x888888
+            #────ここまで色決め────
+            weather_embed = discord.Embed(title=f"{message.content.split()[1]}の天気概況&予報", description=f"{now}発表", color=color)
+            icon = weather_data_dict["current"]["weather"][0]["icon"]
+            weather_embed.set_thumbnail(url=f"http://openweathermap.org/img/wn/{icon}@2x.png")
+            weather = weather_data_dict["current"]["weather"][0]["description"]
+            temp = weather_data_dict["current"]["temp"]
+            pressure = weather_data_dict["current"]["pressure"]
+            wind_speed = weather_data_dict["current"]["wind_speed"]
+            humidity = weather_data_dict["current"]["humidity"]
+            text = f"現在の{message.content.split()[1]}の天気は{weather}。\n気温は{temp}℃で気圧は{pressure}hPa、風速は{wind_speed}m/sで湿度は{humidity}%です。"
+            try:
+                rain = weather_data_dict["current"]["rain"]["1h"]
+            except KeyError:
+                pass
+            else:
+                if rain >= 80:
+                    strong = "猛烈な"
+                elif rain >= 50:
+                    strong = "非常に激しい"
+                elif rain >= 30:
+                    strong = "激しい"
+                elif rain >= 20:
+                    strong = "強い"
+                elif rain >= 10:
+                    strong = "やや強い"
+                else:
+                    strong = ""
+                text += f"\n1時間に振った雨の量は{rain}mmで{strong}雨になっています。"
+            try:
+                snow = weather_data_dict["current"]["snow"]["1h"]
+            except KeyError:
+                pass
+            else:
+                text += f"\n積雪量は{snow*10}cmです。"
+
+            sunrise = (datetime.datetime.fromtimestamp(weather_data_dict["current"]["sunrise"])).strftime(r"%H:%M")
+            sunset = (datetime.datetime.fromtimestamp(weather_data_dict["current"]["sunset"])).strftime(r"%H:%M")
+            text += f"\n\n本日の日の出時刻は{sunrise}、日の入り時刻は{sunset}となっています。"
+            weather_embed.add_field(name="現在の天気概況", value=text, inline=False)
+
+            when_list = ["明日", "明後日", "明々後日"]
+            for i in range(4):
+                if i == 0:
+                    pass
+                else:
+                    weather = ""
+                    for wt in weather_data_dict["daily"][i]["weather"]:
+                        weather += wt["description"] + ", "
+                    max_temp = weather_data_dict["daily"][i]["temp"]["max"]
+                    min_temp = weather_data_dict["daily"][i]["temp"]["min"]
+                    pressure = weather_data_dict["daily"][i]["pressure"]
+                    wind_speed = weather_data_dict["daily"][i]["wind_speed"]
+                    humidity = weather_data_dict["daily"][i]["humidity"]
+                    pop = math.floor(weather_data_dict["daily"][i]["pop"] * 100)
+
+                    date = (datetime.datetime.fromtimestamp(weather_data_dict["daily"][i]["dt"])).strftime(r"%Y/%m/%d-%H:%M")
+                    text = (
+                        f"{date}\n"
+                        f"天気　　　　: {weather}\n予想最高気温: {max_temp}℃\n予想最低気温: {min_temp}℃\n"
+                        f"予想気圧　　: {pressure}hPa\n予想風速　　: {wind_speed}m/s\n予想湿度　　: {humidity}%\n降水確率　　: {pop}%"
+                    )
+                    try:
+                        rain = weather_data_dict["daily"][i]["rain"]
+                    except KeyError:
+                        pass
+                    else:
+                        text += f"\n予想降雨量　: {rain}mm"
+
+                    try:
+                        snow = weather_data_dict["daily"][i]["snow"]
+                    except KeyError:
+                        pass
+                    else:
+                        text += f"\n予想降雪量　: {snow*10}cm"
+
+                    sunrise = (datetime.datetime.fromtimestamp(weather_data_dict["daily"][i]["sunrise"])).strftime(r"%d日%H:%M")
+                    sunset = (datetime.datetime.fromtimestamp(weather_data_dict["daily"][i]["sunset"])).strftime(r"%d日%H:%M")
+                    text += f"\n\n{when_list[i-1]}の日の出時刻は{sunrise}、日の入り時刻は{sunset}です"
+
+                    weather_embed.add_field(name=f"{when_list[i-1]}の天気予報", value=text, inline=False)
+            await message.channel.send(embed=weather_embed)
 
 
 async def random_name(message):
