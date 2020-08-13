@@ -411,6 +411,7 @@ async def seichi_break(message):
     broke = int(player_data_dict[0]["data"]["raw_data"])
     rank = player_data_dict[0]["rank"]
     mc_avatar_url = f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png"
+    mc_avatar_url = f"https://minotar.net/armor/body/{mcid}/130.png"
 
     #────────────ここからコピペ禁止────────────
     if broke < 15:
