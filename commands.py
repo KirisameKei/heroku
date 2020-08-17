@@ -241,9 +241,8 @@ async def weather(message):
         await message.channel.send(embed=weather_embed)
 
     else:
-        citycode = {
-            "川崎": ["139.717224", "35.520561"]
-        }
+        with open("citycodes.json", mode="r", encoding="utf-8") as f:
+        citycode = json.load(f)
 
         try:
             lon_lat_list = citycode[message.content.split()[1]]
