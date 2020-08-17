@@ -242,7 +242,7 @@ async def weather(message):
 
     else:
         with open("citycodes.json", mode="r", encoding="utf-8") as f:
-        citycode = json.load(f)
+            citycode = json.load(f)
 
         try:
             lon_lat_list = citycode[message.content.split()[1]]
