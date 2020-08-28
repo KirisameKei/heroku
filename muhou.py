@@ -26,6 +26,9 @@ async def on_message(client1, message):
     if message.content.startswith("/mcavatar "):
         await commands.mcavatar(client1, message)
 
+    if message.content.startswith("/random "):
+        await commands.random_(message)
+
 
 async def change_guild_icon(client1):
     guild = client1.get_guild(587909823665012757)

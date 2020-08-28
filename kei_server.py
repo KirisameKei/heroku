@@ -51,6 +51,9 @@ async def on_message(client1, message):
     if message.content.startswith("/mcavatar "):
         await commands.mcavatar(client1, message)
 
+    if message.content.startswith("/random "):
+        await commands.random_(message)
+
     if message.channel.id == 603832801036468244:
         await shiritori(message)
 

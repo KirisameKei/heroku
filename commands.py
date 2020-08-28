@@ -754,3 +754,74 @@ async def mcavatar(client1, message):
     skin.save("skin.png")
     skin = discord.File("skin.png")
     await message.channel.send(file=skin)
+
+
+async def random_(message):
+    """
+    pythonのランダムをdis上で再現する"""
+
+    arg = message.content.split()[1]
+
+    if arg == "choice":
+        try:
+            args = message.content.split()[2:]
+        except IndexError:
+            await message.channel.send("候補がありません")
+            return
+        await message.channel.send(random.choice(args))
+
+    elif arg == "sample":
+        try:
+            sample = int(message.content.split()[2])
+        except IndexError:
+            await message.channel.send("引数が足りません。ヒント:/random␣sample␣n(n≧1)␣候補")
+            return
+        except ValueError:
+            await message.channel.send("数の指定は正の整数です")
+            return
+        try:
+            args = message.content.split()[3:]
+        except IndexError:
+            await message.channel.send("候補がありません")
+            return
+        if len(args) < sample:
+            await message.channel.send("候補数よりサンプル数のほうが多いです")
+            return
+        await message.channel.send(random.sample(args, sample))
+
+    elif arg == "choices":
+        try:
+            sample = int(message.content.split()[2])
+        except IndexError:
+            await message.channel.send("引数が足りません。ヒント:/random␣choices␣n(n≧1)␣候補")
+            return
+        except ValueError:
+            await message.channel.send("数の指定は正の整数です")
+            return
+        try:
+            args = message.content.split()[3:]
+        except IndexError:
+            await message.channel.send("候補がありません")
+            return
+        if sample <= 0:
+            await message.channel.send("サンプル数は正の整数です")
+            return
+        await message.channel.send(random.choices(args, k=sample))
+
+    elif arg == "randint":
+        try:
+            start = int(message.content.split()[2])
+            end = int(message.content.split()[3])
+        except IndexError:
+            await message.channel.send("引数が足りません。ヒント:/random␣randint␣min␣max")
+            return
+        except ValueError:
+            await message.channel.send("max, minは整数です")
+            return
+        if start >= end:
+            await message.channel.send("minがmaxと同じか大きいです")
+            return
+        await message.channel.send(f"{random.randint(start, end)}")
+
+    else:
+        await message.channel.send("そんな引数ありません")
