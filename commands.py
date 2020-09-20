@@ -691,6 +691,9 @@ async def vote(message):
     """
     投票機能"""
 
+    if message.author.bot:
+        return
+
     vote_list = message.content.split()
     if len(vote_list) == 1:
         await message.channel.send("/vote␣投票の題名\nor\n/vote␣投票の題名␣候補1␣候補2␣・・・␣候補n(n≦20)")
