@@ -177,13 +177,19 @@ async def delmsg(message):
         await message.author.add_roles(doM_role)
         return
 
+    if message.author.bot:
+        return
+
     try:
         how_many_delete = int(message.content.split()[1])
     except ValueError:
         await message.channel.send("不正な引数です")
         return
     except IndexError:
-        await message.channel.purge(limit=None)
+        if message.content == "/delmsg":
+            await message.channel.purge(limit=None)
+        else:
+            await message.channel.send("後ろに余計な文字が付いています！")
         return
     else:
         await message.channel.purge(limit=how_many_delete+1)
