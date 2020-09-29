@@ -8,7 +8,7 @@ async def quote_message(client1, message, message_content):# client4, message):
     """
     メッセージリンク展開用関数"""
 
-    for url in message_content.split("https://discordapp.com/channels/")[1:]:
+    for url in message_content:
         try:
             id_list = url.split("/")
             try:
@@ -17,6 +17,7 @@ async def quote_message(client1, message, message_content):# client4, message):
                 message_id = int(id_list[2].split("\n")[0].split()[0])
             except ValueError:
                 await message.channel.send("メッセージリンクを魔改造しないでください！")
+                print(id_list)
                 return
             try:
                 guild = client1.get_guild(guild_id)
@@ -464,3 +465,10 @@ async def end_reaction(message):
         await message.add_reaction("🔚")
     except discord.errors.Forbidden:
         pass
+
+
+async def mention(message, where_from):
+    """
+    どこで起動しているかを表示"""
+
+    await message.channel.send(where_from)
