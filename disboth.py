@@ -174,7 +174,8 @@ async def on_message(message):
                 await common.end_reaction(message)
 
             if client1.user in message.mentions:
-                await common.mention(message, where_from)
+                if not message.author.bot:
+                    await common.mention(message, where_from)
 
             if message.author.id == 159985870458322944:
                 await message.add_reaction("\U0001F595")
