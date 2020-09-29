@@ -116,6 +116,9 @@ async def hide_member(message):
     """
     かくれんぼなう役職を付与する関数"""
 
+    if message.author.bot:
+        return
+
     hide_role = discord.utils.get(message.guild.roles, id=616790954200006717)
     if message.content == "/hide me":
         if hide_role in message.author.roles:
@@ -149,6 +152,9 @@ async def find_member(message):
     """
     かくれんぼなう役職を剥奪する関数"""
 
+    if message.author.bot:
+        return
+
     hide_role = discord.utils.get(message.guild.roles, id=616790954200006717)
     if message.content == "/find me":
         if not (hide_role in message.author.roles):
@@ -156,13 +162,22 @@ async def find_member(message):
             return
         await message.author.remove_roles(hide_role)
         await message.channel.send(f"{message.author.name}、見～っけ！")
-        member = message.guild.get_member(user_id)
     else:
         try:
             user_id = int(message.content.split()[1])
         except ValueError:
             await message.channel.send("不正なIDです")
             return
+
+        member = message.guild.get_member(user_id)
+        try:
+            if hide_role in member.roles:
+                await member.remove_roles(hide_role)
+                await message.channel.send(f"{member.name}、見～っけ！")
+            else:
+                await message.channel.send("もう見つけてるよ・・・")
+        except AttributeError:
+            await message.channel.send("そのユーザーIDの人はこのサーバにはいません")
 
 
 async def delmsg(message):
