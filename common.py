@@ -8,7 +8,7 @@ async def quote_message(client1, message, message_content):# client4, message):
     """
     メッセージリンク展開用関数"""
 
-    for url in message_content:
+    for url in message_content.split("https://discordapp.com/channels/")[1:]:
         try:
             id_list = url.split("/")
             try:
