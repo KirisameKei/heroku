@@ -4,66 +4,66 @@ import re
 
 import discord
 
-async def quote_message(client1, message, message_content):# client4, message):
+async def quote_message(client1, message, url):
     """
     メッセージリンク展開用関数"""
 
-    for url in message_content.split("https://discordapp.com/channels/")[1:]:
-        try:
-            id_list = url.split("/")
-            try:
-                guild_id = int(id_list[0])
-                channel_id = int(id_list[1])
-                message_id = int(id_list[2].split("\n")[0].split()[0])
-            except ValueError:
-                await message.channel.send("メッセージリンクを魔改造しないでください！")
-                print(id_list)
-                return
-            try:
-                guild = client1.get_guild(guild_id)
-                ch = guild.get_channel(channel_id)
-                msg = await ch.fetch_message(message_id)
-            except AttributeError:
-                guild_name = ""
-                if guild_id == 237758724121427969:
-                    guild_name = "整地鯖"
-                elif guild_id == 558125111081697300:
-                    guild_name = "KGx"
+    id_list = url.split("/")
+    try:
+        guild_id = int(id_list[0])
+        channel_id = int(id_list[1])
+        message_id = int(id_list[2].split()[0])
+    except ValueError:
+        await message.channel.send("メッセージリンクを魔改造しないでください")
+        return
 
-                faild_embed = discord.Embed(title="404NotFriend", description=guild_name)
-                await message.channel.send(embed=faild_embed)
-                return
+    channel = client1.get_channel(channel_id)
+    if channel is None:
+        guild_name = ""
+        if id_list[0] == "237758724121427969":
+            guild_name = "整地鯖"
+        elif id_list[0] == "558125111081697300":
+            guild_name = "KGx"
 
-            def quote_reaction(msg, embed):
-                if msg.reactions:
-                    reaction_send = ""
-                    for reaction in msg.reactions:
-                        emoji = reaction.emoji
-                        count = str(reaction.count)
-                        reaction_send = f"{reaction_send}{emoji}{count}"
-                    embed.add_field(name="reaction", value=reaction_send, inline=False)
-                return embed
+        faild_embed = discord.Embed(title="404", description=guild_name)
+        await message.channel.send(embed=faild_embed)
+        return
 
-            if msg.embeds or msg.content or msg.attachments:
-                embed = discord.Embed(description=f"[{msg.content}](https://discordapp.com/channels/{guild_id}/{channel_id}/{message_id})", timestamp=msg.created_at)
-                embed.set_author(name=msg.author, icon_url=msg.author.avatar_url_as(format="png"))
-                embed.set_footer(text=msg.channel.name, icon_url=msg.guild.icon_url_as(format="png"))
-                if msg.attachments:
-                    embed.set_image(url=msg.attachments[0].url)
+    try:
+        msg = await channel.fetch_message(message_id)
+
+        def quote_reaction(msg, embed):
+            if msg.reactions:
+                reaction_send = ""
+                for reaction in msg.reactions:
+                    emoji = reaction.emoji
+                    count = str(reaction.count)
+                    reaction_send = f"{reaction_send}{emoji}{count}"
+                embed.add_field(name="reaction", value=reaction_send, inline=False)
+            return embed
+
+        if msg.content or msg.embeds or msg.attachments:
+            embed = discord.Embed(description=f"{msg.content}\n\n[リンク](https://discordapp.com/channels/{guild_id}/{channel_id}/{message_id})", timestamp=msg.created_at)
+            embed.set_author(name=msg.author, icon_url=msg.author.avatar_url_as(format="png"))
+            embed.set_footer(text=msg.channel.name, icon_url=msg.guild.icon_url_as(format="png"))
+            if msg.attachments:
+                embed.set_image(url=msg.attachments[0].url)
+            embed = quote_reaction(msg, embed)
+            await message.channel.send(embed=embed)
+
+            if len(msg.attachments) >= 2:
+                for attachment in msg.attachments[1:]:
+                    embed = discord.Embed().set_image(url=attachment.url)
+                    await message.channel.send(embed=embed)
+
+            for embed in msg.embeds:
                 embed = quote_reaction(msg, embed)
-                if msg.content or msg.attachments:
-                    await message.channel.send(embed=embed)
-                if len(msg.attachments) >= 2:
-                    for attachment in msg.attachments[1:]:
-                        embed = discord.Embed().set_image(url=attachment.url)
-                        await message.channel.send(embed=embed)
-                for embed in msg.embeds:
-                    embed = quote_reaction(msg, embed)
-                    await message.channel.send(embed=embed)
-            else:
-                await message.channel.send("メッセージIDは存在しますが、内容がありません")
-        except discord.errors.NotFound:
-            await message.channel.send("指定したメッセージが見つかりません")
+                await message.channel.send(embed=embed)
+
+        else:
+            await message.channel.send("メッセージはありますが内容がありません")
+    except discord.errors.NotFound:
+        await message.channel.send("メッセージが見つかりません")
 
 
 async def form_link(message):

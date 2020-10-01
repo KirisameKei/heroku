@@ -152,14 +152,11 @@ async def on_message(message):
             if message.guild is None:
                 return
 
-            #url_filter = [msg.split("/")[1:] for msg in re.split(
-            #r"https://(ptb.|canary.|)discord(app|).com/channels/(/\d+){3}", message.content)
-            #            if re.match("(/[0-9]+){2}", msg)]
-            #if len(url_filter) >= 1:
-            #    await common.quote_message(client1, message, url_filter) #メッセージリンク展開用関数
-            message_content = message.content.replace("canary.", "").replace("ptb.", "").replace("discordapp", "discord")
-            if "https://discord.com/channels/" in message_content:
-                await common.quote_message(client1, message, message_content) #メッセージリンク展開用関数
+            if re.compile(r"https://(ptb.|canary.|)discord(app|).com/channels/").search(message.content):
+                url_filter = re.split(r"https://(ptb.|canary.|)discord(app|).com/channels/", message.content)
+                for url in url_filter:
+                    if re.search(r"\d+/\d+/\d+", url):
+                        await common.quote_message(client1, message, url) #メッセリンク展開用関数
 
             if message.content == "/help":
                 await common.help(message)
