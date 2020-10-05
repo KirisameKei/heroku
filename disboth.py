@@ -13,6 +13,7 @@ import requests
 from discord.ext import tasks
 
 import common
+import emoji_server
 import iroha
 import muhou
 import noname
@@ -214,6 +215,15 @@ async def on_message(message):
             pass
         except discord.errors.Forbidden:
             await message.channel.send("権限がありません")
+    except:
+        unexpected_error()
+
+
+@client1.event
+async def on_guild_emojis_update(guild, before, after):
+    try:
+        if guild.id == 735632039050477649:
+            await emoji_server.emoji_update(client1, before, after)
     except:
         unexpected_error()
 
