@@ -223,7 +223,7 @@ async def on_message(message):
 async def on_guild_emojis_update(guild, before, after):
     try:
         if guild.id == 735632039050477649:
-            await emoji_server.emoji_update(client1, before, after)
+            await emoji_server.emoji_update(client1,guild , before, after)
     except:
         unexpected_error()
 

@@ -1,6 +1,6 @@
 import discord
 
-async def emoji_update(client1, before, after):
+async def emoji_update(client1, guild, before, after):
     """
     絵文字のアップデートを監視する"""
 
@@ -16,12 +16,16 @@ async def emoji_update(client1, before, after):
         await notice_ch.send(embed=embed)
     else:
         if len(before) < len(after): #作成なら
-            emoji = client1.get_emoji(defferent[0].id)
+            emoji = await guild.fetch_emoji(defferent[0].id)
             emoji_name = emoji.name.replace("_", "\_")
-            user = client.get_user(emoji.user.id)
+            user = client1.get_user(emoji.user.id)
+            if defferent[0].animated: #アニメ絵文字なら
+                description = f"{user}によりアニメ絵文字: :{emoji_name}:が作成されました"
+            else:
+                description = f"{user}により:{emoji_name}:({emoji})が作成されました"
             embed = discord.Embed(
                 title="絵文字作成",
-                description=f"{user}により:{emoji_name}:({emoji})が作成されました",
+                description=description,
                 color=0x00ff00
             )
             await notice_ch.send(embed=embed)
