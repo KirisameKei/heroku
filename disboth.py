@@ -21,7 +21,7 @@ import kei_server
 client1 = discord.Client()
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-discord_bot_token_1 = os.getenv("discord_bot_token_2")
+discord_bot_token_1 = os.getenv("discord_bot_token_1")
 where_from = os.getenv("where_from")
 error_notice_webhook_url = os.getenv("error_notice_webhook")
 
