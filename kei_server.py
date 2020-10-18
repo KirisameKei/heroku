@@ -78,7 +78,6 @@ async def on_raw_reaction_add(client1, payload):
         msg = await channel.fetch_message(payload.message_id)
         await msg.remove_reaction(f"{payload.emoji}", user)
         emoji_list = [
-            "\U0001f1e6",
             "\U0001f1e7",
             "\U0001f1e8",
             "\U0001f1e9",
@@ -87,7 +86,6 @@ async def on_raw_reaction_add(client1, payload):
             "\U0001f1ec"
         ]
         role_id_list = [
-            586123363513008139,
             586123567146729475,
             678445373324263454,
             678445640027734032,
