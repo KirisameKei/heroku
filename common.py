@@ -75,26 +75,30 @@ async def form_link(message):
     if message.content == "/failure":
         await message.channel.send("https://docs.google.com/forms/d/e/1FAIpQLSdn9fTTs55c-oGLT3c68KVTGvfUjTK-W_cdataU7_XyzqcBRg/viewform")
     if message.content == "/idea":
-        await message.channel.send("http://w4.minecraftserver.jp/ideaForm")
+        #await message.channel.send("http://w4.minecraftserver.jp/ideaForm")
+        await message.channel.send("https://docs.google.com/forms/d/e/1FAIpQLScB-XAHWnYePUpljd6swUfJTn6NJJNn74HgkqifxM7I3oxIMA/viewform")
     if message.content == "/opinion":
         await message.channel.send("https://docs.google.com/forms/d/e/1FAIpQLSctLrByNvAiQop2lha9Mxn-D5p1OUaOf8JKQJCyAdggGBbzpg/viewform?c=0&w=1")
     if message.content == "/donation":
         await message.channel.send("https://docs.google.com/forms/d/e/1FAIpQLSezwur20tx0JCQ0KMY0JiThYy7oEQDykFRiic96KxK17WOBwA/viewform?c=0&w=1")
     if message.content == "/inquiry":
-        await message.channel.send("https://w4.minecraftserver.jp/inquiryForm")
+        #await message.channel.send("https://w4.minecraftserver.jp/inquiryForm")
+        await message.channel.send("https://docs.google.com/forms/d/e/1FAIpQLSfqQLbeUQo1DxlL0Wy3A0129PerNrQHJB3Ner3ZEv62WGJywg/viewform")
     if message.content == "/formal":
         await message.channel.send("https://www.seichi.network/gigantic")
     if message.content == "/informal":
         await message.channel.send("https://seichi-click-network.sokuhou.wiki/")
 
     if message.content == "/form":
-        embed = discord.Embed(title="各フォームへのリンク一覧",color=0xff0000)
-        embed.add_field(name="通報フォーム",value="https://docs.google.com/forms/d/e/1FAIpQLSfK9DQkUCD2qs8zATUuYIC3JuV3MyXRVCYjMb5g4g_hBUusSA/viewform",inline=False)
-        embed.add_field(name="不具合フォーム",value="https://docs.google.com/forms/d/e/1FAIpQLSdn9fTTs55c-oGLT3c68KVTGvfUjTK-W_cdataU7_XyzqcBRg/viewform",inline=False)
-        embed.add_field(name="アイデアフォーム",value="http://w4.minecraftserver.jp/ideaForm",inline=False)
-        embed.add_field(name="意見・感想フォーム",value="https://docs.google.com/forms/d/e/1FAIpQLSctLrByNvAiQop2lha9Mxn-D5p1OUaOf8JKQJCyAdggGBbzpg/viewform?c=0&w=1",inline=False)
-        embed.add_field(name="寄付フォーム",value="https://docs.google.com/forms/d/e/1FAIpQLSezwur20tx0JCQ0KMY0JiThYy7oEQDykFRiic96KxK17WOBwA/viewform?c=0&w=1",inline=False)
-        embed.add_field(name="お問い合わせフォーム",value="https://w4.minecraftserver.jp/inquiryForm",inline=False)
+        embed = discord.Embed(title="各フォームへのリンク一覧", color=0xff0000)
+        embed.add_field(name="通報フォーム", value="https://docs.google.com/forms/d/e/1FAIpQLSfK9DQkUCD2qs8zATUuYIC3JuV3MyXRVCYjMb5g4g_hBUusSA/viewform", inline=False)
+        embed.add_field(name="不具合フォーム", value="https://docs.google.com/forms/d/e/1FAIpQLSdn9fTTs55c-oGLT3c68KVTGvfUjTK-W_cdataU7_XyzqcBRg/viewform", inline=False)
+        #embed.add_field(name="アイデアフォーム", value="http://w4.minecraftserver.jp/ideaForm", inline=False)
+        embed.add_field(name="アイデアフォーム", value="https://docs.google.com/forms/d/e/1FAIpQLScB-XAHWnYePUpljd6swUfJTn6NJJNn74HgkqifxM7I3oxIMA/viewform", inline=False)
+        embed.add_field(name="意見・感想フォーム", value="https://docs.google.com/forms/d/e/1FAIpQLSctLrByNvAiQop2lha9Mxn-D5p1OUaOf8JKQJCyAdggGBbzpg/viewform?c=0&w=1", inline=False)
+        embed.add_field(name="寄付フォーム", value="https://docs.google.com/forms/d/e/1FAIpQLSezwur20tx0JCQ0KMY0JiThYy7oEQDykFRiic96KxK17WOBwA/viewform?c=0&w=1", inline=False)
+        #embed.add_field(name="お問い合わせフォーム", value="https://w4.minecraftserver.jp/inquiryForm", inline=False)
+        embed.add_field(name="お問い合わせフォーム", value="https://docs.google.com/forms/d/e/1FAIpQLSfqQLbeUQo1DxlL0Wy3A0129PerNrQHJB3Ner3ZEv62WGJywg/viewform", inline=False)
         await message.channel.send(embed=embed)
 
 
