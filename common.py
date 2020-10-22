@@ -264,7 +264,7 @@ async def new_function(client1, message):
 __**特殊な理由がない限りyesにしてください。**__(noの場合けいのDMに送られるためログが埋もれて忘れ去られる可能性があります。)",
         "何をしたら？\n例：/seichiと入力したら、16時になったら等",
         "何をする？\n例：整地鯖役職を付与する、チャンネルにあるメッセージをすべて消去する等",
-        "チャンネル、役職の指定は？\n例：Hypixl役職持ちが実行すると怒られる、<#665937884662202434>を消す等",
+        "チャンネル、役職の指定は？\n例：Hypixl役職持ちが実行すると怒られる、<#603832801036468244>を消す等",
         "その他備考は？\n他に要求がある場合ここに書いてください。",
     ]
     reply_list = []
@@ -292,7 +292,7 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
     ]
 
     flag = False
-    start = await message.channel.send(start_msg)
+    await message.channel.send(start_msg)
     msg = await message.channel.send(msg_list[0])
     send_msg_list.append(msg)
     for i in range(len(msg_list)):
@@ -301,13 +301,7 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
             reply_list.append(reply)
         except asyncio.TimeoutError:
             await message.channel.send("タイムアウトしました。最初からやり直してください。")
-            await start.delete()
-            for j in range(i+1):
-                await send_msg_list[j].delete()
-                try:
-                    await reply_list[j].delete()
-                except IndexError:
-                    pass
+            await message.channel.purge(after=message)
             break
         else:
             try:
@@ -315,8 +309,12 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
                 send_msg_list.append(send_msg)
             except IndexError:
                 flag = True
-            
+
     if flag:
+        try:
+            await message.channel.purge(after=message)
+        except discord.errors.NotFound:
+            pass
         embed = discord.Embed(title="これで申請してよろしいですか？", description="良ければyes、やり直すならnoと入力してください", color=0xfffffe)
         embed.add_field(name="やりたいこと", value=f"{reply_list[1].content}{reply_list[2].content}", inline=False)
         embed.add_field(name="条件の指定", value=reply_list[3].content)
@@ -326,16 +324,15 @@ __**特殊な理由がない限りyesにしてください。**__(noの場合け
         else:
             koukai_hikoukai = "非公開"
         embed.add_field(name="公開設定", value=koukai_hikoukai, inline=False)
-        await start.delete()
-        for j in range(5):
-            await send_msg_list[j].delete()
-            await reply_list[j].delete()
         kakunin = await message.channel.send(embed=embed)
         try:
             reply = await client1.wait_for("message", check=check6, timeout=600)
         except asyncio.TimeoutError:
             await message.channel.send("タイムアウトしました。最初からやり直してください。")
-            await kakunin.delete()
+            try:
+                await kakunin.delete()
+            except discord.errors.NotFound:
+                pass
         else:
             if reply.content == "yes":
                 embed = discord.Embed(title="依頼が届きました", color=0x00ff00)
@@ -370,8 +367,8 @@ async def bug_report(client1, message):
     start_msg = "```\n不具合の報告をします。\n各項目は全て1回の送信で書いてください。\n虚偽の報告はけいが不快になります。\n\
 各項目は10分でタイムアウトします。\n複雑な場合はけいに直接言っていただいても構いません。```"
 
-    start = await message.channel.send(start_msg)
-    instrunction = await message.channel.send("いつ、どこで、誰が、何をしたら、どうなったかを詳しく書いてください。")
+    await message.channel.send(start_msg)
+    await message.channel.send("いつ、どこで、誰が、何をしたら、どうなったかを詳しく書いてください。")
 
     def check1(m):
         return m.author == message.author and m.channel == message.channel
@@ -381,13 +378,16 @@ async def bug_report(client1, message):
         reply = await client1.wait_for("message", check=check1, timeout=600)
     except asyncio.TimeoutError:
         await message.channel.send("タイムアウトしました。最初からやり直してください。")
-        await start.delete()
-        await instrunction.delete()
+        try:
+            await message.channel.purge(after=message)
+        except discord.errors.NotFound:
+            pass
     else:
         flag = True
-        await start.delete()
-        await instrunction.delete()
-        await reply.delete()
+        try:
+            await message.channel.purge(after=message)
+        except discord.errors.NotFound:
+            pass
 
     if flag:
         confirmation_embed = discord.Embed(title="この内容で報告してよろしいですか？", description="良ければyes、やり直すならnoと入力してください", color=0xfffffe)
