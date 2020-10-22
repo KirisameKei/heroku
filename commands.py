@@ -828,3 +828,14 @@ async def random_(message):
 
     else:
         await message.channel.send("そんな引数ありません")
+
+
+async def glist(message, client1):
+    """
+    bot参加鯖の一覧を表示"""
+
+    text = ""
+    for guild in client1.guilds:
+        text += f"{guild.name}\n{guild.id}\n{guild.owner}\n\n"
+    text += f"以上{len(client1.guilds)}鯖"
+    await message.channel.send(embed=discord.Embed(title="参加鯖一覧", description=text))
