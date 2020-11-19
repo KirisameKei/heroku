@@ -18,7 +18,8 @@ import muhou
 import noname
 import kei_server
 
-client1 = discord.Client()
+intents = discord.Intents.all()
+client1 = discord.Client(intents=intents)
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 discord_bot_token_1 = os.getenv("discord_bot_token_1")
