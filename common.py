@@ -142,7 +142,7 @@ async def help(message):
     help_embed.add_field(name="全サーバ共通の機能", value=common_help, inline=False)
 
     if message.guild.id == 585998962050203672: #けい鯖
-        local_help_key += "**/info␣[role, guild, user, ch, emoji]␣ID**\n"
+        local_help_key = "**/info␣[role, guild, user, ch, emoji]␣ID**\n"
         local_help_key += "\n**/mypt**"
         local_help_key += "\n**/user_data␣ID** or **/user_data**\n"
         local_help_key += "\n**/hide␣me or ID**\n"
@@ -155,7 +155,7 @@ async def help(message):
         local_help_key += "\n**/vote␣args**"
         local_help_key += "\n**/ranking␣[point, speak]**"
         local_help_key += "\n**/random␣[choice, sample, choices, randint]**"
-        local_help_value += "役職, サーバ, ユーザ、チャンネル、絵文字の情報を表示"
+        local_help_value = "役職, サーバ, ユーザ、チャンネル、絵文字の情報を表示"
         local_help_value += "\n現在の自分の保有ptを確認"
         local_help_value += "\nユーザーの本鯖での役職、MCID、ポイント、発言数を表示"
         local_help_value += "\nmeで自分に、IDで指定ユーザーにかくれんぼなう役職を付与"
