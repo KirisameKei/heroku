@@ -175,7 +175,10 @@ async def emoji_info(client1, emoji_id):
 
     emoji_info_embed.set_thumbnail(url=emoji.url)
     emoji_info_embed.add_field(name="名前", value=emoji.name.replace("_", "\_"), inline=False)
-    emoji_info_embed.add_field(name="作者", value=emoji.user, inline=False)
+    user = emoji.user
+    if user is None:
+        user = "不明"
+    emoji_info_embed.add_field(name="作者", value=user, inline=False)
     emoji_info_embed.add_field(name="所属サーバ", value=guild.name, inline=False)
     emoji_info_embed.add_field(name="アニメーション", value=f"{emoji.animated}", inline=False)
     emoji_made_time = (emoji.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
