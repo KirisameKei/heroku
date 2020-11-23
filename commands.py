@@ -154,13 +154,42 @@ async def ch_info(client1, ch_id):
         return ch_info_embed
 
 
+async def emoji_info(client1, emoji_id):
+    """
+    絵文字情報を取得する関数
+    discord.Embedを返す"""
+
+    emoji = client1.get_emoji(emoji_id)
+
+    try:
+        guild = client1.get_guild(emoji.guild_id)
+    except AttributeError:
+        error_embed = discord.Embed(title="ERROR", description="ID指定が間違っているか本botの監視下にない絵文字です", color=0xff0000)
+        return error_embed
+    emoji = await guild.fetch_emoji(emoji_id)
+
+    if not emoji.animated:
+        emoji_info_embed = discord.Embed(title=emoji.name, color=0x000000)
+    else:
+        emoji_info_embed = discord.Embed(color=0x000000)
+
+    emoji_info_embed.set_thumbnail(url=emoji.url)
+    emoji_info_embed.add_field(name="名前", value=emoji.name.replace("_", "\_"), inline=False)
+    emoji_info_embed.add_field(name="作者", value=emoji.user, inline=False)
+    emoji_info_embed.add_field(name="所属サーバ", value=guild.name, inline=False)
+    emoji_info_embed.add_field(name="アニメーション", value=f"{emoji.animated}", inline=False)
+    emoji_made_time = (emoji.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
+    emoji_info_embed.add_field(name="絵文字作成日時", value=emoji_made_time, inline=False)
+    return emoji_info_embed
+
+
 async def info(client1, message):
     """
-    role, guild, user, chの情報を表示する関数"""
+    role, guild, user, ch, emojiの情報を表示する関数"""
 
     check_list = message.content.split()
     if not len(check_list) == 3:
-        await message.channel.send("引数の数が正しくありません\nヒント: `/info␣[role, guild, user, ch]␣ID`")
+        await message.channel.send("引数の数が正しくありません\nヒント: `/info␣[role, guild, user, ch, emoji]␣ID`")
         return
     check = check_list[1]
     check_id = check_list[2]
@@ -168,7 +197,7 @@ async def info(client1, message):
     try:
         check_id = int(check_id)
     except ValueError:
-        await message.channel.send("IDとして成り立ちません\nヒント: `/info␣[role, guild, user, ch]␣ID`")
+        await message.channel.send("IDとして成り立ちません\nヒント: `/info␣[role, guild, user, ch, emoji]␣ID`")
         return
 
     if check == "role":
@@ -179,8 +208,10 @@ async def info(client1, message):
         info_embed = await user_info(client1, check_id)
     elif check == "ch":
         info_embed = await ch_info(client1, check_id)
+    elif check == "emoji":
+        info_embed = await emoji_info(client1, check_id)
     else:
-        await message.channel.send("第二引数の指定が正しくありません\nヒント: `/info␣[role, guild, user, ch]␣ID`")
+        await message.channel.send("第二引数の指定が正しくありません\nヒント: `/info␣[role, guild, user, ch, emoji]␣ID`")
         return
 
     await message.channel.send(embed=info_embed)
