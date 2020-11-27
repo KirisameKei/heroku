@@ -20,9 +20,11 @@ import kei_server
 
 intents = discord.Intents.all()
 client1 = discord.Client(intents=intents)
+client2 = discord.Client(intents=intents)
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 discord_bot_token_1 = os.getenv("discord_bot_token_1")
+discord_bot_token_2 = os.getenv("discord_bot_token_2")
 where_from = os.getenv("where_from")
 error_notice_webhook_url = os.getenv("error_notice_webhook")
 
@@ -61,6 +63,16 @@ async def on_ready():
         unexpected_error()
 
 
+@client2.event
+async def on_ready():
+    try:
+        login_notice_ch = client1.get_channel(595072339545292804)
+        await login_notice_ch.send(f"{client2.user.name}がログインしました(from: {where_from})")
+        print(f"{client2.user.name}がログインしました")
+    except:
+        unexpected_error()
+
+
 @client1.event
 async def on_guild_join(guild):
     try:
@@ -94,7 +106,7 @@ async def on_guild_join(guild):
         member_embed = discord.Embed(title="╋", description=f"{client1.user.name}が{guild.name}に参加しました", color=0xfffffe)
         member_embed.set_author(name=client1.user.name, icon_url=client1.user.avatar_url_as(format="png"))
         member_embed.set_footer(text=guild.name, icon_url=guild.icon_url_as(format="png"))
-        join_leave_notice_ch = client1.get_channel(588224929300742154)
+        join_leave_notice_ch = client1.get_channel(709307324170240079)
         await join_leave_notice_ch.send(embed=member_embed)
 
     except:
@@ -106,7 +118,53 @@ async def on_guild_remove(guild):
         member_embed = discord.Embed(title="━", description=f"{client1.user.name}が{guild.name}から脱退しました", color=0xff0000)
         member_embed.set_author(name=client1.user.name, icon_url=client1.user.avatar_url_as(format="png"))
         member_embed.set_footer(text=guild.name, icon_url=guild.icon_url_as(format="png"))
-        join_leave_notice_ch = client1.get_channel(588224929300742154)
+        join_leave_notice_ch = client1.get_channel(709307324170240079)
+        await join_leave_notice_ch.send(embed=member_embed)
+    except:
+        unexpected_error()
+
+
+@client2.event
+async def on_guild_join(guild):
+    try:
+        for ch in guild.text_channels:
+            description = (
+                f"初めましての方は初めまして、そうでない方はまたお会いしましたね。<@!523303776120209408>制作の{client2.user.name}です。\n"
+                f"このbotを{guild.name}に導入していただきありがとうございます。\n"
+                "皆様にお願いしたいことがあります。このbotに極度に負荷をかけるような行為をしないでください。\n"
+                "バグ・不具合・要望等ありましたらけい#3104のDMか以下で紹介するサーバにお願いします。\n"
+                "[けいのうぇぶさいと](http://www.kei-3104.com)から私に匿名のメッセージを送れます。\n"
+                "プレフィックスは「$」、$helpでコマンドの一覧を見ることができます。\n"
+                "最後に[私のサーバ](https://discord.gg/nrvMKBT)を宣伝・紹介させてください。"
+                "このbotについてもっと知りたい、けいの活動に興味がある、理由は何でも構いません。ぜひ見ていってください。"
+                "このサーバで本botのサポートも行っております"
+            )
+            self_introduction_embed = discord.Embed(title="よろしくお願いします！", description=description, color=0x00ffff)
+            kei = client2.get_user(523303776120209408)
+            self_introduction_embed.set_footer(text="←作った人", icon_url=kei.avatar_url_as(format="png"))
+
+            try:
+                await ch.send(embed=self_introduction_embed)
+                break
+            except discord.errors.Forbidden:
+                pass
+
+        member_embed = discord.Embed(title="╋", description=f"{client2.user.name}が{guild.name}に参加しました", color=0xfffffe)
+        member_embed.set_author(name=client2.user.name, icon_url=client2.user.avatar_url_as(format="png"))
+        member_embed.set_footer(text=guild.name, icon_url=guild.icon_url_as(format="png"))
+        join_leave_notice_ch = client2.get_channel(709307324170240079)
+        await join_leave_notice_ch.send(embed=member_embed)
+    except:
+        unexpected_error()
+
+
+@client2.event
+async def on_guild_remove(guild):
+    try:
+        member_embed = discord.Embed(title="━", description=f"{client2.user.name}が{guild.name}から脱退しました", color=0xff0000)
+        member_embed.set_author(name=client2.user.name, icon_url=client2.user.avatar_url_as(format="png"))
+        member_embed.set_footer(text=guild.name, icon_url=guild.icon_url_as(format="png"))
+        join_leave_notice_ch = client2.get_channel(709307324170240079)
         await join_leave_notice_ch.send(embed=member_embed)
     except:
         unexpected_error()
@@ -346,8 +404,9 @@ async def dm(client1, message):
 #触るな
 Entry = namedtuple("Entry", "client event token")
 entries = [
-    Entry(client=client1,event=asyncio.Event(),token=discord_bot_token_1),
-]  
+    Entry(client=client1, event=asyncio.Event(), token=discord_bot_token_1),
+    Entry(client=client2, event=asyncio.Event(), token=discord_bot_token_2)
+]
 
 async def login():
     for e in entries:
