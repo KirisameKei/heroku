@@ -171,6 +171,31 @@ async def on_guild_remove(guild):
 
 
 @client1.event
+async def on_member_join(member):
+    try:
+        when_from = (member.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d　%H:%M")
+        member_embed = discord.Embed(title="╋", description=f"{member.mention}が{member.guild.name}に参加しました\n{when_from}からのdiscordユーザー", color=0xfffffe)
+        member_embed.set_author(name=member.name, icon_url=member.avatar_url)
+        member_embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
+        join_leave_notice_ch = client1.get_channel(709307324170240079)
+        await join_leave_notice_ch.send(embed=member_embed)
+    except:
+        unexpected_error()
+
+
+@client1.event
+async def on_member_remove(member):
+    try:
+        member_embed = discord.Embed(title="━", description=f"{member.mention}が{member.guild.name}から脱退しました", color=0xff0000)
+        member_embed.set_author(name=member.name, icon_url=member.avatar_url)
+        member_embed.set_footer(text=member.guild.name, icon_url=member.guild.icon_url)
+        join_leave_notice_ch = client1.get_channel(709307324170240079)
+        await join_leave_notice_ch.send(embed=member_embed)
+    except:
+        unexpected_error()
+
+
+@client1.event
 async def on_message(message):
     if message.content == "/bot_stop":
         kei_ex_guild = client1.get_guild(585998962050203672)
