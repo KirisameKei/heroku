@@ -76,33 +76,6 @@ async def on_ready():
 @client1.event
 async def on_guild_join(guild):
     try:
-        for ch in guild.text_channels:
-            title = "よろしくお願いします!!"
-            description = f"初めましての方は初めまして、そうでない方はまたお会いしましたね。<@!523303776120209408>制作の{client1.user.name}です。\n"
-            description += f"このbotを{guild.name}に導入していただきありがとうございます。\n"
-            description += "皆様にお願いしたいことがあります。このbotに極度に負荷をかけるような行為をしないでください。\n"
-            description += "バグ、不具合等問題がありましたら`/bug_report`コマンドで報告ができます\n"
-            description += "追加してほしい機能がありましたら`/new_func`コマンドで追加申請ができます(現在管理者持ち以外も実行できてしまいます。いずれ使えなくしておきます)\n"
-            description += "問題がなかったらお楽しみください。\n"
-            description += "最後に[私のサーバ](https://discord.gg/nrvMKBT)を宣伝・紹介させてください。"
-            description += "このbotについてもっと知りたい、このbotを招待したい、けいの活動に興味がある、理由は何でも構いません。ぜひ見ていってください"
-            self_introduction_embed = discord.Embed(title=title, description=description, color=0xffff00)
-            kei = client1.get_user(523303776120209408)
-            self_introduction_embed.set_footer(text="←作った人", icon_url=kei.avatar_url_as(format="png"))
-            try:
-                await ch.send(embed=self_introduction_embed)
-                break
-            except discord.errors.Forbidden:
-                pass
-
-        for ch in guild.text_channels:
-            try:
-                invite_url = await ch.create_invite(reason="けいを招待するため")
-                await kei.send(invite_url)
-                break
-            except discord.errors.Forbidden:
-                pass
-
         member_embed = discord.Embed(title="╋", description=f"{client1.user.name}が{guild.name}に参加しました", color=0xfffffe)
         member_embed.set_author(name=client1.user.name, icon_url=client1.user.avatar_url_as(format="png"))
         member_embed.set_footer(text=guild.name, icon_url=guild.icon_url_as(format="png"))
