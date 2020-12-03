@@ -314,6 +314,8 @@ async def weather(message):
                 color = 0xff7700
             elif weather_data_dict["current"]["weather"][0]["main"] == "Atmosphere" or weather_data_dict["current"]["weather"][0]["main"] == "Clouds":
                 color = 0x888888
+            else:
+                color = 0x000000
             #────ここまで色決め────
             weather_embed = discord.Embed(title=f"{message.content.split()[1]}の天気概況&予報", description=f"{now}発表", color=color)
             icon = weather_data_dict["current"]["weather"][0]["icon"]
