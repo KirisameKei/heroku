@@ -13,6 +13,7 @@ import requests
 from discord.ext import tasks
 
 import common
+import emoji_server
 import iroha
 import muhou
 import noname
@@ -266,6 +267,9 @@ async def on_message(message):
 
             if message.guild.id == 673838958303641620: #のねむ鯖
                 await noname.on_message(client1, message)
+
+            if message.guild.id == 735632039050477649: #絵文字鯖
+                await emoji_server.on_message(client1, message)
 
         except (RuntimeError, aiohttp.client_exceptions.ServerDisconnectedError):
             pass
