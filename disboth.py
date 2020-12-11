@@ -67,7 +67,7 @@ async def on_ready():
 @client2.event
 async def on_ready():
     try:
-        login_notice_ch = client1.get_channel(595072339545292804)
+        login_notice_ch = client2.get_channel(595072339545292804)
         await login_notice_ch.send(f"{client2.user.name}がログインしました(from: {where_from})")
         print(f"{client2.user.name}がログインしました")
     except:
