@@ -449,7 +449,7 @@ async def seichi_break(message):
             return
         uuid = player_data_dict["id"]
     except requests.exceptions.HTTPError:
-        await message.channel.send("現在データ参照元が使用できない状態です。しばらく待ってからもう一度お試しください。")
+        await message.channel.send("そのMCIDは存在しないか、現在データ参照元が使用できない状態です。")
         return
 
     uuid_1 = uuid[:8]
@@ -617,6 +617,7 @@ async def seichi_break(message):
     elif broke < 13615000:
         level = 100
     elif broke < 17665000:
+        #コピペ検出用文字列、けい制作
         level = 101
         n = 13615000
         while True:
@@ -714,6 +715,7 @@ async def seichi_break(message):
     #────────────ここまでコピペ禁止────────────
 
     broke = "{:,}".format(broke)
+    mcid = mcid.replace("_", "\_")
     try:
         embed = discord.Embed(title=f"{mcid}",description=f"整地量：{broke}\n順位：{rank}\nレベル：{level}☆{star_level}")
     except UnboundLocalError:
