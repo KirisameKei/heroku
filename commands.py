@@ -471,7 +471,6 @@ async def seichi_break(message):
 
     broke = int(player_data_dict[0]["data"]["raw_data"])
     rank = player_data_dict[0]["rank"]
-    mc_avatar_url = f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png"
     mc_avatar_url = f"https://minotar.net/armor/body/{mcid}/130.png"
 
     #────────────ここからコピペ禁止────────────
@@ -720,6 +719,165 @@ async def seichi_break(message):
         embed = discord.Embed(title=f"{mcid}",description=f"整地量：{broke}\n順位：{rank}\nレベル：{level}☆{star_level}")
     except UnboundLocalError:
         embed = discord.Embed(title=f"{mcid}",description=f"整地量：{broke}\n順位：{rank}\nレベル：{level}")
+
+    embed.set_thumbnail(url=mc_avatar_url)
+    await message.channel.send(embed=embed)
+
+
+async def seichi_build(message):
+    """
+    breakコマンド対応用関数"""
+
+    mcid = message.content.split()[1].replace("\\", "")
+    p = re.compile(r"^[a-zA-Z0-9_]+$")
+    if not p.fullmatch(mcid):
+        await message.channel.send("MCIDに使用できない文字が含まれています。")
+        return
+    url = f"https://api.mojang.com/users/profiles/minecraft/{mcid}"
+    try:
+        res = requests.get(url)
+        res.raise_for_status()
+        sorp = bs4.BeautifulSoup(res.text, "html.parser")
+        try:
+            player_data_dict = json.loads(sorp.decode("utf-8"))
+        except json.decoder.JSONDecodeError:
+            mcid = mcid.replace("_", "\_")
+            await message.channel.send(f"{mcid}は存在しません")
+            return
+        uuid = player_data_dict["id"]
+    except requests.exceptions.HTTPError:
+        await message.channel.send("そのMCIDは存在しないか、現在データ参照元が使用できない状態です。")
+        return
+
+    uuid_1 = uuid[:8]
+    uuid_2 = uuid[8:12]
+    uuid_3 = uuid[12:16]
+    uuid_4 = uuid[16:20]
+    uuid_5 = uuid[20:]
+    uuid = f"{uuid_1}-{uuid_2}-{uuid_3}-{uuid_4}-{uuid_5}"
+    url = f"https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=build"
+
+    try:
+        res = requests.get(url)
+        res.raise_for_status()
+        sorp = bs4.BeautifulSoup(res.text, "html.parser")
+        player_data_dict = json.loads(sorp.decode("utf-8"))
+    except requests.exceptions.HTTPError:
+        await message.channel.send("現在データ参照元が使用できない状態です。しばらく待ってからもう一度お試しください。")
+        return
+
+    build = int(player_data_dict[0]["data"]["raw_data"])
+    rank = player_data_dict[0]["rank"]
+    mc_avatar_url = f"https://minotar.net/armor/body/{mcid}/130.png"
+
+    #────────────ここからコピペ禁止────────────
+    if build < 50:
+        level = 1
+    elif build < 100:
+        level = 2
+    elif build < 200:
+        level = 3
+    elif build < 300:
+        level = 4
+    elif build < 450:
+        level = 5
+    elif build < 600:
+        level = 6
+    elif build < 900:
+        level = 7
+    elif build < 1200:
+        level = 8
+    elif build < 1600:
+        level = 9
+    elif build < 2000:
+        level = 10
+    elif build < 2500:
+        level = 11
+    elif build < 3000:
+        level = 12
+    elif build < 3600:
+        level = 13
+    elif build < 4300:
+        level = 14
+    elif build < 5100:
+        level = 15
+    elif build < 6000:
+        level = 16
+    elif build < 7000:
+        level = 17
+    elif build < 8200:
+        level = 18
+    elif build < 9400:
+        level = 19
+    elif build < 10800:
+        level = 20
+    elif build < 12200:
+        level = 21
+    elif build < 12800:
+        level = 22
+    elif build < 15400:
+        level = 23
+    elif build < 17200:
+        level = 24
+    elif build < 19000:
+        level = 25
+    elif build < 21000:
+        level = 26
+    elif build < 23000:
+        level = 27
+    elif build < 25250:
+        level = 28
+    elif build < 27500:
+        level = 29
+    elif build < 30000:
+        level = 30
+    elif build < 32500:
+        level = 31
+    elif build < 35500:
+        level = 32
+    elif build < 38500:
+        level = 33
+    elif build < 42000:
+        level = 34
+    elif build < 45500:
+        level = 35
+    elif build < 49500:
+        level = 36
+    elif build < 54000:
+        level = 37
+    elif build < 59000:
+        level = 38
+    elif build < 64000:
+        level = 39
+    elif build < 70000:
+        level = 40
+    elif build < 76000:
+        level = 41
+    elif build < 83000:
+        level = 42
+    elif build < 90000:
+        level = 43
+    elif build < 98000:
+        level = 44
+    elif build < 106000:
+        level = 45
+    elif build < 115000:
+        level = 46
+    elif build < 124000:
+        level = 47
+    elif build < 133000:
+        level = 48
+    elif build < 143000:
+        level = 49
+    elif build < 153000:
+        level = 50
+    else:
+        level = "51以上"
+    #────────────ここまでコピペ禁止────────────
+
+    build = "{:,}".format(build)
+    mcid = mcid.replace("_", "\_")
+    embed = discord.Embed(title=f"{mcid}",description=f"建築量：{build}\n順位：{rank}\nレベル：{level}")
 
     embed.set_thumbnail(url=mc_avatar_url)
     await message.channel.send(embed=embed)
