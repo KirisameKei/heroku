@@ -279,6 +279,13 @@ async def on_message(message):
         unexpected_error()
 
 
+@client2.event
+async def on_message(message):
+    if client2.user in message.mentions:
+        if not message.author.bot:
+            await common.mention(message, where_from)
+
+
 @client1.event
 async def on_raw_reaction_add(payload):
     try:
