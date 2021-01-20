@@ -236,9 +236,9 @@ async def shiritori(message):
         await message.channel.send(random.choice(shiritori_n_list))
 
 
-async def kei_rab_war(client1):
+async def kei_yuki_war(client1):
     kei_url = "https://w4.minecraftserver.jp/api/ranking/player/73b41f61-3b2b-4730-b775-564516101b3c?types=break"
-    rab_url = "https://w4.minecraftserver.jp/api/ranking/player/3566fc83-7487-4f50-aacb-2fb7fe892d4d?types=break"
+    yuki_url = "https://w4.minecraftserver.jp/api/ranking/player/4ca99a6c-6c80-452f-a3a3-01b6aba7fccf?types=break"
     try:
         res = requests.get(kei_url)
         res.raise_for_status()
@@ -250,16 +250,16 @@ async def kei_rab_war(client1):
     kei_break = int(kei_data_dict[0]["data"]["raw_data"])
 
     try:
-        res = requests.get(rab_url)
+        res = requests.get(yuki_url)
         res.raise_for_status()
         sorp = bs4.BeautifulSoup(res.text, "html.parser")
-        rab_data_dict = json.loads(sorp.decode("utf-8"))
+        yuki_data_dict = json.loads(sorp.decode("utf-8"))
     except requests.exceptions.HTTPError:
         return
 
-    rab_break = int(rab_data_dict[0]["data"]["raw_data"])
+    yuki_break = int(yuki_data_dict[0]["data"]["raw_data"])
 
-    nokori = rab_break - kei_break
+    nokori = yuki_break - kei_break
     today = datetime.date.today().strftime(r"%y-%m-%d")
     await client1.get_channel(793478659775266826).send(f"{today}\n{nokori}")
 
