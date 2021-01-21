@@ -232,7 +232,7 @@ async def last_login(message):
     if not (len(mcid) >= 3 and len(mcid) <= 16):
         await message.channel.send("MCIDとして成り立ちません")
         return
-    url = f"https://w4.minecraftserver.jp/player/{mcid}"
+    url = f"https://ranking-gigantic.seichi.click/player/{mcid}"
     try:
         res = requests.get(url)
         res.raise_for_status()
@@ -458,7 +458,7 @@ async def seichi_break(message):
     uuid_4 = uuid[16:20]
     uuid_5 = uuid[20:]
     uuid = f"{uuid_1}-{uuid_2}-{uuid_3}-{uuid_4}-{uuid_5}"
-    url = f"https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break"
+    url = f"https://ranking-gigantic.seichi.click/api/ranking/player/{uuid}?types=break"
 
     try:
         res = requests.get(url)
@@ -755,7 +755,7 @@ async def seichi_build(message):
     uuid_4 = uuid[16:20]
     uuid_5 = uuid[20:]
     uuid = f"{uuid_1}-{uuid_2}-{uuid_3}-{uuid_4}-{uuid_5}"
-    url = f"https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=build"
+    url = f"https://ranking-gigantic.seichi.click/api/ranking/player/{uuid}?types=build"
 
     try:
         res = requests.get(url)

@@ -237,8 +237,8 @@ async def shiritori(message):
 
 
 async def kei_yuki_war(client1):
-    kei_url = "https://w4.minecraftserver.jp/api/ranking/player/73b41f61-3b2b-4730-b775-564516101b3c?types=break"
-    yuki_url = "https://w4.minecraftserver.jp/api/ranking/player/4ca99a6c-6c80-452f-a3a3-01b6aba7fccf?types=break"
+    kei_url = "https://ranking-gigantic.seichi.click/api/ranking/player/73b41f61-3b2b-4730-b775-564516101b3c?types=break"
+    yuki_url = "https://ranking-gigantic.seichi.click/api/ranking/player/4ca99a6c-6c80-452f-a3a3-01b6aba7fccf?types=break"
     try:
         res = requests.get(kei_url)
         res.raise_for_status()
