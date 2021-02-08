@@ -360,18 +360,18 @@ marichan_birthday.start()
 
 
 @tasks.loop(seconds=60)
-async def kei_yuki_war():
+async def kei_lim_war():
     try:
         await client1.wait_until_ready()
         now = datetime.datetime.now()
 
         if now.hour == 23 and now.minute == 55:
-            await kei_server.kei_yuki_war(client1)
+            await kei_server.kei_lim_war(client1)
 
     except:
         unexpected_error()
 
-kei_yuki_war.start()
+kei_lim_war.start()
 
 
 @tasks.loop(seconds=30)
