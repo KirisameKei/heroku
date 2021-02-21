@@ -1002,6 +1002,9 @@ async def random_(message):
         except IndexError:
             await message.channel.send("候補がありません")
             return
+        if args == []:
+            await message.channel.send("候補がありません")
+            return
         if sample <= 0:
             await message.channel.send("サンプル数は正の整数です")
             return
