@@ -981,6 +981,8 @@ async def random_(message):
         except ValueError:
             await message.channel.send("数の指定は正の整数です")
             return
+        if sample <= 0:
+            await message.channel.send("数の指定は正の整数です")
         try:
             args = message.content.split()[3:]
         except IndexError:
