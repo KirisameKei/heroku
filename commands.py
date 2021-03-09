@@ -11,7 +11,6 @@ import bs4
 import discord
 import requests
 from PIL import Image,ImageDraw,ImageFont
-from selenium import webdriver
 
 def role_info(message, role_id):
     """
@@ -96,17 +95,20 @@ async def ch_info(client1, ch_id):
     discord.Embedを返す"""
 
     ch = client1.get_channel(ch_id)
-    try:
-        ch_name = ch.name
-    except AttributeError:
-        error_embed = discord.Embed(title="ERROR", description="ID指定が間違っているか本botの監視下にないチャンネルです", color=0xff0000)
-        return error_embed
+    if isinstance(ch, discord.abc.PrivateChannel):
+        channel_type = "DMチャンネル"
+        ch_info_embed = discord.Embed(title=ch.name, color=0x000000)
+        ch_made_time = (ch.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
+        ch_info_embed.add_field(name="チャンネル作成日時", value=f"{ch_made_time}　(JST)", inline=False)
+        ch_info_embed.add_field(name="相手", value=ch.recipient.name)
+        ch_info_embed.add_field(name="チャンネルタイプ", value=channel_type, inline=False)
+        ch_info_embed.set_footer(text=ch.recipient.name, icon_url=ch.recipient.avatar_url_as(format="png"))
 
     else:
         ch_info_embed = discord.Embed(title=ch.name, color=0x000000)
         ch_made_time = (ch.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
         ch_info_embed.add_field(name="チャンネル作成日時", value=f"{ch_made_time}　(JST)", inline=False)
-        if type(ch) == discord.TextChannel:
+        if isinstance(ch, discord.TextChannel):
             channel_type = "テキストチャンネル"
             if ch.is_nsfw():
                 nsfw = "True"
@@ -119,7 +121,7 @@ async def ch_info(client1, ch_id):
                 category = category.name
             ch_info_embed.add_field(name="NSFW", value=nsfw, inline=False)
             ch_info_embed.add_field(name="所属カテゴリ", value=category, inline=False)
-        elif type(ch) == discord.VoiceChannel:
+        elif isinstance(ch, discord.VoiceChannel):
             channel_type = "ボイスチャンネル"
             category = ch.category
             if category is None:
@@ -133,7 +135,7 @@ async def ch_info(client1, ch_id):
             else:
                 user_limit = ch.user_limit
             ch_info_embed.add_field(name="ユーザーリミット", value=ch.user_limit, inline=False)
-        elif type(ch) == discord.CategoryChannel:
+        elif isinstance(ch, discord.CategoryChannel):
             channel_type = "カテゴリチャンネル"
             if ch.is_nsfw():
                 nsfw = "True"
@@ -143,14 +145,12 @@ async def ch_info(client1, ch_id):
             texts = len(ch.text_channels)
             voices = len(ch.voice_channels)
             ch_info_embed.add_field(name="保有チャンネル数", value=f"テキストチャンネル: {texts}\nボイスチャンネル: {voices}", inline=False)
+
         else:
-            channel_type = "DMチャンネル"
-            ch_info_embed.add_field(name="相手", value=ch.recipient.name)
-        ch_info_embed.add_field(name="チャンネルタイプ", value=channel_type, inline=False)
-        try:
-            ch_info_embed.set_footer(text=ch.guild.name, icon_url=ch.guild.icon_url_as(format="png"))
-        except AttributeError:
-            ch_info_embed.set_footer(text=ch.recipient.name, icon_url=ch.recipient.avatar_url_as(format="png"))
+            error_embed = discord.Embed(title="ERROR", description="ID指定が間違っているか本botの監視下にないチャンネルです(なぜだか知らないけどDMチャンネルの可能性もあります)", color=0xff0000)
+            return error_embed    
+
+        
         return ch_info_embed
 
 

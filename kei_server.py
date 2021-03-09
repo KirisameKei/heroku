@@ -59,6 +59,9 @@ async def on_message(client1, message):
     if message.content.startswith("/random "):
         await commands.random_(message)
 
+    if message.content.startswith("/remove_role "):
+        await remove_role(message)
+
     if message.content == "/glist":
         await commands.glist(message, client1)
 
@@ -218,6 +221,30 @@ async def delmsg(message):
         await message.channel.purge(limit=how_many_delete+1)
 
 
+async def remove_role(message):
+    """
+    引数のIDを持つ役職を一斉に外す"""
+
+    admin_role = discord.utils.get(message.guild.roles, id=585999549055631408)
+    if not (admin_role in message.author.roles):
+        await message.channel.send("何様のつもり？")
+        doM_role = discord.utils.get(message.guild.roles, id= 616212704818102275)
+        await message.author.add_roles(doM_role)
+        return
+
+    if message.author.bot:
+        return
+
+    role_id = int(message.content.split()[1])
+    role = discord.utils.get(message.guild.roles, id=role_id)
+    n = 0
+    for mem in role.members:
+        await mem.remove_roles(role)
+        n += 1
+
+    await message.channel.send(f"{n}人から@{role.name}を剝奪しました")
+
+
 async def shiritori(message):
     """
     しりとりチャンネルでメッセージがんかンで終わったら対処する"""
@@ -260,8 +287,9 @@ async def kei_yuki_war(client1):
     yuki_break = int(yuki_data_dict[0]["data"]["raw_data"])
 
     nokori = yuki_break - kei_break
+    nokori_int = 2147483647 - kei_break
     today = datetime.date.today().strftime(r"%y-%m-%d")
-    await client1.get_channel(793478659775266826).send(f"{today}\n{nokori}")
+    await client1.get_channel(793478659775266826).send(f"{today}\n{nokori}\n{nokori_int}")
 
 
 async def dm_send(client1, message):
