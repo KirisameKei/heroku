@@ -263,9 +263,9 @@ async def shiritori(message):
         await message.channel.send(random.choice(shiritori_n_list))
 
 
-async def kei_yuki_war(client1):
+async def kei_apu_war(client1):
     kei_url = "https://ranking-gigantic.seichi.click/api/ranking/player/73b41f61-3b2b-4730-b775-564516101b3c?types=break"
-    yuki_url = "https://ranking-gigantic.seichi.click/api/ranking/player/8276e032-4b30-4f98-87d0-bc5c18b363a8?types=break"
+    apu_url = "https://ranking-gigantic.seichi.click/api/ranking/player/9fd28c21-7274-446f-a425-348e81165b27?types=break"
     try:
         res = requests.get(kei_url)
         res.raise_for_status()
@@ -277,16 +277,16 @@ async def kei_yuki_war(client1):
     kei_break = int(kei_data_dict[0]["data"]["raw_data"])
 
     try:
-        res = requests.get(yuki_url)
+        res = requests.get(apu_url)
         res.raise_for_status()
         sorp = bs4.BeautifulSoup(res.text, "html.parser")
-        yuki_data_dict = json.loads(sorp.decode("utf-8"))
+        apu_data_dict = json.loads(sorp.decode("utf-8"))
     except requests.exceptions.HTTPError:
         return
 
-    yuki_break = int(yuki_data_dict[0]["data"]["raw_data"])
+    apu_break = int(apu_data_dict[0]["data"]["raw_data"])
 
-    nokori = yuki_break - kei_break
+    nokori = apu_break - kei_break
     nokori_int = 2147483647 - kei_break
     today = datetime.date.today().strftime(r"%y-%m-%d")
     await client1.get_channel(793478659775266826).send(f"{today}\n{nokori}\n{nokori_int}")
