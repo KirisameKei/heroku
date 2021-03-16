@@ -237,7 +237,8 @@ async def last_login(message):
         res = requests.get(url)
         res.raise_for_status()
         soup = bs4.BeautifulSoup(res.text, "html.parser")
-        if not f"{mcid.lower()}" in f"{soup.td}":
+        mcid_right = str(soup.td).split()[1]
+        if not mcid.lower() == mcid_right.lower():
             await message.channel.send("整地鯖にログインしたことがないMCIDです")
             return
         last_login_datetime = str(soup.select("td")[1]).split("\n")[1]
