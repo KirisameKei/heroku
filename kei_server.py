@@ -265,7 +265,7 @@ async def shiritori(message):
 
 async def kei_apu_war(client1):
     kei_url = "https://ranking-gigantic.seichi.click/api/ranking/player/73b41f61-3b2b-4730-b775-564516101b3c?types=break"
-    apu_url = "https://ranking-gigantic.seichi.click/api/ranking/player/9fd28c21-7274-446f-a425-348e81165b27?types=break"
+    apu_url = "https://ranking-gigantic.seichi.click/api/ranking/player/f9a6eb0c-3247-45a4-aa7e-df681479f5a8?types=break"
     try:
         res = requests.get(kei_url)
         res.raise_for_status()
