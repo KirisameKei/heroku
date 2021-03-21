@@ -263,9 +263,9 @@ async def shiritori(message):
         await message.channel.send(random.choice(shiritori_n_list))
 
 
-async def kei_apu_war(client1):
-    kei_url = "https://ranking-gigantic.seichi.click/api/ranking/player/73b41f61-3b2b-4730-b775-564516101b3c?types=break"
-    apu_url = "https://ranking-gigantic.seichi.click/api/ranking/player/f9a6eb0c-3247-45a4-aa7e-df681479f5a8?types=break"
+async def kei_assult_war(client1):
+    kei_url = "https://ranking-gigantic.seichi.click/api/ranking/player/53043ef0-1cc2-4d5a-956e-dffc412fdd59?types=break"
+    #assult_url = "https://ranking-gigantic.seichi.click/api/ranking/player/f9a6eb0c-3247-45a4-aa7e-df681479f5a8?types=break"
     try:
         res = requests.get(kei_url)
         res.raise_for_status()
@@ -276,17 +276,18 @@ async def kei_apu_war(client1):
 
     kei_break = int(kei_data_dict[0]["data"]["raw_data"])
 
-    try:
-        res = requests.get(apu_url)
-        res.raise_for_status()
-        sorp = bs4.BeautifulSoup(res.text, "html.parser")
-        apu_data_dict = json.loads(sorp.decode("utf-8"))
-    except requests.exceptions.HTTPError:
-        return
+    #try:
+    #    res = requests.get(assult_url)
+    #    res.raise_for_status()
+    #    sorp = bs4.BeautifulSoup(res.text, "html.parser")
+    #    assult_data_dict = json.loads(sorp.decode("utf-8"))
+    #except requests.exceptions.HTTPError:
+    #    return
 
-    apu_break = int(apu_data_dict[0]["data"]["raw_data"])
+    #assult_break = int(assult_data_dict[0]["data"]["raw_data"])
+    assult = 65265000
 
-    nokori = apu_break - kei_break
+    nokori = assult - kei_break
     nokori_int = 2147483647 - kei_break
     today = datetime.date.today().strftime(r"%y-%m-%d")
     await client1.get_channel(793478659775266826).send(f"{today}\n{nokori}\n{nokori_int}")
