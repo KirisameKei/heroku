@@ -288,9 +288,8 @@ async def kei_assult_war(client1):
     assult = 65265000
 
     nokori = assult - kei_break
-    nokori_int = 2147483647 - kei_break
     today = datetime.date.today().strftime(r"%y-%m-%d")
-    await client1.get_channel(793478659775266826).send(f"{today}\n{nokori}\n{nokori_int}")
+    await client1.get_channel(793478659775266826).send(f"{today}\n{nokori}")
 
 
 async def dm_send(client1, message):
