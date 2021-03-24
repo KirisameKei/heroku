@@ -233,6 +233,7 @@ async def last_login(message):
         await message.channel.send("MCIDとして成り立ちません")
         return
     url = f"https://ranking-gigantic.seichi.click/player/{mcid}"
+    url = f"https://ranking-gigantic.seichi.click/api/search/player?q={mcid}"
     try:
         res = requests.get(url)
         res.raise_for_status()
@@ -1044,3 +1045,81 @@ async def glist(message, client1):
         text += f"{guild.name}\n{guild.id}\n{guild.owner}\n\n"
     text += f"以上{len(client1.guilds)}鯖"
     await message.channel.send(embed=discord.Embed(title="参加鯖一覧", description=text))
+
+
+async def stack_eval64(message):
+    """
+    スタック数の計算をする"""
+
+    msg = message.content.replace("/stack_eval64 ", "").replace("/stack_eval ", "")
+    msg = msg.lower()
+    msg = msg.replace("lc", "*3456").replace("sb", "*1728").replace("c", "*1728").replace("st", "*64").replace("個", "")
+    try:
+        result = eval(msg)
+    except (SyntaxError, NameError):
+        await message.channel.send("不正な入力です")
+    else:
+        LC, st = divmod(result, 3456)
+        st, ko = divmod(st, 64)
+        result_list = []
+        if LC != 0:
+            result_list.append(f"{LC}LC")
+        if st != 0:
+            result_list.append(f"{st}st")
+        if ko != 0:
+            result_list.append(f"{ko}個")
+        result_str = " + ".join(result_list)
+        if result_str == "":
+            result_str = "0"
+        await message.channel.send(f"{result_str}\n{result}")
+
+
+async def stack_eval16(message):
+    """
+    スタック数の計算をする"""
+
+    msg = message.content.replace("/stack_eval16 ", "")
+    msg = msg.lower()
+    msg = msg.replace("lc", "*864").replace("sb", "*432").replace("c", "*432").replace("st", "*16").replace("個", "")
+    try:
+        result = eval(msg)
+    except (SyntaxError, NameError):
+        await message.channel.send("不正な入力です")
+    else:
+        LC, st = divmod(result, 864)
+        st, ko = divmod(st, 432)
+        result_list = []
+        if LC != 0:
+            result_list.append(f"{LC}LC")
+        if st != 0:
+            result_list.append(f"{st}st")
+        if ko != 0:
+            result_list.append(f"{ko}個")
+        result_str = " + ".join(result_list)
+        if result_str == "":
+            result_str = "0"
+        await message.channel.send(f"{result_str}\n{result}")
+
+
+async def stack_eval1(message):
+    """
+    スタック数の計算をする"""
+
+    msg = message.content.replace("/stack_eval1 ", "")
+    msg = msg.lower()
+    msg = msg.replace("lc", "*54").replace("sb", "*27").replace("c", "*27").replace("st", "*1").replace("個", "")
+    try:
+        result = eval(msg)
+    except (SyntaxError, NameError):
+        await message.channel.send("不正な入力です")
+    else:
+        LC, ko = divmod(result, 54)
+        result_list = []
+        if LC != 0:
+            result_list.append(f"{LC}LC")
+        if ko != 0:
+            result_list.append(f"{ko}個")
+        result_str = " + ".join(result_list)
+        if result_str == "":
+            result_str = "0"
+        await message.channel.send(f"{result_str}\n{result}")
