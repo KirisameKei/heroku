@@ -1062,7 +1062,7 @@ async def stack_eval64(message):
         try:
             LC, st = divmod(result, 3456)
             st, ko = divmod(st, 64)
-        except TypeError:
+        except (TypeError, ZeroDivisionError):
             await message.channel.send("変な入力するんじゃねぇ！")
             return
         result_list = []
@@ -1093,7 +1093,7 @@ async def stack_eval16(message):
         try:
             LC, st = divmod(result, 864)
             st, ko = divmod(st, 432)
-        except TypeError:
+        except (TypeError, ZeroDivisionError):
             await message.channel.send("変な入力するんじゃねぇ！")
             return
         result_list = []
@@ -1123,7 +1123,7 @@ async def stack_eval1(message):
     else:
         try:
             LC, ko = divmod(result, 54)
-        except TypeError:
+        except (TypeError, ZeroDivisionError):
             await message.channel.send("変な入力するんじゃねぇ！")
             return
         result_list = []
