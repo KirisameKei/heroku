@@ -1056,11 +1056,15 @@ async def stack_eval64(message):
     msg = msg.replace("lc", "*3456").replace("sb", "*1728").replace("c", "*1728").replace("st", "*64").replace("個", "")
     try:
         result = eval(msg)
-    except (SyntaxError, NameError, TypeError):
+    except (SyntaxError, NameError):
         await message.channel.send("不正な入力です")
     else:
-        LC, st = divmod(result, 3456)
-        st, ko = divmod(st, 64)
+        try:
+            LC, st = divmod(result, 3456)
+            st, ko = divmod(st, 64)
+        except TypeError:
+            await message.channel.send("変な入力するんじゃねぇ！")
+            return
         result_list = []
         if LC != 0:
             result_list.append(f"{LC}LC")
@@ -1083,11 +1087,15 @@ async def stack_eval16(message):
     msg = msg.replace("lc", "*864").replace("sb", "*432").replace("c", "*432").replace("st", "*16").replace("個", "")
     try:
         result = eval(msg)
-    except (SyntaxError, NameError, TypeError):
+    except (SyntaxError, NameError):
         await message.channel.send("不正な入力です")
     else:
-        LC, st = divmod(result, 864)
-        st, ko = divmod(st, 432)
+        try:
+            LC, st = divmod(result, 864)
+            st, ko = divmod(st, 432)
+        except TypeError:
+            await message.channel.send("変な入力するんじゃねぇ！")
+            return
         result_list = []
         if LC != 0:
             result_list.append(f"{LC}LC")
@@ -1110,10 +1118,14 @@ async def stack_eval1(message):
     msg = msg.replace("lc", "*54").replace("sb", "*27").replace("c", "*27").replace("st", "*1").replace("個", "")
     try:
         result = eval(msg)
-    except (SyntaxError, NameError, TypeError):
+    except (SyntaxError, NameError):
         await message.channel.send("不正な入力です")
     else:
-        LC, ko = divmod(result, 54)
+        try:
+            LC, ko = divmod(result, 54)
+        except TypeError:
+            await message.channel.send("変な入力するんじゃねぇ！")
+            return
         result_list = []
         if LC != 0:
             result_list.append(f"{LC}LC")
