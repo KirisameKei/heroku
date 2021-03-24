@@ -24,7 +24,7 @@ client1 = discord.Client(intents=intents)
 client2 = discord.Client(intents=intents)
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-discord_bot_token_1 = os.getenv("discord_bot_token_1")
+discord_bot_token_1 = os.getenv("discord_bot_token_3")
 discord_bot_token_2 = os.getenv("discord_bot_token_2")
 where_from = os.getenv("where_from")
 error_notice_webhook_url = os.getenv("error_notice_webhook")

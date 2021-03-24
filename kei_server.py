@@ -65,17 +65,17 @@ async def on_message(client1, message):
     if message.content == "/glist":
         await commands.glist(message, client1)
 
-    if message.content.startswith("/stack_eval "):
-        await commands.stack_eval64(message)
+    #if message.content.startswith("/stack_eval "):
+    #    await commands.stack_eval64(message)
 
-    if message.content.startswith("/stack_eval64 "):
-        await commands.stack_eval64(message)
+    #if message.content.startswith("/stack_eval64 "):
+    #    await commands.stack_eval64(message)
 
-    if message.content.startswith("/stack_eval16 "):
-        await commands.stack_eval16(message)
+    #if message.content.startswith("/stack_eval16 "):
+    #    await commands.stack_eval16(message)
 
-    if message.content.startswith("/stack_eval1 "):
-        await commands.stack_eval1(message)
+    #if message.content.startswith("/stack_eval1 "):
+    #    await commands.stack_eval1(message)
 
     if message.channel.id == 603832801036468244:
         await shiritori(message)
