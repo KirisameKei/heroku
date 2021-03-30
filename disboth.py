@@ -371,7 +371,7 @@ async def kei_assult_war():
     except:
         unexpected_error()
 
-kei_assult_war.start()
+#kei_assult_war.start()
 
 
 @tasks.loop(seconds=30)
