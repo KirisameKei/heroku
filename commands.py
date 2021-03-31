@@ -1060,7 +1060,7 @@ async def stack_eval64(message):
         return
     try:
         result = eval(msg)
-    except (SyntaxError, NameError, OverflowError):
+    except (SyntaxError, NameError, OverflowError, TypeError):
         await message.channel.send("不正な入力です")
     except ZeroDivisionError:
         await message.channel.send("変な入力するんじゃねぇ！")
@@ -1097,7 +1097,7 @@ async def stack_eval16(message):
         return
     try:
         result = eval(msg)
-    except (SyntaxError, NameError, OverflowError):
+    except (SyntaxError, NameError, OverflowError, TypeError):
         await message.channel.send("不正な入力です")
     except ZeroDivisionError:
         await message.channel.send("変な入力するんじゃねぇ！")
@@ -1134,7 +1134,7 @@ async def stack_eval1(message):
         return
     try:
         result = eval(msg)
-    except (SyntaxError, NameError, OverflowError):
+    except (SyntaxError, NameError, OverflowError, TypeError):
         await message.channel.send("不正な入力です")
     except ZeroDivisionError:
         await message.channel.send("変な入力するんじゃねぇ！")
