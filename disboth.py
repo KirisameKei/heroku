@@ -18,6 +18,7 @@ import iroha
 import muhou
 import noname
 import kei_server
+import plugin_server
 
 intents = discord.Intents.all()
 client1 = discord.Client(intents=intents)
@@ -289,8 +290,11 @@ async def on_message(message):
 @client1.event
 async def on_raw_reaction_add(payload):
     try:
-        if payload.guild_id == 585998962050203672:
+        if payload.guild_id == 585998962050203672: #けい鯖
             await kei_server.on_raw_reaction_add(client1, payload)
+
+        if payload.guild_id == 576813939816398849: #プラグイン鯖
+            await plugin_server.on_raw_reaction_add(client1, payload)
 
     except:
         unexpected_error()
