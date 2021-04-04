@@ -95,11 +95,9 @@ async def ch_info(client1, ch_id):
     discord.Embedを返す"""
 
     ch = client1.get_channel(ch_id)
-    try:
-        name = ch.name
-    except AttributeError:
-            error_embed = discord.Embed(title="ERROR", description="ID指定が間違っているか本botの監視下にないチャンネルです(なぜだか知らないけどDMチャンネルの可能性もあります)", color=0xff0000)
-            return error_embed
+    if not hasattr(ch, "name"):
+        error_embed = discord.Embed(title="ERROR", description="ID指定が間違っているか本botの監視下にないチャンネルです(なぜだか知らないけどDMチャンネルの可能性もあります)", color=0xff0000)
+        return error_embed
 
     ch_info_embed = discord.Embed(title=ch.name, color=0x000000)
     ch_made_time = (ch.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
