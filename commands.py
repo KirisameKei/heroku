@@ -95,63 +95,54 @@ async def ch_info(client1, ch_id):
     discord.Embedを返す"""
 
     ch = client1.get_channel(ch_id)
-    if isinstance(ch, discord.abc.PrivateChannel):
-        channel_type = "DMチャンネル"
-        ch_info_embed = discord.Embed(title=ch.name, color=0x000000)
-        ch_made_time = (ch.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
-        ch_info_embed.add_field(name="チャンネル作成日時", value=f"{ch_made_time}　(JST)", inline=False)
-        ch_info_embed.add_field(name="相手", value=ch.recipient.name)
-        ch_info_embed.add_field(name="チャンネルタイプ", value=channel_type, inline=False)
-        ch_info_embed.set_footer(text=ch.recipient.name, icon_url=ch.recipient.avatar_url_as(format="png"))
-
-    else:
-        ch_info_embed = discord.Embed(title=ch.name, color=0x000000)
-        ch_made_time = (ch.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
-        ch_info_embed.add_field(name="チャンネル作成日時", value=f"{ch_made_time}　(JST)", inline=False)
-        if isinstance(ch, discord.TextChannel):
-            channel_type = "テキストチャンネル"
-            if ch.is_nsfw():
-                nsfw = "True"
-            else:
-                nsfw = "False"
-            category = ch.category
-            if category is None:
-                category = "None"
-            else:
-                category = category.name
-            ch_info_embed.add_field(name="NSFW", value=nsfw, inline=False)
-            ch_info_embed.add_field(name="所属カテゴリ", value=category, inline=False)
-        elif isinstance(ch, discord.VoiceChannel):
-            channel_type = "ボイスチャンネル"
-            category = ch.category
-            if category is None:
-                category = "None"
-            else:
-                category = category.name
-            ch_info_embed.add_field(name="所属カテゴリ", value=category, inline=False)
-            ch_info_embed.add_field(name="音声ビットレート", value=f"{ch.bitrate}bit/s", inline=False)
-            if ch.user_limit == 0:
-                user_limit = "上限なし"
-            else:
-                user_limit = ch.user_limit
-            ch_info_embed.add_field(name="ユーザーリミット", value=ch.user_limit, inline=False)
-        elif isinstance(ch, discord.CategoryChannel):
-            channel_type = "カテゴリチャンネル"
-            if ch.is_nsfw():
-                nsfw = "True"
-            else:
-                nsfw = "False"
-            ch_info_embed.add_field(name="NSFW", value=nsfw, inline=False)
-            texts = len(ch.text_channels)
-            voices = len(ch.voice_channels)
-            ch_info_embed.add_field(name="保有チャンネル数", value=f"テキストチャンネル: {texts}\nボイスチャンネル: {voices}", inline=False)
-
-        else:
+    try:
+        name = ch.name
+    except AttributeError:
             error_embed = discord.Embed(title="ERROR", description="ID指定が間違っているか本botの監視下にないチャンネルです(なぜだか知らないけどDMチャンネルの可能性もあります)", color=0xff0000)
-            return error_embed    
+            return error_embed
 
+    ch_info_embed = discord.Embed(title=ch.name, color=0x000000)
+    ch_made_time = (ch.created_at + datetime.timedelta(hours=9)).strftime(r"%Y/%m/%d %H:%M")
+    ch_info_embed.add_field(name="チャンネル作成日時", value=f"{ch_made_time}　(JST)", inline=False)
+    if isinstance(ch, discord.TextChannel):
+        channel_type = "テキストチャンネル"
+        if ch.is_nsfw():
+            nsfw = "True"
+        else:
+            nsfw = "False"
+        category = ch.category
+        if category is None:
+            category = "None"
+        else:
+            category = category.name
+        ch_info_embed.add_field(name="NSFW", value=nsfw, inline=False)
+        ch_info_embed.add_field(name="所属カテゴリ", value=category, inline=False)
+    elif isinstance(ch, discord.VoiceChannel):
+        channel_type = "ボイスチャンネル"
+        category = ch.category
+        if category is None:
+            category = "None"
+        else:
+            category = category.name
+        ch_info_embed.add_field(name="所属カテゴリ", value=category, inline=False)
+        ch_info_embed.add_field(name="音声ビットレート", value=f"{ch.bitrate}bit/s", inline=False)
+        if ch.user_limit == 0:
+            user_limit = "上限なし"
+        else:
+            user_limit = ch.user_limit
+        ch_info_embed.add_field(name="ユーザーリミット", value=ch.user_limit, inline=False)
+    elif isinstance(ch, discord.CategoryChannel):
+        channel_type = "カテゴリチャンネル"
+        if ch.is_nsfw():
+            nsfw = "True"
+        else:
+            nsfw = "False"
+        ch_info_embed.add_field(name="NSFW", value=nsfw, inline=False)
+        texts = len(ch.text_channels)
+        voices = len(ch.voice_channels)
+        ch_info_embed.add_field(name="保有チャンネル数", value=f"テキストチャンネル: {texts}\nボイスチャンネル: {voices}", inline=False)  
         
-        return ch_info_embed
+    return ch_info_embed
 
 
 async def emoji_info(client1, emoji_id):
@@ -1068,7 +1059,7 @@ async def stack_eval64(message):
         try:
             LC, st = divmod(result, 3456)
             st, ko = divmod(st, 64)
-        except (TypeError, ZeroDivisionError):
+        except (TypeError):
             await message.channel.send("変な入力するんじゃねぇ！")
             return
         result_list = []
@@ -1105,7 +1096,7 @@ async def stack_eval16(message):
         try:
             LC, st = divmod(result, 864)
             st, ko = divmod(st, 432)
-        except (TypeError, ZeroDivisionError):
+        except (TypeError):
             await message.channel.send("変な入力するんじゃねぇ！")
             return
         result_list = []
@@ -1141,7 +1132,7 @@ async def stack_eval1(message):
     else:
         try:
             LC, ko = divmod(result, 54)
-        except (TypeError, ZeroDivisionError):
+        except (TypeError):
             await message.channel.send("変な入力するんじゃねぇ！")
             return
         result_list = []
