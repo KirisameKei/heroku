@@ -67,6 +67,11 @@ async def user_info(client1, user_id):
     ユーザー情報を取得する関数
     discord.Embedを返す"""
 
+    user = client1.get_user(user_id)
+    if user is None:
+        bot_know = False
+    else:
+        bot_know = True
     try:
         username = client1.get_user(user_id).name
     except AttributeError:
@@ -221,8 +226,8 @@ async def last_login(message):
     if not (len(mcid) >= 3 and len(mcid) <= 16):
         await message.channel.send("MCIDとして成り立ちません")
         return
-    url = f"https://ranking-gigantic.seichi.click/player/{mcid}"
-    url = f"https://ranking-gigantic.seichi.click/api/search/player?q={mcid}"
+    url = f"https://ranking-gigantic.seichi.click/player/{mcid.lower()}"
+    #url = f"https://ranking-gigantic.seichi.click/api/search/player?q={mcid}"
     try:
         res = requests.get(url)
         res.raise_for_status()
