@@ -373,3 +373,11 @@ async def shiritori_reset(client1):
         "リリカ・プリズムリバー"
     ]
     await ch.send(random.choice(start_msg_list))
+
+
+async def tenko(client1, n, reason):
+    """
+    点呼n分前！"""
+
+    ch = client1.get_channel(830035595115757578)
+    await ch.send(f"<@523303776120209408>\n{reason}点呼{n}分前！\n**帽子被れ！体温測れ！**")
