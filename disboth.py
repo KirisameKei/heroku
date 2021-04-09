@@ -423,7 +423,6 @@ async def tenko():
     try:
         await client1.wait_until_ready()
         now = datetime.datetime.now()
-        weekday = 
 
         if now.weekday() in (5, 6):
             if now.hour == 7 and now.minute == 20:
