@@ -434,7 +434,7 @@ async def tenko():
             if now.hour == 6 and now.minute == 50:
                 await kei_server.tenko(client1, "10", "朝")
             if now.hour == 6 and now.minute == 55:
-                await kei_server.tenko(client1, "15", "朝")
+                await kei_server.tenko(client1, "5", "朝")
 
         if now.hour == 19 and now.minute == 50:
             await kei_server.tenko(client1, "10", "帰校")
