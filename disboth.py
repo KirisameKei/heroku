@@ -443,6 +443,7 @@ async def tenko():
 
     except:
         unexpected_error()
+tenko.start()
 
 
 async def dm(client1, message):
