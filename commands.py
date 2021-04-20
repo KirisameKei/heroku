@@ -247,6 +247,9 @@ async def weather(message):
     weatherコマンド対応用関数"""
 
     if message.content.split()[1] == "map":
+        await message.channel.send("現在この機能はご使用いただけません")
+        return
+
         url_date = datetime.date.today().strftime(r"%y%m%d")
         now = datetime.datetime.now().hour
         if now >= 0 and now < 6:
