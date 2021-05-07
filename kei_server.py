@@ -357,7 +357,7 @@ async def jms_notice(client1):
     毎日9:10に雑談チャンネルでメンションを飛ばす"""
 
     ch = client1.get_channel(597130965927723048)
-        await ch.send(
+    await ch.send(
         "<@&673349311228280862>\n"
         "https://minecraft.jp/servers/54d3529e4ddda180780041a7/vote\n"
         "https://monocraft.net/servers/Cf3BffNIRMERDNbAfWQm\n\n"
