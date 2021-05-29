@@ -94,7 +94,7 @@ async def on_raw_reaction_add(client1, payload):
     member = guild.get_member(payload.user_id)
 
     if channel.id == 664286990677573680:
-        if not payload.message_id == 774557752990498816:
+        if not payload.message_id == 848189318870597702:
             return
         if user == client1.user:
             return
@@ -107,7 +107,8 @@ async def on_raw_reaction_add(client1, payload):
             "\U0001f1e9",
             "\U0001f1ea",
             "\U0001f1eb",
-            "\U0001f1ec"
+            "\U0001f1ec",
+            "\U0001f1ed"
         ]
         role_id_list = [
             586123567146729475,
@@ -116,7 +117,8 @@ async def on_raw_reaction_add(client1, payload):
             678445821603217448,
             606481478078955530,
             673349311228280862,
-            774551525083054090
+            774551525083054090,
+            848183279458189312
         ]
         if payload.emoji.name in emoji_list:
             emoji_index = emoji_list.index(payload.emoji.name)
