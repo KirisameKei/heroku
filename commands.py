@@ -626,7 +626,7 @@ async def seichi_break(message):
                 level += 1
     elif broke < 22565000:
         level = 110
-        n = 13615000
+        n = 17665000
         while True:
             n += 490000
             if broke < n:
