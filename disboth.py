@@ -102,28 +102,6 @@ async def on_guild_remove(guild):
 @client2.event
 async def on_guild_join(guild):
     try:
-        for ch in guild.text_channels:
-            description = (
-                f"初めましての方は初めまして、そうでない方はまたお会いしましたね。<@!523303776120209408>制作の{client2.user.name}です。\n"
-                f"このbotを{guild.name}に導入していただきありがとうございます。\n"
-                "皆様にお願いしたいことがあります。このbotに極度に負荷をかけるような行為をしないでください。\n"
-                "バグ・不具合・要望等ありましたらけい#3104のDMか以下で紹介するサーバにお願いします。\n"
-                "[けいのうぇぶさいと](http://www.kei-3104.com)から私に匿名のメッセージを送れます。\n"
-                "プレフィックスは「$」、$helpでコマンドの一覧を見ることができます。\n"
-                "最後に[私のサーバ](https://discord.gg/nrvMKBT)を宣伝・紹介させてください。"
-                "このbotについてもっと知りたい、けいの活動に興味がある、理由は何でも構いません。ぜひ見ていってください。"
-                "このサーバで本botのサポートも行っております"
-            )
-            self_introduction_embed = discord.Embed(title="よろしくお願いします！", description=description, color=0x00ffff)
-            kei = client2.get_user(523303776120209408)
-            self_introduction_embed.set_footer(text="←作った人", icon_url=kei.avatar_url_as(format="png"))
-
-            try:
-                await ch.send(embed=self_introduction_embed)
-                break
-            except discord.errors.Forbidden:
-                pass
-
         member_embed = discord.Embed(title="╋", description=f"{client2.user.name}が{guild.name}に参加しました", color=0xfffffe)
         member_embed.set_author(name=client2.user.name, icon_url=client2.user.avatar_url_as(format="png"))
         member_embed.set_footer(text=guild.name, icon_url=guild.icon_url_as(format="png"))
