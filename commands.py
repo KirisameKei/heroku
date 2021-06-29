@@ -101,7 +101,7 @@ async def ch_info(client1, ch_id):
 
     ch = client1.get_channel(ch_id)
     if not hasattr(ch, "name"):
-        error_embed = discord.Embed(title="ERROR", description="ID指定が間違っているか本botの監視下にないチャンネルです(なぜだか知らないけどDMチャンネルの可能性もあります)", color=0xff0000)
+        error_embed = discord.Embed(title="ERROR", description="・ID指定が間違っている\nDMである\n・本botの監視下にないチャンネル\nのいずれかです。", color=0xff0000)
         return error_embed
 
     ch_info_embed = discord.Embed(title=ch.name, color=0x000000)
@@ -144,7 +144,7 @@ async def ch_info(client1, ch_id):
         texts = len(ch.text_channels)
         voices = len(ch.voice_channels)
         ch_info_embed.add_field(name="保有チャンネル数", value=f"テキストチャンネル: {texts}\nボイスチャンネル: {voices}", inline=False)  
-        
+
     return ch_info_embed
 
 
