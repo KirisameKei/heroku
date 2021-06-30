@@ -149,6 +149,10 @@ async def hide_member(message):
         if hide_role in message.author.roles:
             await message.channel.send("もう隠れているようです。私には見つけられませんでした。")
             return
+        for role in message.author.roles:
+            if role.id in (628175600007512066, 586000652464029697, 586000502635102209):
+                await message.channel.send("警告を受けている人が隠れられるとでも思ってます？")
+                return
         await message.author.add_roles(hide_role)
         await message.channel.send(f"{message.author.name}が隠れました。もーいーよ")
     else:
@@ -167,6 +171,11 @@ async def hide_member(message):
             if admin_role in member.roles:
                 await message.channel.send("管理者を隠そうとは・・・さてはこの鯖を乗っ取る気だなおめー")
                 return
+            
+            for role in member.roles:
+                if role.id in (628175600007512066, 586000652464029697, 586000502635102209):
+                    await message.channel.send("警告を受けている人を隠れさせることはできません")
+                    return
             await member.add_roles(hide_role)
             await message.channel.send(f"{member.name}が隠れました。もーいーよ")
         except AttributeError:
