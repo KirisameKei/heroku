@@ -94,7 +94,7 @@ async def on_raw_reaction_add(client1, payload):
     member = guild.get_member(payload.user_id)
 
     if channel.id == 664286990677573680:
-        if not payload.message_id == 848189318870597702:
+        if not payload.message_id == 873538617237205042:
             return
         if user == client1.user:
             return
@@ -108,13 +108,15 @@ async def on_raw_reaction_add(client1, payload):
             "\U0001f1ea",
             "\U0001f1eb",
             "\U0001f1ec",
-            "\U0001f1ed"
+            "\U0001f1ed",
+            "\U0001f1ee"
         ]
         role_id_list = [
             586123567146729475,
             678445373324263454,
             678445640027734032,
             678445821603217448,
+            870467547475091467,
             606481478078955530,
             673349311228280862,
             774551525083054090,
