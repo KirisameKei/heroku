@@ -15,6 +15,7 @@ from discord.ext import tasks
 import common
 import emoji_server
 import iroha
+import iroha_MC
 import muhou
 import noname
 import kei_server
@@ -238,17 +239,20 @@ async def on_message(message):
             if message.guild.id == 585998962050203672: #けい鯖
                 await kei_server.on_message(client1, message)
 
-            if message.guild.id == 604945424922574848: #いろは鯖
-                await iroha.on_message(client1, message)
+            elif message.guild.id == 604945424922574848: #いろは鯖(MC)
+                await iroha_MC.on_message(client1, message)
 
-            if message.guild.id == 587909823665012757: #無法地帯
+            elif message.guild.id == 587909823665012757: #無法地帯
                 await muhou.on_message(client1, message)
 
-            if message.guild.id == 673838958303641620: #のねむ鯖
+            elif message.guild.id == 673838958303641620: #のねむ鯖
                 await noname.on_message(client1, message)
 
-            if message.guild.id == 735632039050477649: #絵文字鯖
+            elif message.guild.id == 735632039050477649: #絵文字鯖
                 await emoji_server.on_message(client1, message)
+
+            elif message.guild.id == 876143248471621652: #いろは鯖
+                await iroha.on_message(client1, message)
 
         except (RuntimeError, aiohttp.client_exceptions.ServerDisconnectedError):
             pass

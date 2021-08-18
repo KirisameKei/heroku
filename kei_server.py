@@ -19,62 +19,62 @@ async def on_message(client1, message):
         test_member_role = discord.utils.get(message.guild.roles, id=586009049259311105) #実験台役職
         await message.author.add_roles(test_member_role)
 
-    if message.content == "/not test_member":
+    elif message.content == "/not test_member":
         test_member_role = discord.utils.get(message.guild.roles, id=586009049259311105) #実験台役職
         await message.author.remove_roles(test_member_role)
 
-    if message.content.startswith("/hide "):
+    elif message.content.startswith("/hide "):
         await hide_member(message)
 
-    if message.content.startswith("/find "):
+    elif message.content.startswith("/find "):
         await find_member(message)
 
-    if message.content.startswith("/info "):
+    elif message.content.startswith("/info "):
         await commands.info(client1, message)
 
-    if message.content.startswith("/last_login "):
+    elif message.content.startswith("/last_login "):
         await commands.last_login(message)
 
-    if message.content.startswith("/weather "):
+    elif message.content.startswith("/weather "):
         await commands.weather(message)
 
-    if message.content.startswith("/name "):
+    elif message.content.startswith("/name "):
         await commands.random_name(message)
 
-    if message.content.startswith("/break "):
+    elif message.content.startswith("/break "):
         await commands.seichi_break(message)
 
-    if message.content.startswith("/build "):
+    elif message.content.startswith("/build "):
         await commands.seichi_build(message)
 
-    if message.content.startswith("/delmsg"):
+    elif message.content.startswith("/delmsg"):
         await delmsg(message)
 
-    if message.content.startswith("/vote"):
+    elif message.content.startswith("/vote"):
         await commands.vote(message)
 
-    if message.content.startswith("/mcavatar "):
+    elif message.content.startswith("/mcavatar "):
         await commands.mcavatar(client1, message)
 
-    if message.content.startswith("/random "):
+    elif message.content.startswith("/random "):
         await commands.random_(message)
 
-    if message.content.startswith("/remove_role "):
+    elif message.content.startswith("/remove_role "):
         await remove_role(message)
 
-    if message.content == "/glist":
+    elif message.content == "/glist":
         await commands.glist(message, client1)
 
-    if message.content.startswith("/stack_eval "):
+    elif message.content.startswith("/stack_eval "):
         await commands.stack_eval64(message)
 
-    if message.content.startswith("/stack_eval64 "):
+    elif message.content.startswith("/stack_eval64 "):
         await commands.stack_eval64(message)
 
-    if message.content.startswith("/stack_eval16 "):
+    elif message.content.startswith("/stack_eval16 "):
         await commands.stack_eval16(message)
 
-    if message.content.startswith("/stack_eval1 "):
+    elif message.content.startswith("/stack_eval1 "):
         await commands.stack_eval1(message)
 
     if message.channel.id == 603832801036468244:

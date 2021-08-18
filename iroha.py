@@ -1,38 +1,41 @@
-import random
-
-import discord
-
 import commands
 
 async def on_message(client1, message):
     """
-    いろは鯖にメッセージが投稿されたときに呼び出される関数"""
-
-    if message.author.id == 605401823561383937:
-        if message.content.startswith(":skull:"):
-            message_list = ["悲しい","ドンマイ","気をしっかり","えぇ"]
-            await message.chanenl.send(random.choice(message_list))
-
-        if message.content.startswith(":medal:"):
-            await message.chanenl.send("おめ")
+    いろは鯖(MC)にメッセージが投稿されたときに呼び出される関数"""
 
     if message.content.startswith("/vote"):
         await commands.vote(message)
 
-    if message.content.startswith("/info "):
+    elif message.content.startswith("/info "):
         await commands.info(client1, message)
 
-    if message.content.startswith("/last_login "):
+    elif message.content.startswith("/last_login "):
         await commands.last_login(message)
 
-    if message.content.startswith("/weather "):
+    elif message.content.startswith("/weather "):
         await commands.weather(message)
 
-    if message.content.startswith("/break "):
+    elif message.content.startswith("/break "):
         await commands.seichi_break(message)
 
-    if message.content.startswith("/mcavatar "):
+    elif message.content.startswith("/build "):
+        await commands.seichi_build(message)
+
+    elif message.content.startswith("/mcavatar "):
         await commands.mcavatar(client1, message)
 
-    if message.content.startswith("/random "):
+    elif message.content.startswith("/random "):
         await commands.random_(message)
+
+    elif message.content.startswith("/stack_eval "):
+        await commands.stack_eval64(message)
+
+    elif message.content.startswith("/stack_eval64 "):
+        await commands.stack_eval64(message)
+
+    elif message.content.startswith("/stack_eval16 "):
+        await commands.stack_eval16(message)
+
+    elif message.content.startswith("/stack_eval1 "):
+        await commands.stack_eval1(message)
