@@ -392,7 +392,10 @@ async def change_status():
             presense = f"{len(client1.guilds)}サーバを監視中"
 
         game = discord.Game(presense)
-        await client1.change_presence(status=discord.Status.online, activity=game)
+        try:
+            await client1.change_presence(status=discord.Status.online, activity=game)
+        except ConnectionResetError:
+            pass
 
     except:
         unexpected_error()
