@@ -257,7 +257,10 @@ async def on_message(message):
         except (RuntimeError, aiohttp.client_exceptions.ServerDisconnectedError):
             pass
         except discord.errors.Forbidden:
-            await message.channel.send("権限がありません")
+            try:
+                await message.channel.send("権限がありません")
+            except discord.errors.Forbidden:
+                pass
     except:
         unexpected_error()
 
