@@ -357,7 +357,7 @@ async def kei_get_war():
     except:
         unexpected_error()
 
-#kei_get_war.start()
+kei_get_war.start()
 
 
 @tasks.loop(seconds=30)
@@ -425,7 +425,7 @@ async def tenko():
 
     except:
         unexpected_error()
-#tenko.start()
+tenko.start()
 
 
 async def dm(client1, message):
