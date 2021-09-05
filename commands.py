@@ -709,13 +709,15 @@ async def seichi_break(message):
         level = 199
     else:
         level = 200
-        star_level,amari = divmod(broke,87115000)
+        star_level, amari = divmod(broke, 87115000)
+        persentage = round(amari * 100 / 87115000, 2)
+        star_level_str = f"{star_level}、{persentage}%"
     #────────────ここまでコピペ禁止────────────
 
     broke = "{:,}".format(broke)
     mcid = mcid.replace("_", "\_")
     try:
-        embed = discord.Embed(title=f"{mcid}",description=f"整地量：{broke}\n順位：{rank}\nレベル：{level}☆{star_level}")
+        embed = discord.Embed(title=f"{mcid}",description=f"整地量：{broke}\n順位：{rank}\nレベル：{level}☆{star_level_str}")
     except UnboundLocalError:
         embed = discord.Embed(title=f"{mcid}",description=f"整地量：{broke}\n順位：{rank}\nレベル：{level}")
 
