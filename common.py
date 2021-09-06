@@ -525,6 +525,9 @@ async def greeting(message):
     if message.author.bot:
         return
 
+    if message.guild.id == 576813939816398849: #マイクラプラグイン鯖
+        return
+
     now = datetime.datetime.now()
     now_h = now.hour
     if "おはよう" in message.content:
