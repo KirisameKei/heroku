@@ -406,34 +406,6 @@ async def change_status():
 change_status.start()
 
 
-@tasks.loop(seconds=60)
-async def tenko():
-    try:
-        await client1.wait_until_ready()
-        now = datetime.datetime.now()
-
-        if now.weekday() in (5, 6):
-            if now.hour == 7 and now.minute == 20:
-                await kei_server.tenko(client1, "10", "朝")
-            if now.hour == 7 and now.minute == 25:
-                await kei_server.tenko(client1, "5", "朝")
-        else:
-            if now.hour == 6 and now.minute == 50:
-                await kei_server.tenko(client1, "10", "朝")
-            if now.hour == 6 and now.minute == 55:
-                await kei_server.tenko(client1, "5", "朝")
-
-        if now.hour == 19 and now.minute == 50:
-            await kei_server.tenko(client1, "10", "帰校")
-
-        if now.hour == 19 and now.minute == 55:
-            await kei_server.tenko(client1, "5", "帰校")
-
-    except:
-        unexpected_error()
-tenko.start()
-
-
 async def dm(client1, message):
     if message.author.bot:
         return
