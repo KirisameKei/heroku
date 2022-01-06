@@ -369,20 +369,15 @@ async def change_status():
         await client1.wait_until_ready()
 
         presense_list = [
-            "members",
+            "users",
             "channels",
             "guilds",
             "https://discord.gg/nrvMKBT",
             "某MEE6より優秀"
         ]
         presense = random.choice(presense_list)
-        if presense == "members":
-            l = []
-            for guild in client1.guilds:
-                for mem in guild.members:
-                    if not mem.id in l:
-                        l.append(mem.id)
-            presense = f"{len(l)}人を監視中"
+        if presense == "users":
+            presense = f"{len(client1.users)}人を監視中"
 
         if presense == "channels":
             i = 0
