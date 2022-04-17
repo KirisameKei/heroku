@@ -82,6 +82,9 @@ async def on_message(client1, message):
     if message.channel.id == 639830406270681099:
         await dm_send(client1, message)
 
+    if message.content == "/test":
+        await kei_daily_score(client1)
+
 
 async def on_raw_reaction_add(client1, payload):
     """
@@ -390,3 +393,39 @@ async def shiritori_reset(client1):
         "リリカ・プリズムリバー"
     ]
     await ch.send(random.choice(start_msg_list))
+
+
+async def kei_daily_score(client1):
+    import os
+    import MySQLdb
+    connection = MySQLdb.connect(
+        host=os.getenv("mysql_host"),
+        user=os.getenv("mysql_user"),
+        passwd=os.getenv("mysql_passwd"),
+        db=os.getenv("mysql_db")
+    )
+    cur = connection.cursor()
+    cur.execute("select * from kei_score")
+    yesterday_score = cur.fetchone()[0]
+
+    try:
+        res = requests.get("https://ranking-gigantic.seichi.click/api/ranking/player/73b41f61-3b2b-4730-b775-564516101b3c?types=break")
+        res.raise_for_status()
+        data_dict = res.json()
+
+    except requests.HTTPError:
+        return
+
+    today_score = int(data_dict[0]["data"]["raw_data"])
+    today_break = today_score - yesterday_score
+
+    cur.execute(f"update kei_score set score={today_score}")
+    connection.commit()
+
+    embed = discord.Embed(
+        title=f"{datetime.date.today().year}-{datetime.date.today().month}-{datetime.date.today().day}",
+        description="{:,}".format(today_break),
+        color=0xffff00
+    )
+    ch = client1.get_channel(793478659775266826)
+    await ch.send(embed=embed)
