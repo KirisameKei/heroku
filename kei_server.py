@@ -96,7 +96,7 @@ async def on_raw_reaction_add(client1, payload):
     member = guild.get_member(payload.user_id)
 
     if channel.id == 664286990677573680:
-        if not payload.message_id == 873538617237205042:
+        if not payload.message_id == 975676283793055765:
             return
         if user == client1.user:
             return
@@ -111,18 +111,20 @@ async def on_raw_reaction_add(client1, payload):
             "\U0001f1eb",
             "\U0001f1ec",
             "\U0001f1ed",
-            "\U0001f1ee"
+            "\U0001f1ee",
+            "\U0001f1ef"
         ]
         role_id_list = [
-            586123567146729475,
-            678445373324263454,
-            678445640027734032,
-            678445821603217448,
-            870467547475091467,
-            606481478078955530,
-            673349311228280862,
-            774551525083054090,
-            848183279458189312
+            586123567146729475, #シュータ
+            678445373324263454, #乗り鉄
+            678445640027734032, #撮り鉄
+            678445821603217448, #音鉄
+            870467547475091467, #V
+            606481478078955530, #通知ほしい
+            673349311228280862, #投票通知
+            848183279458189312, #amongus
+            975330354179244053, #VRC
+            774551525083054090, #ミニゲーム
         ]
         if payload.emoji.name in emoji_list:
             emoji_index = emoji_list.index(payload.emoji.name)
@@ -402,7 +404,8 @@ async def kei_daily_score(client1):
         host=os.getenv("mysql_host"),
         user=os.getenv("mysql_user"),
         passwd=os.getenv("mysql_passwd"),
-        db=os.getenv("mysql_db")
+        #db=os.getenv("mysql_db")
+        db="kei_daily_score"
     )
     cur = connection.cursor()
     cur.execute("select * from kei_score")
@@ -414,6 +417,8 @@ async def kei_daily_score(client1):
         data_dict = res.json()
 
     except requests.HTTPError:
+        ch = client1.get_channel(793478659775266826)
+        await ch.send("データが取れませんでした")
         return
 
     today_score = int(data_dict[0]["data"]["raw_data"])
