@@ -2,10 +2,10 @@ import asyncio
 import datetime
 import json
 import random
-import re
 
 import bs4
 import discord
+from PIL import Image, ImageDraw, ImageFont
 import requests
 
 import commands
@@ -75,6 +75,9 @@ async def on_message(client1, message):
 
     elif message.content.startswith("/stack_eval1 "):
         await commands.stack_eval1(message)
+
+    elif message.content.startswith("/tanzaku "):
+        await tanzaku(message)
 
     if message.channel.id == 603832801036468244:
         await shiritori(message)
@@ -434,3 +437,34 @@ async def kei_daily_score(client1):
     )
     ch = client1.get_channel(793478659775266826)
     await ch.send(embed=embed)
+
+
+async def tanzaku(message):
+    negai = message.content.replace("/tanzaku ", "")
+    bg_color = random.randint(0x000000, 0xffffff)
+    letter_color = 0xffffff - bg_color
+    image = Image.new("RGB", (130, 500), bg_color)
+    moji = ImageDraw.Draw(image)
+    font = ImageFont.truetype(r"./UDDigiKyokashoN-R.ttc", size=50)
+    negai = list(negai)
+    i = 0
+    for x in range(2):
+        for y in range(10):
+            try:
+                moji.text((80-x*50, y*50), text=negai[i], font=font, fill=letter_color)
+            except IndexError:
+                break
+            i += 1
+    username = list(message.author.display_name)
+    font = ImageFont.truetype(r"./UDDigiKyokashoN-R.ttc", size=30)
+    for y in range(10):
+        try:
+            moji.text((0, 100+y*30), text=username[y], font=font, fill=letter_color)
+        except IndexError:
+            break
+    bg = Image.open("banboo.png")
+    x = random.randint(0, 650)
+    y = random.randint(0, 280)
+    bg.paste(image, (x, y))
+    bg.save("tanzaku.png")
+    await message.channel.send(file=discord.File("tanzaku.png"))
