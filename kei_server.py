@@ -85,9 +85,6 @@ async def on_message(client1, message):
     if message.channel.id == 639830406270681099:
         await dm_send(client1, message)
 
-    if message.content == "/test":
-        await kei_daily_score(client1)
-
 
 async def on_raw_reaction_add(client1, payload):
     """
