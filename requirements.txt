@@ -14,3 +14,5 @@ Pillow==8.3.2
 selenium==3.141.0
 requests==2.22.0
 twitter==1.18.0
+tweepy==4.4.0
+urlextract==1.6.0

@@ -1,12 +1,15 @@
 import asyncio
 import datetime
 import json
+import os
 import random
 
 import bs4
 import discord
 from PIL import Image, ImageDraw, ImageFont
 import requests
+import tweepy
+from urlextract import URLExtract
 
 import commands
 
@@ -76,8 +79,11 @@ async def on_message(client1, message):
     elif message.content.startswith("/stack_eval1 "):
         await commands.stack_eval1(message)
 
-    elif message.content.startswith("/tanzaku "):
-        await tanzaku(message)
+    elif "twitter.com" in message.content:
+        await expand_pictures_of_twitter(message)
+
+    #elif message.content.startswith("/tanzaku "):
+    #    await tanzaku(message)
 
     if message.channel.id == 603832801036468244:
         await shiritori(message)
@@ -141,6 +147,51 @@ async def on_raw_reaction_add(client1, payload):
 
         await asyncio.sleep(3)
         await system_message.delete()
+
+    elif str(payload.emoji) == "▶️":
+        if client1.user.id == payload.user_id:
+            return
+        channel = client1.get_channel(payload.channel_id)
+        message = await channel.fetch_message(payload.message_id)
+        user = client1.get_user(payload.user_id)
+        urls = URLExtract().find_urls(message.content)
+        for url in urls:
+            if "twitter.com" in url:
+                tweet_id = url.split("/")[5].split("?")[0]
+
+                # APIの秘密鍵
+                consumer_key = os.getenv("consumer_key")
+                consumer_secret = os.getenv("consumer_secret")
+                twitter_token = os.getenv("twitter_token")
+                token_secret = os.getenv("token_secret")
+
+                auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+                auth.set_access_token(twitter_token, token_secret)
+                api = tweepy.API(auth)
+
+                try:
+                    tweet = api.get_status(id=tweet_id, tweet_mode="extended")
+                except tweepy.errors.NotFound:
+                    return #存在しないURLなので無視してよろしい
+                tweet_data = tweet._json
+
+                try:
+                    medias = tweet_data["extended_entities"]["media"] #mediasはリスト
+                except KeyError:
+                    return #画像はないので終了してよい
+
+                for media in medias[1:]:
+                    embed = discord.Embed(
+                        description=f"{medias.index(media)+1}/{len(medias)}",
+                        color=0x00aaff
+                    )
+                    embed.set_author(
+                        name=f"{user.display_name}さんが展開",
+                        icon_url=user.avatar_url_as(format="png")
+                    )
+                    embed.set_image(url=media["media_url"])
+                    await channel.send(embed=embed)
+                    await asyncio.sleep(0.3)
 
 
 async def hide_member(message):
@@ -434,6 +485,37 @@ async def kei_daily_score(client1):
     )
     ch = client1.get_channel(793478659775266826)
     await ch.send(embed=embed)
+
+
+async def expand_pictures_of_twitter(message):
+    urls = URLExtract().find_urls(message.content)
+    for url in urls:
+        if "twitter.com" in url:
+            tweet_id = url.split("/")[5].split("?")[0]
+
+            # APIの秘密鍵
+            consumer_key = os.getenv("consumer_key")
+            consumer_secret = os.getenv("consumer_secret")
+            twitter_token = os.getenv("twitter_token")
+            token_secret = os.getenv("token_secret")
+
+            auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+            auth.set_access_token(twitter_token, token_secret)
+            api = tweepy.API(auth)
+
+            try:
+                tweet = api.get_status(id=tweet_id, tweet_mode="extended")
+            except tweepy.errors.NotFound:
+                return #存在しないURLなので無視してよろしい
+            tweet_data = tweet._json
+
+            try:
+                medias = tweet_data["extended_entities"]["media"] #mediasはリスト
+            except KeyError:
+                return #画像はないので終了してよい
+
+            if len(medias) >= 2:
+                await message.add_reaction("▶️")
 
 
 async def tanzaku(message):
