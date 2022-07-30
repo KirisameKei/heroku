@@ -286,19 +286,33 @@ async def delmsg(message):
     if message.author.bot:
         return
 
-    try:
-        how_many_delete = int(message.content.split()[1])
-    except ValueError:
-        await message.channel.send("不正な引数です")
-        return
-    except IndexError:
-        if message.content == "/delmsg":
-            await message.channel.purge(limit=None)
-        else:
-            await message.channel.send("後ろに余計な文字が付いています！")
-        return
+    if message.content.split()[1] == "area":
+        try:
+            start_msg_id = int(message.content.split()[2])
+            end_msg_id = int(message.content.split()[3])
+        except ValueError:
+            await message.channel.send("不正な引数です")
+            return
+        start_msg = await message.channel.fetch_message(start_msg_id)
+        end_msg = await message.channel.fetch_message(end_msg_id)
+        start_msg_time = start_msg.created_at
+        end_msg_time = end_msg.created_at
+        await message.channel.purge(after=start_msg_time, before=end_msg_time)
+
     else:
-        await message.channel.purge(limit=how_many_delete+1)
+        try:
+            how_many_delete = int(message.content.split()[1])
+        except ValueError:
+            await message.channel.send("不正な引数です")
+            return
+        except IndexError:
+            if message.content == "/delmsg":
+                await message.channel.purge(limit=None)
+            else:
+                await message.channel.send("後ろに余計な文字が付いています！")
+            return
+        else:
+            await message.channel.purge(limit=how_many_delete+1)
 
 
 async def remove_role(message):
