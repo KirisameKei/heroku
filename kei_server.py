@@ -43,8 +43,8 @@ async def on_message(client1, message):
     elif message.content.startswith("/name "):
         await commands.random_name(message)
 
-    elif message.content.startswith("/break "):
-        await commands.seichi_break(message)
+    #elif message.content.startswith("/break "):
+    #    await commands.seichi_break(message)
 
     elif message.content.startswith("/build "):
         await commands.seichi_build(message)
