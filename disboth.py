@@ -59,8 +59,8 @@ def unexpected_error():
 async def on_ready():
     try:
         login_notice_ch = client1.get_channel(595072269483638785)
-        await login_notice_ch.send(f"{client1.user.name}がログインしました(from: {where_from})")
-        print(f"{client1.user.name}がログインしました。")
+        await login_notice_ch.send(f"{client1.user.name}がログインしました(from: {where_from})\n{os.path.basename(__file__)}により起動")
+        #print(f"{client1.user.name}がログインしました。")
     except:
         unexpected_error()
 
