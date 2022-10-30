@@ -395,19 +395,6 @@ async def change_status():
 change_status.start()
 
 
-@tasks.loop(seconds=60)
-async def kei_daily_score():
-    try:
-        await client1.wait_until_ready()
-        now = datetime.datetime.now()
-
-        if now.hour == 23 and now.minute == 57:
-            await kei_server.kei_daily_score(client1)
-
-    except:
-        unexpected_error()
-
-
 async def dm(client1, message):
     if message.author.bot:
         return

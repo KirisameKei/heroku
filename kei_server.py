@@ -366,6 +366,7 @@ async def kei_get_war(client1):
         sorp = bs4.BeautifulSoup(res.text, "html.parser")
         kei_data_dict = json.loads(sorp.decode("utf-8"))
     except requests.exceptions.HTTPError:
+        await client1.get_channel(595072269483638785).send("この機能は既に死んでいます、いつまで運用する気ですか？")
         return
 
     kei_break = int(kei_data_dict[0]["data"]["raw_data"])
